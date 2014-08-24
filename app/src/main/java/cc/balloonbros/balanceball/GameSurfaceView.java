@@ -7,24 +7,44 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 /**
  * Created by kengo on 2014/08/21.
  */
-public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
-    SurfaceHolder holder = null;
+public class GameSurfaceView extends SurfaceView implements Runnable, SurfaceHolder.Callback {
+    private SurfaceHolder mHolder = null;
+    private Thread mGameLoop = null;
+
+    private static final long FPS = 40;
+    private static final long FRAME_TIME = 1000 / FPS;
 
     public GameSurfaceView(Context context) {
         super(context);
 
-        holder = getHolder();
-        holder.addCallback(this);
+        mHolder = getHolder();
+        mHolder.addCallback(this);
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
+        mGameLoop = new Thread(this);
+        mGameLoop.start();
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i2, int i3) {
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
+        mGameLoop = null;
+    }
+
+    @Override
+    public void run() {
         Paint p = new Paint();
         p.setStyle(Paint.Style.FILL);
         p.setColor(Color.BLUE);
@@ -32,21 +52,28 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         Resources res = getResources();
         Bitmap ic = BitmapFactory.decodeResource(res, R.drawable.ic_launcher);
 
-        Canvas canvas = holder.lockCanvas();
+        int x = 0;
 
-        canvas.drawRect(0, 0, 100, 100, p);
-        canvas.drawBitmap(ic, 100, 100, p);
+        while (mGameLoop != null) {
+            long startTime = System.currentTimeMillis();
 
-        holder.unlockCanvasAndPost(canvas);
-    }
+            Canvas canvas = mHolder.lockCanvas();
 
-    @Override
-    public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i2, int i3) {
+            x += 4;
+            canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+            canvas.drawRect(0, 0, 100, 100, p);
+            canvas.drawBitmap(ic, x, 100, p);
 
-    }
+            mHolder.unlockCanvasAndPost(canvas);
 
-    @Override
-    public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
-
+            try {
+                long waitTime = System.currentTimeMillis() - startTime;
+                if (waitTime < FRAME_TIME) {
+                    Thread.sleep(FRAME_TIME - waitTime);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
