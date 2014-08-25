@@ -7,29 +7,32 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.WindowManager;
 
-/**
- * Created by kengo on 2014/08/21.
- */
+import cc.balloonbros.balanceball.task.Ball;
+import cc.balloonbros.balanceball.task.TaskManager;
+
 public class GameSurfaceView extends SurfaceView implements Runnable, SurfaceHolder.Callback {
     private SurfaceHolder mHolder = null;
     private Thread mGameLoop = null;
-    private Context mContext = null;
+    private AssetManager mAssetManager = null;
 
     private static final long FPS = 40;
     private static final long FRAME_TIME = 1000 / FPS;
 
     public GameSurfaceView(Context context) {
         super(context);
-        mContext = context;
+        mAssetManager = new AssetManager(getResources());
+        mAssetManager.loadAssets(R.drawable.ic_launcher);
 
         mHolder = getHolder();
         mHolder.addCallback(this);
+    }
+
+    public AssetManager getAssetManager() {
+        return mAssetManager;
     }
 
     @Override
@@ -49,35 +52,18 @@ public class GameSurfaceView extends SurfaceView implements Runnable, SurfaceHol
 
     @Override
     public void run() {
-        Paint p = new Paint();
-        p.setStyle(Paint.Style.FILL);
-        p.setColor(Color.BLUE);
-
-        Resources res = getResources();
-        Bitmap ic = BitmapFactory.decodeResource(res, R.drawable.ic_launcher);
-
-        Point displaySize = new Point();
-        WindowManager wm = (WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE);
-        wm.getDefaultDisplay().getSize(displaySize);
-
-        int direction = 1;
-        int x = 0;
+        TaskManager taskManager = new TaskManager(this);
+        Ball ball = new Ball();
+        taskManager.register(ball);
 
         while (mGameLoop != null) {
             long startTime = System.currentTimeMillis();
 
             Canvas canvas = mHolder.lockCanvas();
-
-            if (x + ic.getWidth() >= displaySize.x) {
-                direction = -1;
-            } else if (x <= 0){
-                direction = 1;
-            }
-
-            x += (direction * 4);
             canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-            canvas.drawRect(0, 0, 100, 100, p);
-            canvas.drawBitmap(ic, x, 100, p);
+
+            taskManager.setCanvas(canvas);
+            taskManager.execute();
 
             mHolder.unlockCanvasAndPost(canvas);
 
