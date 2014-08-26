@@ -1,44 +1,30 @@
 package cc.balloonbros.balanceball;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import cc.balloonbros.balanceball.task.Ball;
-import cc.balloonbros.balanceball.task.TaskManager;
+public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
+    private Thread mGameLoopThread = null;
+    private GameMain mGame = null;
 
-public class GameSurfaceView extends SurfaceView implements Runnable, SurfaceHolder.Callback {
-    private SurfaceHolder mHolder = null;
-    private Thread mGameLoop = null;
-    private AssetManager mAssetManager = null;
-
-    private static final long FPS = 40;
-    private static final long FRAME_TIME = 1000 / FPS;
-
-    public GameSurfaceView(Context context) {
+    public GameSurfaceView(Context context, GameMain game) {
         super(context);
-        mAssetManager = new AssetManager(getResources());
-        mAssetManager.loadAssets(R.drawable.ic_launcher);
 
-        mHolder = getHolder();
-        mHolder.addCallback(this);
+        mGame = game;
+
+        getHolder().addCallback(this);
     }
-
-    public AssetManager getAssetManager() {
-        return mAssetManager;
+    
+    public Thread getGameLoopThread() {
+        return mGameLoopThread;
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
-        mGameLoop = new Thread(this);
-        mGameLoop.start();
+        GameLoop loop = new GameLoop(mGame);
+        mGameLoopThread = new Thread(loop);
+        mGameLoopThread.start();
     }
 
     @Override
@@ -47,34 +33,6 @@ public class GameSurfaceView extends SurfaceView implements Runnable, SurfaceHol
 
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
-        mGameLoop = null;
-    }
-
-    @Override
-    public void run() {
-        TaskManager taskManager = new TaskManager(this);
-        Ball ball = new Ball();
-        taskManager.register(ball);
-
-        while (mGameLoop != null) {
-            long startTime = System.currentTimeMillis();
-
-            Canvas canvas = mHolder.lockCanvas();
-            canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-
-            taskManager.setCanvas(canvas);
-            taskManager.execute();
-
-            mHolder.unlockCanvasAndPost(canvas);
-
-            try {
-                long waitTime = System.currentTimeMillis() - startTime;
-                if (waitTime < FRAME_TIME) {
-                    Thread.sleep(FRAME_TIME - waitTime);
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        mGameLoopThread = null;
     }
 }

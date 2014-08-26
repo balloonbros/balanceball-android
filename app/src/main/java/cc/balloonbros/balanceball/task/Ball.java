@@ -22,13 +22,9 @@ public class Ball extends TaskBase {
 
     @Override
     public void execute(Canvas canvas) {
-        Point displaySize = new Point();
-        WindowManager wm = (WindowManager)getContext().getSystemService(Context.WINDOW_SERVICE);
-        wm.getDefaultDisplay().getSize(displaySize);
-
         Bitmap ic = getImage(R.drawable.ic_launcher);
 
-        if (mCoordinates.x + ic.getWidth() >= displaySize.x) {
+        if (mCoordinates.x + ic.getWidth() >= getDisplaySize().x) {
             mMovingDirection = -1;
         } else if (mCoordinates.x <= 0){
             mMovingDirection = 1;
