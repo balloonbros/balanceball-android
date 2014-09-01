@@ -1,4 +1,4 @@
-package cc.balloonbros.balanceball.task;
+package cc.balloonbros.balanceball.lib;
 
 public interface Updateable {
     /**

@@ -1,10 +1,11 @@
-package cc.balloonbros.balanceball.task;
+package cc.balloonbros.balanceball.lib;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 
 import cc.balloonbros.balanceball.GameMain;
+import cc.balloonbros.balanceball.TaskManager;
+import cc.balloonbros.balanceball.TaskPriority;
 
 /**
  * ゲーム内のタスクの基底クラス。
@@ -15,6 +16,29 @@ abstract public class TaskBase {
      * このタスクが属しているゲーム
      */
     private GameMain mGame = null;
+
+    /**
+     * タスクのプライオリティ
+     */
+    private TaskPriority mPriority = TaskPriority.MINIMUM;
+
+    /**
+     * プライオリティを取得する
+     *
+     * @return プライオリティ
+     */
+    public int getPriority() {
+        return mPriority.getPriority();
+    }
+
+    /**
+     * プライオリティをセットする
+     *
+     * @param priority プライオリティ
+     */
+    public void setPriority(TaskPriority priority) {
+        mPriority = priority;
+    }
 
     /**
      * タスクがタスクマネージャーに登録された時に呼ばれる

@@ -30,6 +30,8 @@ public class BalanceBall extends GameMain {
         WindOutBreaker initialTask2 = new WindOutBreaker();
         DebugOutput    initialTask3 = new DebugOutput();
 
+        initialTask1.setPriority(TaskPriority.BALL);
+
         getTaskManager().reserve(initialTask1, initialTask2, initialTask3);
     }
 }

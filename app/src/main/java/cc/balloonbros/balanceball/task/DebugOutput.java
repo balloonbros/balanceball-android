@@ -8,6 +8,11 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
+import java.util.List;
+
+import cc.balloonbros.balanceball.lib.Drawable;
+import cc.balloonbros.balanceball.lib.TaskBase;
+
 public class DebugOutput extends TaskBase implements Drawable, SensorEventListener {
     private Paint mPaint = new Paint();
 
@@ -21,6 +26,15 @@ public class DebugOutput extends TaskBase implements Drawable, SensorEventListen
     @Override
     public void onRegistered() {
         mPaint.setColor(Color.WHITE);
+
+        SensorManager manager = getGame().getSensorManager();
+        List<Sensor> sensors = manager.getSensorList(Sensor.TYPE_ALL);
+        for (Sensor sensor: sensors) {
+            if (sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD ||
+                sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+                manager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_GAME);
+            }
+        }
     }
 
     @Override
@@ -28,9 +42,9 @@ public class DebugOutput extends TaskBase implements Drawable, SensorEventListen
         canvas.drawText("task count: " + getTaskManager().getTaskCount(), 10, 10, mPaint);
         canvas.drawText("FPS: " + getGame().getFps(), 10, 20, mPaint);
         if (orientationValues != null) {
-            canvas.drawText("z-axis: " + orientationValues[0], 10, 30, mPaint);
-            canvas.drawText("x-axis: " + orientationValues[1], 10, 40, mPaint);
-            canvas.drawText("y-axis: " + orientationValues[2], 10, 50, mPaint);
+            canvas.drawText("z-axis: " + Math.floor(Math.toDegrees(orientationValues[0])), 10, 30, mPaint);
+            canvas.drawText("x-axis: " + Math.floor(Math.toDegrees(orientationValues[1])), 10, 40, mPaint);
+            canvas.drawText("y-axis: " + Math.floor(Math.toDegrees(orientationValues[2])), 10, 50, mPaint);
         }
     }
 
@@ -49,7 +63,7 @@ public class DebugOutput extends TaskBase implements Drawable, SensorEventListen
 
         if (magneticFieldValues != null && accelorometerValues != null) {
             SensorManager.getRotationMatrix(inR, I, accelorometerValues, magneticFieldValues);
-            SensorManager.remapCoordinateSystem(inR, SensorManager.AXIS_X, SensorManager.AXIS_Z, outR);
+            SensorManager.remapCoordinateSystem(inR, SensorManager.AXIS_X, SensorManager.AXIS_Y, outR);
             SensorManager.getOrientation(outR, orientationValues);
         }
     }

@@ -5,8 +5,6 @@ import android.content.Context;
 import android.hardware.SensorManager;
 import android.view.WindowManager;
 
-import cc.balloonbros.balanceball.task.TaskManager;
-
 abstract public class GameMain {
     /**
      * コンテキスト
@@ -95,6 +93,15 @@ abstract public class GameMain {
      */
     public WindowManager getWindowManager() {
         return mWindowManager;
+    }
+
+    /**
+     * センサーマネージャーを取得する
+     *
+     * @return センサーマネージャー
+     */
+    public SensorManager getSensorManager() {
+        return mSensorManager;
     }
 
     /**

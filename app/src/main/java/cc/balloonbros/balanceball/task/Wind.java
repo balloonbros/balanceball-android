@@ -5,6 +5,9 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 
 import cc.balloonbros.balanceball.R;
+import cc.balloonbros.balanceball.lib.Drawable;
+import cc.balloonbros.balanceball.lib.TaskBase;
+import cc.balloonbros.balanceball.lib.Updateable;
 
 public class Wind extends TaskBase implements Updateable, Drawable {
     private Point mCoordinates = new Point();

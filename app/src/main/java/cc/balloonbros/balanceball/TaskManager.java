@@ -1,9 +1,12 @@
-package cc.balloonbros.balanceball.task;
+package cc.balloonbros.balanceball;
 
 import android.graphics.Canvas;
 import java.util.LinkedList;
 
 import cc.balloonbros.balanceball.GameMain;
+import cc.balloonbros.balanceball.lib.Drawable;
+import cc.balloonbros.balanceball.lib.TaskBase;
+import cc.balloonbros.balanceball.lib.Updateable;
 
 /**
  * タスク管理クラス
@@ -113,21 +116,37 @@ public class TaskManager {
      * 予約リストに入っているタスクの処理を確定させる
      */
     private void confirm() {
-        TaskBase task;
-
         // 登録予約タスクを登録する
-        task = mReservedRegisterTask.poll();
-        while (task != null) {
-            mTaskList.add(task);
-            task.onRegistered();
-            task = mReservedRegisterTask.poll();
+        // 優先度を見て、優先度が高いタスクほどリストの最初に登録する
+        TaskBase registeredTask = mReservedRegisterTask.poll();
+        while (registeredTask != null) {
+            int index    = 0;
+            int location = -1;
+
+            // タスクリストの優先度と追加タスクの優先度を比較しながら挿入位置を探す
+            for (TaskBase task: mTaskList) {
+                if (task.getPriority() > registeredTask.getPriority()) {
+                    location = index;
+                    break;
+                }
+                index++;
+            }
+
+            // 探した挿入位置にタスクを追加する
+            if (location == -1) {
+                mTaskList.add(registeredTask);
+            } else {
+                mTaskList.add(location, registeredTask);
+            }
+            registeredTask.onRegistered();
+            registeredTask = mReservedRegisterTask.poll();
         }
 
         // 削除予約タスクを削除する
-        task = mReservedRemoveTask.poll();
-        while (task != null) {
-            mTaskList.remove(task);
-            task = mReservedRemoveTask.poll();
+        TaskBase removedTask = mReservedRemoveTask.poll();
+        while (removedTask != null) {
+            mTaskList.remove(removedTask);
+            removedTask = mReservedRemoveTask.poll();
         }
     }
 }

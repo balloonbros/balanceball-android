@@ -3,12 +3,11 @@ package cc.balloonbros.balanceball.task;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Point;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 
 import cc.balloonbros.balanceball.R;
+import cc.balloonbros.balanceball.lib.Drawable;
+import cc.balloonbros.balanceball.lib.TaskBase;
+import cc.balloonbros.balanceball.lib.Updateable;
 
 /**
  * ボールタスク

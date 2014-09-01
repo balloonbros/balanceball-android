@@ -2,6 +2,10 @@ package cc.balloonbros.balanceball.task;
 
 import java.util.Random;
 
+import cc.balloonbros.balanceball.lib.TaskBase;
+import cc.balloonbros.balanceball.lib.TaskEventListener;
+import cc.balloonbros.balanceball.lib.Updateable;
+
 public class WindOutBreaker extends TaskBase implements Updateable, TaskEventListener {
     private Wind mWind = null;
 
