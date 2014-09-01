@@ -1,34 +1,38 @@
 package cc.balloonbros.balanceball.task;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Point;
-import android.view.WindowManager;
 
 import cc.balloonbros.balanceball.R;
 
-public class Wind extends TaskBase {
+public class Wind extends TaskBase implements Updateable, Drawable {
     private Point mCoordinates = new Point();
+    private Bitmap mWind = null;
+    private WindOutBreaker mParent = null;
+
+    public Wind(WindOutBreaker parent) {
+        mParent = parent;
+    }
 
     @Override
     public void onRegistered() {
+        mWind = getImage(R.drawable.ic_launcher);
         mCoordinates.set(0, 200);
     }
 
     @Override
-    public void execute(Canvas canvas) {
+    public void onUpdate() {
         mCoordinates.x += 10;
 
-        Point displaySize = new Point();
-        WindowManager wm = (WindowManager)getContext().getSystemService(Context.WINDOW_SERVICE);
-        wm.getDefaultDisplay().getSize(displaySize);
-
-        Bitmap ic = getImage(R.drawable.ic_launcher);
-
-        if (mCoordinates.x >= displaySize.x) {
+        if (mCoordinates.x >= getDisplaySize().x) {
+            sendMessage(mParent, null);
+            kill();
         }
+    }
 
-        canvas.drawBitmap(ic, mCoordinates.x, mCoordinates.y, null);
+    @Override
+    public void onDraw(Canvas canvas) {
+        canvas.drawBitmap(mWind, mCoordinates.x, mCoordinates.y, null);
     }
 }

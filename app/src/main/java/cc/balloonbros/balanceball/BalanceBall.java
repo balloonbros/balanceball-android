@@ -2,6 +2,7 @@ package cc.balloonbros.balanceball;
 
 import android.content.Context;
 import cc.balloonbros.balanceball.task.Ball;
+import cc.balloonbros.balanceball.task.DebugOutput;
 import cc.balloonbros.balanceball.task.WindOutBreaker;
 
 /**
@@ -22,12 +23,13 @@ public class BalanceBall extends GameMain {
      * 必要なリソースを読み込んでおく。
      */
     @Override
-    public void onBeforeStart() {
+    public void onInitialize() {
         getAssetManager().loadAssets(R.drawable.ic_launcher);
 
         Ball           initialTask1 = new Ball();
         WindOutBreaker initialTask2 = new WindOutBreaker();
+        DebugOutput    initialTask3 = new DebugOutput();
 
-        getTaskManager().register(initialTask1, initialTask2);
+        getTaskManager().reserve(initialTask1, initialTask2, initialTask3);
     }
 }

@@ -13,12 +13,17 @@ public class GameLoop implements Runnable {
     /**
      * FPS
      */
-    private static final long FPS = 40;
+    private static final long FPS = 60;
 
     /**
      * 1フレームの秒数
      */
     private static final long FRAME_TIME = 1000 / FPS;
+
+    /**
+     * フレームの実行にかかった時間
+     */
+    private long mLoopTime = 1;
 
     /**
      * ゲームループを処理するゲーム本体。
@@ -60,15 +65,26 @@ public class GameLoop implements Runnable {
             // バッファ入れ替え。表側に描画する
             mHolder.unlockCanvasAndPost(canvas);
 
-            try {
-                // FPSを保つために処理が早く終わり過ぎたら1フレーム単位秒待つ
-                long waitTime = System.currentTimeMillis() - startTime;
-                if (waitTime < FRAME_TIME) {
+            // FPSを保つために処理が早く終わり過ぎたら1フレーム単位秒待つ
+            long waitTime = System.currentTimeMillis() - startTime;
+            if (waitTime < FRAME_TIME) {
+                try {
                     Thread.sleep(FRAME_TIME - waitTime);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
+
+            mLoopTime = System.currentTimeMillis() - startTime;
         }
+    }
+
+    /**
+     * 実際のFPSを取得する
+     *
+     * @return FPS
+     */
+    public float getRealFps() {
+        return 1000 / mLoopTime;
     }
 }
