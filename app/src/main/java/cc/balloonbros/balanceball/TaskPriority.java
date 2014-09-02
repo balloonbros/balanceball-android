@@ -4,6 +4,7 @@ public enum TaskPriority {
     MAXIMUM(0x0000),
     BALL(0x0001),
     WIND(0x0002),
+    DEBUG(0xfffe),
     MINIMUM(0xffff);
 
     private final int mPriority;

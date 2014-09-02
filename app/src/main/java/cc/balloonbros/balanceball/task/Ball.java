@@ -12,16 +12,11 @@ import cc.balloonbros.balanceball.lib.Updateable;
 /**
  * ボールタスク
  */
-public class Ball extends TaskBase implements Updateable, Drawable {
+public class Ball extends TaskBase implements Drawable {
     /**
      * ボールの座標
      */
     private Point mCoordinates = new Point();
-
-    /**
-     * ボールの動く方向
-     */
-    private int mMovingDirection = 1;
 
     /**
      * ボール画像
@@ -30,23 +25,34 @@ public class Ball extends TaskBase implements Updateable, Drawable {
 
     @Override
     public void onRegistered() {
-        mCoordinates.set(0, 0);
+        mCoordinates.set(0, 100);
         mBall = getImage(R.drawable.ic_launcher);
     }
 
     @Override
-    public void onUpdate() {
-        if (mCoordinates.x + mBall.getWidth() >= getDisplaySize().x) {
-            mMovingDirection = -1;
-        } else if (mCoordinates.x <= 0){
-            mMovingDirection = 1;
-        }
-
-        //mCoordinates.x += (mMovingDirection * 4);
+    public void onDraw(Canvas canvas) {
+        canvas.drawBitmap(mBall, mCoordinates.x, mCoordinates.y, null);
     }
 
-    @Override
-    public void onDraw(Canvas canvas) {
-        canvas.drawBitmap(mBall, mCoordinates.x, 100, null);
+    /**
+     * ボールを現在の位置から指定したオフセットだけ動かす
+     * @param dx
+     * @param dy
+     */
+    public void move(int dx, int dy) {
+        mCoordinates.offset(dx, dy);
+
+        // ボールが画面外にはみ出してたら位置を調整する
+        if (mCoordinates.x < 0) {
+            mCoordinates.x = 0;
+        } else if (mCoordinates.x + mBall.getWidth() >= getDisplaySize().x) {
+            mCoordinates.x = getDisplaySize().x - mBall.getWidth();
+        }
+
+        if (mCoordinates.y < 0) {
+            mCoordinates.y = 0;
+        } else if (mCoordinates.y + mBall.getHeight() >= getDisplaySize().y) {
+            mCoordinates.y = getDisplaySize().y - mBall.getHeight();
+        }
     }
 }

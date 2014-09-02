@@ -112,6 +112,16 @@ public class TaskManager {
         confirm();
     }
 
+    public TaskBase find(int priority) {
+        for (TaskBase task: mTaskList) {
+            if (task.getPriority() == priority) {
+                return task;
+            }
+        }
+
+        return null;
+    }
+
     /**
      * 予約リストに入っているタスクの処理を確定させる
      */

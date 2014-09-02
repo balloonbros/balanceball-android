@@ -1,8 +1,12 @@
 package cc.balloonbros.balanceball;
 
 import android.content.Context;
+
+import java.io.ObjectInput;
+
 import cc.balloonbros.balanceball.task.Ball;
 import cc.balloonbros.balanceball.task.DebugOutput;
+import cc.balloonbros.balanceball.task.Orientation;
 import cc.balloonbros.balanceball.task.WindOutBreaker;
 
 /**
@@ -27,11 +31,13 @@ public class BalanceBall extends GameMain {
         getAssetManager().loadAssets(R.drawable.ic_launcher);
 
         Ball           initialTask1 = new Ball();
-        WindOutBreaker initialTask2 = new WindOutBreaker();
-        DebugOutput    initialTask3 = new DebugOutput();
+        Orientation    initialTask2 = new Orientation();
+        WindOutBreaker initialTask3 = new WindOutBreaker();
+        DebugOutput    initialTask4 = new DebugOutput();
 
         initialTask1.setPriority(TaskPriority.BALL);
+        initialTask4.setPriority(TaskPriority.DEBUG);
 
-        getTaskManager().reserve(initialTask1, initialTask2, initialTask3);
+        getTaskManager().reserve(initialTask1, initialTask2, initialTask3, initialTask4);
     }
 }

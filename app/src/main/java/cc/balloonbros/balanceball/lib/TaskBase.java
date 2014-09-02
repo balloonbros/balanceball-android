@@ -18,6 +18,11 @@ abstract public class TaskBase {
     private GameMain mGame = null;
 
     /**
+     * このタスクが属しているタスクマネージャー
+     */
+    private TaskManager mTaskManager = null;
+
+    /**
      * タスクのプライオリティ
      */
     private TaskPriority mPriority = TaskPriority.MINIMUM;
@@ -53,6 +58,7 @@ abstract public class TaskBase {
      */
     public void setGame(GameMain game) {
         mGame = game;
+        mTaskManager = mGame.getTaskManager();
     }
 
     /**
@@ -80,7 +86,7 @@ abstract public class TaskBase {
      * @return タスクマネージャー
      */
     protected TaskManager getTaskManager() {
-        return mGame.getTaskManager();
+        return mTaskManager;
     }
 
     /**
@@ -109,5 +115,15 @@ abstract public class TaskBase {
      */
     protected void sendMessage(TaskEventListener targetTask, Object message) {
         targetTask.onMessage(message);
+    }
+
+    /**
+     * 指定されたプライオリティのタスクを探して取得する
+     *
+     * @param priority タスクのプライオリティ
+     * @return 見つかったタスクを返す。タスクが見つからなければnull
+     */
+    protected TaskBase find(TaskPriority priority) {
+        return mTaskManager.find(priority.getPriority());
     }
 }

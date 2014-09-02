@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 
 import cc.balloonbros.balanceball.R;
+import cc.balloonbros.balanceball.TaskPriority;
 import cc.balloonbros.balanceball.lib.Drawable;
 import cc.balloonbros.balanceball.lib.TaskBase;
 import cc.balloonbros.balanceball.lib.Updateable;
@@ -27,6 +28,9 @@ public class Wind extends TaskBase implements Updateable, Drawable {
     @Override
     public void onUpdate() {
         mCoordinates.x += 10;
+
+        Ball ball = (Ball)find(TaskPriority.BALL);
+        ball.move((getDisplaySize().x - mCoordinates.x) / 100, 0);
 
         if (mCoordinates.x >= getDisplaySize().x) {
             sendMessage(mParent, null);
