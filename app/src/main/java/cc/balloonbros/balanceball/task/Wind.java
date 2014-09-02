@@ -10,11 +10,31 @@ import cc.balloonbros.balanceball.lib.Drawable;
 import cc.balloonbros.balanceball.lib.TaskBase;
 import cc.balloonbros.balanceball.lib.Updateable;
 
+/**
+ * 風
+ */
 public class Wind extends TaskBase implements Updateable, Drawable {
+    /**
+     * 風の座標
+     */
     private Point mCoordinates = new Point();
+
+    /**
+     * 風の画像
+     */
     private Bitmap mWind = null;
+
+    /**
+     * 風の発生源
+     */
     private WindOutBreaker mParent = null;
 
+    /**
+     * コンストラクタ。
+     * 風の発生源を受け取って保存しておく
+     *
+     * @param parent 風の発生源タスク
+     */
     public Wind(WindOutBreaker parent) {
         mParent = parent;
     }

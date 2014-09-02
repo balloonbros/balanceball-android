@@ -42,17 +42,19 @@ public class Ball extends TaskBase implements Drawable {
     public void move(int dx, int dy) {
         mCoordinates.offset(dx, dy);
 
+        Point displaySize = getDisplaySize();
+
         // ボールが画面外にはみ出してたら位置を調整する
         if (mCoordinates.x < 0) {
             mCoordinates.x = 0;
-        } else if (mCoordinates.x + mBall.getWidth() >= getDisplaySize().x) {
-            mCoordinates.x = getDisplaySize().x - mBall.getWidth();
+        } else if (mCoordinates.x + mBall.getWidth() >= displaySize.x) {
+            mCoordinates.x = displaySize.x - mBall.getWidth();
         }
 
         if (mCoordinates.y < 0) {
             mCoordinates.y = 0;
-        } else if (mCoordinates.y + mBall.getHeight() >= getDisplaySize().y) {
-            mCoordinates.y = getDisplaySize().y - mBall.getHeight();
+        } else if (mCoordinates.y + mBall.getHeight() >= displaySize.y) {
+            mCoordinates.y = displaySize.y - mBall.getHeight();
         }
     }
 }

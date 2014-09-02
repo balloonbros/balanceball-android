@@ -57,6 +57,9 @@ public class GameLoop implements Runnable {
 
             // ダブルバッファリング開始
             Canvas canvas = mHolder.lockCanvas();
+            if (canvas == null) {
+                break;
+            }
             canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
 
             // 全てのタスクを実行する
