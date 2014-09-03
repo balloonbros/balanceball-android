@@ -3,18 +3,17 @@ package cc.balloonbros.balanceball.task;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 
-import java.util.List;
-
+import cc.balloonbros.balanceball.lib.AbstractTask;
 import cc.balloonbros.balanceball.lib.Drawable;
-import cc.balloonbros.balanceball.lib.TaskBase;
 import cc.balloonbros.balanceball.lib.TaskEventListener;
+import cc.balloonbros.balanceball.lib.TaskMessage;
+import cc.balloonbros.balanceball.task.message.OrientationMessage;
 
-public class DebugOutput extends TaskBase implements Drawable, TaskEventListener {
+/**
+ * デバッグ用タスク
+ */
+public class DebugOutput extends AbstractTask implements Drawable, TaskEventListener {
     private Paint mPaint = new Paint();
     private float[] mOrientationValues;
 
@@ -35,7 +34,9 @@ public class DebugOutput extends TaskBase implements Drawable, TaskEventListener
     }
 
     @Override
-    public void onMessage(Object message) {
-        mOrientationValues = (float[])message;
+    public void onMessage(AbstractTask sender, TaskMessage message) {
+        if (message instanceof OrientationMessage) {
+            mOrientationValues = ((OrientationMessage)message).getOrientation();
+        }
     }
 }

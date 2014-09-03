@@ -8,6 +8,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // ゲーム開始
         BalanceBall game = new BalanceBall(this);
         game.start();
     }

@@ -8,13 +8,14 @@ import android.hardware.SensorManager;
 import java.util.List;
 
 import cc.balloonbros.balanceball.TaskPriority;
-import cc.balloonbros.balanceball.lib.TaskBase;
+import cc.balloonbros.balanceball.lib.AbstractTask;
 import cc.balloonbros.balanceball.lib.Updateable;
+import cc.balloonbros.balanceball.task.message.OrientationMessage;
 
 /**
  * 端末の傾きを検知するタスク
  */
-public class Orientation extends TaskBase implements Updateable, SensorEventListener {
+public class Orientation extends AbstractTask implements Updateable, SensorEventListener {
     /**
      * 端末の傾きの計算をするために必要な変数
      */
@@ -29,27 +30,44 @@ public class Orientation extends TaskBase implements Updateable, SensorEventList
      */
     private float[] mOrientationValues = new float[3];
 
+    /**
+     * センサーマネージャー
+     */
+    private SensorManager mSensorManager = null;
+
     @Override
     public void onRegistered() {
-        SensorManager manager = getGame().getSensorManager();
+        mSensorManager = getGame().getSensorManager();
+    }
 
+    @Override
+    public void onEnterLoop() {
         // 傾きの計算に地磁気センサーと加速度センサーを使うのでイベントを登録
-        List<Sensor> sensors = manager.getSensorList(Sensor.TYPE_ALL);
+        List<Sensor> sensors = mSensorManager.getSensorList(Sensor.TYPE_ALL);
         for (Sensor sensor: sensors) {
             if (sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD || sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-                manager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_GAME);
+                mSensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_GAME);
             }
         }
+    }
+
+    @Override
+    public void onLeaveLoop() {
+        // ゲームループ中以外はセンサー不要なのでリスナー解除しておく
+        mSensorManager.unregisterListener(this);
     }
 
     @Override
     public void onUpdate() {
         // 傾きに合わせてボールを動かす
         Ball ball = (Ball)find(TaskPriority.BALL);
-        ball.move((int)Math.floor(Math.toDegrees(mOrientationValues[2])) / 10, (int)Math.floor(Math.toDegrees(-mOrientationValues[1])) / 10);
+        int dx = (int)Math.floor(Math.toDegrees(mOrientationValues[2])) / 2;
+        int dy = (int)Math.floor(Math.toDegrees(mOrientationValues[1])) / 2;
+        ball.move(dx, -dy);
 
+        // デバッグ用に現在の傾きを画面に表示する
         DebugOutput debug = (DebugOutput)find(TaskPriority.DEBUG);
-        sendMessage(debug, mOrientationValues);
+        sendMessage(debug, new OrientationMessage(mOrientationValues));
     }
 
     @Override
@@ -75,6 +93,5 @@ public class Orientation extends TaskBase implements Updateable, SensorEventList
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
-
     }
 }

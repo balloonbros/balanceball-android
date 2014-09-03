@@ -6,14 +6,15 @@ import android.graphics.Point;
 
 import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.TaskPriority;
+import cc.balloonbros.balanceball.lib.AbstractTask;
 import cc.balloonbros.balanceball.lib.Drawable;
-import cc.balloonbros.balanceball.lib.TaskBase;
 import cc.balloonbros.balanceball.lib.Updateable;
+import cc.balloonbros.balanceball.task.message.LabelMessage;
 
 /**
  * 風
  */
-public class Wind extends TaskBase implements Updateable, Drawable {
+public class Wind extends AbstractTask implements Updateable, Drawable {
     /**
      * 風の座標
      */
@@ -24,21 +25,6 @@ public class Wind extends TaskBase implements Updateable, Drawable {
      */
     private Bitmap mWind = null;
 
-    /**
-     * 風の発生源
-     */
-    private WindOutBreaker mParent = null;
-
-    /**
-     * コンストラクタ。
-     * 風の発生源を受け取って保存しておく
-     *
-     * @param parent 風の発生源タスク
-     */
-    public Wind(WindOutBreaker parent) {
-        mParent = parent;
-    }
-
     @Override
     public void onRegistered() {
         mWind = getImage(R.drawable.ic_launcher);
@@ -47,13 +33,13 @@ public class Wind extends TaskBase implements Updateable, Drawable {
 
     @Override
     public void onUpdate() {
-        mCoordinates.x += 10;
-
+        // ボールに風の影響を与える
         Ball ball = (Ball)find(TaskPriority.BALL);
         ball.move((getDisplaySize().x - mCoordinates.x) / 100, 0);
 
+        mCoordinates.x += 10;
         if (mCoordinates.x >= getDisplaySize().x) {
-            sendMessage(mParent, null);
+            sendMessage((WindOutBreaker)getParent(), new LabelMessage("wind_leaved"));
             kill();
         }
     }

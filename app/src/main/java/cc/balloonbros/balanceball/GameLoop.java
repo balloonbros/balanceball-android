@@ -52,6 +52,9 @@ public class GameLoop implements Runnable {
      */
     @Override
     public void run() {
+        TaskManager taskManager = mGame.getTaskManager();
+        taskManager.enterLoop();
+
         while (mGame.isLoop()) {
             long startTime = System.currentTimeMillis();
 
@@ -63,7 +66,7 @@ public class GameLoop implements Runnable {
             canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
 
             // 全てのタスクを実行する
-            mGame.getTaskManager().execute(canvas);
+            taskManager.execute(canvas);
 
             // バッファ入れ替え。表側に描画する
             mHolder.unlockCanvasAndPost(canvas);
@@ -80,6 +83,8 @@ public class GameLoop implements Runnable {
 
             mLoopTime = System.currentTimeMillis() - startTime;
         }
+
+        taskManager.leaveLoop();
     }
 
     /**

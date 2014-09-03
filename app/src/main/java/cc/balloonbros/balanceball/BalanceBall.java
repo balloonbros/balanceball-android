@@ -2,8 +2,6 @@ package cc.balloonbros.balanceball;
 
 import android.content.Context;
 
-import java.io.ObjectInput;
-
 import cc.balloonbros.balanceball.task.Ball;
 import cc.balloonbros.balanceball.task.DebugOutput;
 import cc.balloonbros.balanceball.task.Orientation;
@@ -36,8 +34,9 @@ public class BalanceBall extends GameMain {
         DebugOutput    initialTask4 = new DebugOutput();
 
         initialTask1.setPriority(TaskPriority.BALL);
+        initialTask3.setPriority(TaskPriority.WIND_OUT_BREAKER);
         initialTask4.setPriority(TaskPriority.DEBUG);
 
-        getTaskManager().reserve(initialTask1, initialTask2, initialTask3, initialTask4);
+        getTaskManager().register(initialTask1, initialTask2, initialTask3, initialTask4);
     }
 }

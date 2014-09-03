@@ -3,6 +3,8 @@ package cc.balloonbros.balanceball.lib;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 
+import java.util.ArrayList;
+
 import cc.balloonbros.balanceball.GameMain;
 import cc.balloonbros.balanceball.TaskManager;
 import cc.balloonbros.balanceball.TaskPriority;
@@ -11,7 +13,7 @@ import cc.balloonbros.balanceball.TaskPriority;
  * ゲーム内のタスクの基底クラス。
  * タスクはすべてこのクラスを継承する。
  */
-abstract public class TaskBase {
+abstract public class AbstractTask {
     /**
      * このタスクが属しているゲーム
      */
@@ -21,6 +23,16 @@ abstract public class TaskBase {
      * このタスクが属しているタスクマネージャー
      */
     private TaskManager mTaskManager = null;
+
+    /**
+     * このタスクの子タスク
+     */
+    private ArrayList<AbstractTask> mChildren = new ArrayList<AbstractTask>();
+
+    /**
+     * registerChildメソッドによって自分自身を追加してくれた親タスク
+     */
+    private AbstractTask mParent = null;
 
     /**
      * タスクのプライオリティ
@@ -46,9 +58,39 @@ abstract public class TaskBase {
     }
 
     /**
+     * 親タスクを取得する。
+     *
+     * @return 親タスク。親がいない場合はnull
+     */
+    public AbstractTask getParent() {
+        return mParent;
+    }
+
+    /**
+     * 親タスクをセットする
+     *
+     * @param parentTask 親タスク
+     */
+    private void setParent(AbstractTask parentTask) {
+        mParent = parentTask;
+    }
+
+    /**
      * タスクがタスクマネージャーに登録された時に呼ばれる
      */
     public void onRegistered() {
+    }
+
+    /**
+     * ゲームループに入る時に呼ばれる
+     */
+    public void onEnterLoop() {
+    }
+
+    /**
+     * ゲームループから抜けた時に呼ばれる
+     */
+    public void onLeaveLoop() {
     }
 
     /**
@@ -113,8 +155,8 @@ abstract public class TaskBase {
      * @param targetTask メッセージを送信する先のタスク
      * @param message メッセージオブジェクト。必要に応じて受取先でキャストする
      */
-    protected void sendMessage(TaskEventListener targetTask, Object message) {
-        targetTask.onMessage(message);
+    protected void sendMessage(TaskEventListener targetTask, TaskMessage message) {
+        targetTask.onMessage(this, message);
     }
 
     /**
@@ -123,7 +165,18 @@ abstract public class TaskBase {
      * @param priority タスクのプライオリティ
      * @return 見つかったタスクを返す。タスクが見つからなければnull
      */
-    protected TaskBase find(TaskPriority priority) {
+    protected AbstractTask find(TaskPriority priority) {
         return mTaskManager.find(priority.getPriority());
+    }
+
+    /**
+     * このタスクの子タスクとしてタスクマネージャーにタスクを登録する
+     *
+     * @param childTask 登録するタスク
+     */
+    protected void registerChild(AbstractTask childTask) {
+        childTask.setParent(this);
+        mChildren.add(childTask);
+        mTaskManager.register(childTask);
     }
 }

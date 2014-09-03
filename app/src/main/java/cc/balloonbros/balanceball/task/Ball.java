@@ -5,14 +5,13 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 
 import cc.balloonbros.balanceball.R;
+import cc.balloonbros.balanceball.lib.AbstractTask;
 import cc.balloonbros.balanceball.lib.Drawable;
-import cc.balloonbros.balanceball.lib.TaskBase;
-import cc.balloonbros.balanceball.lib.Updateable;
 
 /**
  * ボールタスク
  */
-public class Ball extends TaskBase implements Drawable {
+public class Ball extends AbstractTask implements Drawable {
     /**
      * ボールの座標
      */
