@@ -1,4 +1,4 @@
-package cc.balloonbros.balanceball;
+package cc.balloonbros.balanceball.lib;
 
 import android.app.Activity;
 import android.content.Context;
@@ -57,15 +57,6 @@ abstract public class GameMain {
      */
     public GameSurfaceView getView() {
         return mView;
-    }
-
-    /**
-     * ゲームループを取得する
-     *
-     * @return ゲームループ
-     */
-    public GameLoop getGameLoop() {
-        return mGameLoop;
     }
 
     /**
@@ -130,19 +121,9 @@ abstract public class GameMain {
         mSensorManager = (SensorManager)mContext.getSystemService(Context.SENSOR_SERVICE);
         mGameLoop      = new GameLoop(this);
 
-        mView.setGame(this);
         onInitialize();
 
         ((Activity)mContext).setContentView(mView);
-    }
-
-    /**
-     * ゲームループが続いているかどうかを調べる
-     *
-     * @return ループ中であればtrue。
-     */
-    public boolean isLoop() {
-        return mView.getGameLoopThread() != null;
     }
 
     /**

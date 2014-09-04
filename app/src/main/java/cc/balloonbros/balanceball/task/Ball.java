@@ -4,14 +4,17 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Point;
 
+import java.util.Random;
+
 import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.lib.AbstractTask;
 import cc.balloonbros.balanceball.lib.Drawable;
+import cc.balloonbros.balanceball.lib.Updateable;
 
 /**
  * ボールタスク
  */
-public class Ball extends AbstractTask implements Drawable {
+public class Ball extends AbstractTask implements Updateable, Drawable {
     /**
      * ボールの座標
      */
@@ -22,10 +25,18 @@ public class Ball extends AbstractTask implements Drawable {
      */
     private Bitmap mBall = null;
 
+    private Random mRandom = new Random();
+
     @Override
     public void onRegistered() {
         mCoordinates.set(0, 100);
         mBall = getImage(R.drawable.ic_launcher);
+    }
+
+    @Override
+    public void onUpdate() {
+        // ランダムでぶれさせる
+        move(mRandom.nextInt(3) - 1, mRandom.nextInt(3) - 1);
     }
 
     @Override

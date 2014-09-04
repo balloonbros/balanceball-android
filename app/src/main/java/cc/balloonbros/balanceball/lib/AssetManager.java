@@ -1,4 +1,4 @@
-package cc.balloonbros.balanceball;
+package cc.balloonbros.balanceball.lib;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;

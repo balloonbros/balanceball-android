@@ -5,8 +5,7 @@ import android.graphics.Point;
 
 import java.util.ArrayList;
 
-import cc.balloonbros.balanceball.GameMain;
-import cc.balloonbros.balanceball.TaskManager;
+import cc.balloonbros.balanceball.lib.TaskManager;
 import cc.balloonbros.balanceball.TaskPriority;
 
 /**
@@ -178,5 +177,9 @@ abstract public class AbstractTask {
         childTask.setParent(this);
         mChildren.add(childTask);
         mTaskManager.register(childTask);
+    }
+
+    protected void setFrameTimer(int frame, FrameTimerEventListener listener) {
+
     }
 }

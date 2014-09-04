@@ -1,10 +1,11 @@
-package cc.balloonbros.balanceball;
+package cc.balloonbros.balanceball.lib;
 
 import android.graphics.Canvas;
 import java.util.LinkedList;
 
 import cc.balloonbros.balanceball.lib.AbstractTask;
 import cc.balloonbros.balanceball.lib.Drawable;
+import cc.balloonbros.balanceball.lib.GameMain;
 import cc.balloonbros.balanceball.lib.Updateable;
 
 /**

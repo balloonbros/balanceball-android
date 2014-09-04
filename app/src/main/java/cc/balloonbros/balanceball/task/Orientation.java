@@ -61,8 +61,9 @@ public class Orientation extends AbstractTask implements Updateable, SensorEvent
     public void onUpdate() {
         // 傾きに合わせてボールを動かす
         Ball ball = (Ball)find(TaskPriority.BALL);
-        int dx = (int)Math.floor(Math.toDegrees(mOrientationValues[2])) / 2;
-        int dy = (int)Math.floor(Math.toDegrees(mOrientationValues[1])) / 2;
+        int divider = 2;
+        int dx = (int)Math.floor(Math.toDegrees(mOrientationValues[2])) / divider;
+        int dy = (int)Math.floor(Math.toDegrees(mOrientationValues[1])) / divider;
         ball.move(dx, -dy);
 
         // デバッグ用に現在の傾きを画面に表示する

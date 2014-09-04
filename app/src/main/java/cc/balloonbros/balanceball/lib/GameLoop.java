@@ -1,15 +1,18 @@
-package cc.balloonbros.balanceball;
+package cc.balloonbros.balanceball.lib;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.view.SurfaceHolder;
+import android.view.SurfaceView;
+
+import cc.balloonbros.balanceball.lib.TaskManager;
 
 /**
  * ゲームループを処理します。
  * ゲームループは別スレッドで処理されます。
  */
-public class GameLoop implements Runnable {
+public class GameLoop implements Runnable, SurfaceHolder.Callback {
     /**
      * FPS
      */
@@ -26,9 +29,19 @@ public class GameLoop implements Runnable {
     private long mLoopTime = 1;
 
     /**
+     * 現在までに実行されたフレーム数
+     */
+    private long mFrameCount = 1;
+
+    /**
      * ゲームループを処理するゲーム本体。
      */
     private GameMain mGame = null;
+
+    /**
+     * ゲームループ用のスレッド
+     */
+    private Thread mGameLoopThread = null;
 
     /**
      * ゲーム用Viewへアクセスするためのオブジェクト。
@@ -45,6 +58,7 @@ public class GameLoop implements Runnable {
     public GameLoop(GameMain game) {
         mGame   = game;
         mHolder = game.getView().getHolder();
+        mHolder.addCallback(this);
     }
 
     /**
@@ -55,8 +69,9 @@ public class GameLoop implements Runnable {
         TaskManager taskManager = mGame.getTaskManager();
         taskManager.enterLoop();
 
-        while (mGame.isLoop()) {
+        while (mGameLoopThread != null) {
             long startTime = System.currentTimeMillis();
+            mFrameCount++;
 
             // ダブルバッファリング開始
             Canvas canvas = mHolder.lockCanvas();
@@ -85,6 +100,33 @@ public class GameLoop implements Runnable {
         }
 
         taskManager.leaveLoop();
+    }
+
+    /**
+     * サーフェイス生成時に実行
+     *
+     * @param surfaceHolder
+     */
+    @Override
+    public void surfaceCreated(SurfaceHolder surfaceHolder) {
+        // ゲームループ用のスレッドを作って実行を開始する
+        mGameLoopThread = new Thread(this);
+        mGameLoopThread.start();
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i2, int i3) {
+    }
+
+    /**
+     * サーフェイス破棄時に実行
+     *
+     * @param surfaceHolder
+     */
+    @Override
+    public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
+        // スレッドを停止
+        mGameLoopThread = null;
     }
 
     /**

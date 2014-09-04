@@ -2,6 +2,7 @@ package cc.balloonbros.balanceball;
 
 import android.content.Context;
 
+import cc.balloonbros.balanceball.lib.GameMain;
 import cc.balloonbros.balanceball.task.Ball;
 import cc.balloonbros.balanceball.task.CenterCircle;
 import cc.balloonbros.balanceball.task.DebugOutput;
