@@ -5,7 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 
 import cc.balloonbros.balanceball.R;
-import cc.balloonbros.balanceball.lib.AbstractTask;
+import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.Drawable;
 
 public class CenterCircle extends AbstractTask implements Drawable {

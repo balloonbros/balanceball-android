@@ -8,7 +8,7 @@ import android.hardware.SensorManager;
 import java.util.List;
 
 import cc.balloonbros.balanceball.TaskPriority;
-import cc.balloonbros.balanceball.lib.AbstractTask;
+import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.Updateable;
 import cc.balloonbros.balanceball.task.message.OrientationMessage;
 

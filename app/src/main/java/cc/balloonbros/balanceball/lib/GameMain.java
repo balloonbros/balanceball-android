@@ -5,6 +5,8 @@ import android.content.Context;
 import android.hardware.SensorManager;
 import android.view.WindowManager;
 
+import cc.balloonbros.balanceball.lib.task.TaskManager;
+
 abstract public class GameMain {
     /**
      * コンテキスト
@@ -133,5 +135,14 @@ abstract public class GameMain {
      */
     public float getFps() {
         return mGameLoop.getRealFps();
+    }
+
+    /**
+     * フレーム数を取得する
+     *
+     * @return フレーム数
+     */
+    public long getFrameCount() {
+        return mGameLoop.getFrameCount();
     }
 }

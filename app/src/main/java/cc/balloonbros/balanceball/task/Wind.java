@@ -6,7 +6,7 @@ import android.graphics.Point;
 
 import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.TaskPriority;
-import cc.balloonbros.balanceball.lib.AbstractTask;
+import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.Drawable;
 import cc.balloonbros.balanceball.lib.Updateable;
 import cc.balloonbros.balanceball.task.message.LabelMessage;

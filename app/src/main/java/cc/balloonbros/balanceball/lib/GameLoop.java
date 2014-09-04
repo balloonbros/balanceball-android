@@ -4,9 +4,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 
-import cc.balloonbros.balanceball.lib.TaskManager;
+import cc.balloonbros.balanceball.lib.task.TaskManager;
 
 /**
  * ゲームループを処理します。
@@ -136,5 +135,14 @@ public class GameLoop implements Runnable, SurfaceHolder.Callback {
      */
     public float getRealFps() {
         return 1000 / mLoopTime;
+    }
+
+    /**
+     * 現在のフレーム数を取得する
+     *
+     * @return フレーム数
+     */
+    public long getFrameCount() {
+        return mFrameCount;
     }
 }

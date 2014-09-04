@@ -1,5 +1,5 @@
 package cc.balloonbros.balanceball.lib;
 
 public interface FrameTimerEventListener {
-    public void on
+    public void onFrameTimer();
 }

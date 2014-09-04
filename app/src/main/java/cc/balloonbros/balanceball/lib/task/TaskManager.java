@@ -1,12 +1,9 @@
-package cc.balloonbros.balanceball.lib;
+package cc.balloonbros.balanceball.lib.task;
 
 import android.graphics.Canvas;
 import java.util.LinkedList;
 
-import cc.balloonbros.balanceball.lib.AbstractTask;
-import cc.balloonbros.balanceball.lib.Drawable;
 import cc.balloonbros.balanceball.lib.GameMain;
-import cc.balloonbros.balanceball.lib.Updateable;
 
 /**
  * タスク管理クラス
@@ -104,13 +101,7 @@ public class TaskManager {
 
         // タスクリストに登録されているタスクの更新処理と描画処理を全て呼び出してフレームを進める
         for (AbstractTask task: mTaskList) {
-            if (task instanceof Updateable) {
-                ((Updateable)task).onUpdate();
-            }
-
-            if (task instanceof Drawable) {
-                ((Drawable)task).onDraw(canvas);
-            }
+            task.execute(canvas);
         }
 
         mWhileExecute = false;

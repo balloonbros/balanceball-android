@@ -3,7 +3,7 @@ package cc.balloonbros.balanceball.task;
 import java.util.Random;
 
 import cc.balloonbros.balanceball.TaskPriority;
-import cc.balloonbros.balanceball.lib.AbstractTask;
+import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.TaskEventListener;
 import cc.balloonbros.balanceball.lib.Updateable;
 import cc.balloonbros.balanceball.lib.TaskMessage;
@@ -20,7 +20,7 @@ public class WindOutBreaker extends AbstractTask implements Updateable, TaskEven
     @Override
     public void onUpdate() {
         Random random = new Random();
-        int randomValue = random.nextInt(60 * 5);
+        int randomValue = random.nextInt(60 * 2);
 
         if (mWind == null && randomValue == 0) {
             mWind = new Wind();

@@ -7,8 +7,9 @@ import android.graphics.Point;
 import java.util.Random;
 
 import cc.balloonbros.balanceball.R;
-import cc.balloonbros.balanceball.lib.AbstractTask;
+import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.Drawable;
+import cc.balloonbros.balanceball.lib.FrameTimerEventListener;
 import cc.balloonbros.balanceball.lib.Updateable;
 
 /**
@@ -35,8 +36,7 @@ public class Ball extends AbstractTask implements Updateable, Drawable {
 
     @Override
     public void onUpdate() {
-        // ランダムでぶれさせる
-        move(mRandom.nextInt(3) - 1, mRandom.nextInt(3) - 1);
+        //move(mRandom.nextInt(5) - 2, mRandom.nextInt(5) - 2);
     }
 
     @Override

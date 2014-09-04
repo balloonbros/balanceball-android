@@ -1,12 +1,18 @@
-package cc.balloonbros.balanceball.lib;
+package cc.balloonbros.balanceball.lib.task;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Point;
 
 import java.util.ArrayList;
 
-import cc.balloonbros.balanceball.lib.TaskManager;
+import cc.balloonbros.balanceball.lib.Drawable;
+import cc.balloonbros.balanceball.lib.FrameTimerEventListener;
+import cc.balloonbros.balanceball.lib.GameMain;
+import cc.balloonbros.balanceball.lib.TaskEventListener;
 import cc.balloonbros.balanceball.TaskPriority;
+import cc.balloonbros.balanceball.lib.TaskMessage;
+import cc.balloonbros.balanceball.lib.Updateable;
 
 /**
  * ゲーム内のタスクの基底クラス。
@@ -102,6 +108,20 @@ abstract public class AbstractTask {
         mTaskManager = mGame.getTaskManager();
     }
 
+    protected void execute(Canvas canvas) {
+        if (this instanceof Updateable) {
+            ((Updateable)this).onUpdate();
+        }
+
+        if (this instanceof Drawable) {
+            ((Drawable)this).onDraw(canvas);
+        }
+
+        if (mFrameTimerObject != null && mFrameTimerObject.ready()) {
+            mFrameTimerObject.invoke();
+        }
+    }
+
     /**
      * ロードされたリソースから画像を取得する
      *
@@ -180,6 +200,29 @@ abstract public class AbstractTask {
     }
 
     protected void setFrameTimer(int frame, FrameTimerEventListener listener) {
+        mFrameTimerObject = new FrameTimerObject(getGame(), frame, listener);
+    }
 
+    private FrameTimerObject mFrameTimerObject = null;
+    private class FrameTimerObject {
+        private GameMain mGame = null;
+        private long mCurrentFrame = -1;
+        private long mWaitFrame = -1;
+        private FrameTimerEventListener mListener = null;
+
+        public FrameTimerObject(GameMain game, long waitFrame, FrameTimerEventListener listener) {
+            mGame = game;
+            mCurrentFrame = game.getFrameCount();
+            mWaitFrame = waitFrame;
+            mListener = listener;
+        }
+
+        public boolean ready() {
+            return mGame.getFrameCount() - mCurrentFrame >= mWaitFrame;
+        }
+
+        public void invoke() {
+            mListener.onFrameTimer();
+        }
     }
 }
