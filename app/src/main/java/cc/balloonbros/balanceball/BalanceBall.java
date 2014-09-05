@@ -28,6 +28,8 @@ public class BalanceBall extends GameMain {
      */
     @Override
     public void onInitialize() {
+        super.onInitialize();
+
         getAssetManager().loadAssets(R.drawable.ic_launcher, R.drawable.circle);
 
         Ball           initialTask1 = new Ball();

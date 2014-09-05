@@ -3,7 +3,9 @@ package cc.balloonbros.balanceball.task;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 
+import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.Drawable;
 import cc.balloonbros.balanceball.lib.TaskEventListener;
@@ -26,11 +28,12 @@ public class DebugOutput extends AbstractTask implements Drawable, TaskEventList
     public void onDraw(Canvas canvas) {
         canvas.drawText("TaskCount: " + getTaskManager().getTaskCount(), 10, 10, mPaint);
         canvas.drawText("FrameCount: " + getGame().getFrameCount(), 10, 20, mPaint);
-        canvas.drawText("FPS: " + getGame().getFps(), 10, 30, mPaint);
+        canvas.drawText("RealFPS: " + getGame().getRealFps(), 10, 30, mPaint);
+        canvas.drawText("FPS: " + getGame().getFps(), 10, 40, mPaint);
         if (mOrientationValues != null) {
-            canvas.drawText("z-axis: " + Math.floor(Math.toDegrees(mOrientationValues[0])), 10, 40, mPaint);
-            canvas.drawText("x-axis: " + Math.floor(Math.toDegrees(mOrientationValues[1])), 10, 50, mPaint);
-            canvas.drawText("y-axis: " + Math.floor(Math.toDegrees(mOrientationValues[2])), 10, 60, mPaint);
+            canvas.drawText("z-axis: " + Math.floor(Math.toDegrees(mOrientationValues[0])), 10, 50, mPaint);
+            canvas.drawText("x-axis: " + Math.floor(Math.toDegrees(mOrientationValues[1])), 10, 60, mPaint);
+            canvas.drawText("y-axis: " + Math.floor(Math.toDegrees(mOrientationValues[2])), 10, 70, mPaint);
         }
     }
 

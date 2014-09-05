@@ -7,77 +7,65 @@ import android.graphics.Point;
 import java.util.ArrayList;
 
 import cc.balloonbros.balanceball.lib.Drawable;
-import cc.balloonbros.balanceball.lib.FrameTimerEventListener;
+import cc.balloonbros.balanceball.lib.task.timer.FrameTimerEventListener;
 import cc.balloonbros.balanceball.lib.GameMain;
 import cc.balloonbros.balanceball.lib.TaskEventListener;
 import cc.balloonbros.balanceball.TaskPriority;
 import cc.balloonbros.balanceball.lib.TaskMessage;
 import cc.balloonbros.balanceball.lib.Updateable;
+import cc.balloonbros.balanceball.lib.task.timer.FrameTimerObject;
 
 /**
  * ゲーム内のタスクの基底クラス。
  * タスクはすべてこのクラスを継承する。
  */
 abstract public class AbstractTask {
-    /**
-     * このタスクが属しているゲーム
-     */
     private GameMain mGame = null;
-
-    /**
-     * このタスクが属しているタスクマネージャー
-     */
     private TaskManager mTaskManager = null;
+    private TaskPriority mPriority = TaskPriority.MINIMUM;
+    private FrameTimerObject mFrameTimerObject = null;
 
     /**
-     * このタスクの子タスク
+     * このタスクの子タスクと親タスク
      */
     private ArrayList<AbstractTask> mChildren = new ArrayList<AbstractTask>();
-
-    /**
-     * registerChildメソッドによって自分自身を追加してくれた親タスク
-     */
     private AbstractTask mParent = null;
 
-    /**
-     * タスクのプライオリティ
-     */
-    private TaskPriority mPriority = TaskPriority.MINIMUM;
-
-    /**
-     * プライオリティを取得する
-     *
-     * @return プライオリティ
-     */
     public int getPriority() {
         return mPriority.getPriority();
     }
-
-    /**
-     * プライオリティをセットする
-     *
-     * @param priority プライオリティ
-     */
     public void setPriority(TaskPriority priority) {
         mPriority = priority;
     }
-
-    /**
-     * 親タスクを取得する。
-     *
-     * @return 親タスク。親がいない場合はnull
-     */
     public AbstractTask getParent() {
         return mParent;
     }
-
-    /**
-     * 親タスクをセットする
-     *
-     * @param parentTask 親タスク
-     */
     private void setParent(AbstractTask parentTask) {
         mParent = parentTask;
+    }
+    public void setGame(GameMain game) {
+        mGame = game;
+        mTaskManager = mGame.getTaskManager();
+    }
+    protected GameMain getGame() {
+        return mGame;
+    }
+    protected TaskManager getTaskManager() {
+        return mTaskManager;
+    }
+
+    protected void execute(Canvas canvas) {
+        if (this instanceof Updateable) {
+            ((Updateable)this).onUpdate();
+        }
+
+        if (this instanceof Drawable) {
+            ((Drawable)this).onDraw(canvas);
+        }
+
+        if (mFrameTimerObject != null && mFrameTimerObject.ready()) {
+            mFrameTimerObject.invoke();
+        }
     }
 
     /**
@@ -99,55 +87,15 @@ abstract public class AbstractTask {
     }
 
     /**
-     * このタスクが属すゲームをセットする
-     *
-     * @param game ゲーム
-     */
-    public void setGame(GameMain game) {
-        mGame = game;
-        mTaskManager = mGame.getTaskManager();
-    }
-
-    protected void execute(Canvas canvas) {
-        if (this instanceof Updateable) {
-            ((Updateable)this).onUpdate();
-        }
-
-        if (this instanceof Drawable) {
-            ((Drawable)this).onDraw(canvas);
-        }
-
-        if (mFrameTimerObject != null && mFrameTimerObject.ready()) {
-            mFrameTimerObject.invoke();
-        }
-    }
-
-    /**
      * ロードされたリソースから画像を取得する
-     *
      * @param assetId 画像ID
      * @return 画像
      */
     protected Bitmap getImage(int assetId) {
         return mGame.getAssetManager().getImage(assetId);
     }
-
-    /**
-     * ゲームを取得する
-     *
-     * @return ゲーム
-     */
-    protected GameMain getGame() {
-        return mGame;
-    }
-
-    /**
-     * このタスクが属するタスクマネージャーを取得する
-     *
-     * @return タスクマネージャー
-     */
-    protected TaskManager getTaskManager() {
-        return mTaskManager;
+    protected int getInteger(int id) {
+        return mGame.getResources().getInteger(id);
     }
 
     /**
@@ -199,30 +147,29 @@ abstract public class AbstractTask {
         mTaskManager.register(childTask);
     }
 
+    /**
+     * 指定フレーム後にタイマーを起動する
+     * @param frame ここに指定したフレーム数経過後にコールバックを起動する
+     * @param listener コールバックを受け取るリスナー
+     */
     protected void setFrameTimer(int frame, FrameTimerEventListener listener) {
-        mFrameTimerObject = new FrameTimerObject(getGame(), frame, listener);
+        if (mFrameTimerObject == null) {
+            mFrameTimerObject = new FrameTimerObject(getGame());
+        }
+
+        mFrameTimerObject.start(frame, listener);
     }
 
-    private FrameTimerObject mFrameTimerObject = null;
-    private class FrameTimerObject {
-        private GameMain mGame = null;
-        private long mCurrentFrame = -1;
-        private long mWaitFrame = -1;
-        private FrameTimerEventListener mListener = null;
-
-        public FrameTimerObject(GameMain game, long waitFrame, FrameTimerEventListener listener) {
-            mGame = game;
-            mCurrentFrame = game.getFrameCount();
-            mWaitFrame = waitFrame;
-            mListener = listener;
+    /**
+     * 指定フレーム後にタイマーを起動する
+     * @param frame ここに指定したフレーム数経過後にコールバックを起動する
+     * @param listener コールバックを受け取るリスナー
+     */
+    protected void setFrameInterval(int frame, FrameTimerEventListener listener) {
+        if (mFrameTimerObject == null) {
+            mFrameTimerObject = new FrameTimerObject(getGame());
         }
 
-        public boolean ready() {
-            return mGame.getFrameCount() - mCurrentFrame >= mWaitFrame;
-        }
-
-        public void invoke() {
-            mListener.onFrameTimer();
-        }
+        mFrameTimerObject.start(frame, listener, true);
     }
 }

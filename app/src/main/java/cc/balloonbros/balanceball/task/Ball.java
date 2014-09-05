@@ -9,7 +9,6 @@ import java.util.Random;
 import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.Drawable;
-import cc.balloonbros.balanceball.lib.FrameTimerEventListener;
 import cc.balloonbros.balanceball.lib.Updateable;
 
 /**

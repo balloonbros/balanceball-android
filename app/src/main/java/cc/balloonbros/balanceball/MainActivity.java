@@ -11,8 +11,10 @@ public class MainActivity extends Activity {
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
+        long fps = getResources().getInteger(R.integer.fps);
+
         // ゲーム開始
         BalanceBall game = new BalanceBall(this);
-        game.start();
+        game.start(fps);
     }
 }

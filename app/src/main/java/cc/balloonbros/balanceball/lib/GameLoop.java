@@ -12,15 +12,16 @@ import cc.balloonbros.balanceball.lib.task.TaskManager;
  * ゲームループは別スレッドで処理されます。
  */
 public class GameLoop implements Runnable, SurfaceHolder.Callback {
-    /**
-     * FPS
-     */
-    private static final long FPS = 60;
+    private GameMain      mGame           = null;
+    private Thread        mGameLoopThread = null;
+    private SurfaceHolder mHolder         = null;
 
     /**
-     * 1フレームの秒数
+     * FPSと1フレームの秒数
      */
-    private static final long FRAME_TIME = 1000 / FPS;
+    private static final long DEFAULT_FPS = 60;
+    private long mFps;
+    private long mFrameTime;
 
     /**
      * フレームの実行にかかった時間
@@ -32,25 +33,18 @@ public class GameLoop implements Runnable, SurfaceHolder.Callback {
      */
     private long mFrameCount = 1;
 
-    /**
-     * ゲームループを処理するゲーム本体。
-     */
-    private GameMain mGame = null;
+    public float getRealFps() {
+        return 1000 / mLoopTime;
+    }
+    public long getFps() {
+        return mFps;
+    }
+    public long getFrameCount() {
+        return mFrameCount;
+    }
 
     /**
-     * ゲームループ用のスレッド
-     */
-    private Thread mGameLoopThread = null;
-
-    /**
-     * ゲーム用Viewへアクセスするためのオブジェクト。
-     * このHolderを通じてダブルバッファリングしながら描画する。
-     */
-    private SurfaceHolder mHolder = null;
-
-    /**
-     * コンストラクタ。
-     * ループを処理するゲームを受け取ります。
+     * コンストラクタ
      *
      * @param game ゲーム
      */
@@ -58,6 +52,18 @@ public class GameLoop implements Runnable, SurfaceHolder.Callback {
         mGame   = game;
         mHolder = game.getView().getHolder();
         mHolder.addCallback(this);
+
+        changeFps(DEFAULT_FPS);
+    }
+
+    /**
+     * FPSを変更する
+     *
+     * @param fps FPS
+     */
+    public void changeFps(long fps) {
+        mFps = fps;
+        mFrameTime = 1000 / mFps;
     }
 
     /**
@@ -87,9 +93,9 @@ public class GameLoop implements Runnable, SurfaceHolder.Callback {
 
             // FPSを保つために処理が早く終わり過ぎたら1フレーム単位秒待つ
             long waitTime = System.currentTimeMillis() - startTime;
-            if (waitTime < FRAME_TIME) {
+            if (waitTime < mFrameTime) {
                 try {
-                    Thread.sleep(FRAME_TIME - waitTime);
+                    Thread.sleep(mFrameTime - waitTime);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -101,14 +107,8 @@ public class GameLoop implements Runnable, SurfaceHolder.Callback {
         taskManager.leaveLoop();
     }
 
-    /**
-     * サーフェイス生成時に実行
-     *
-     * @param surfaceHolder
-     */
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
-        // ゲームループ用のスレッドを作って実行を開始する
         mGameLoopThread = new Thread(this);
         mGameLoopThread.start();
     }
@@ -117,32 +117,8 @@ public class GameLoop implements Runnable, SurfaceHolder.Callback {
     public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i2, int i3) {
     }
 
-    /**
-     * サーフェイス破棄時に実行
-     *
-     * @param surfaceHolder
-     */
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
-        // スレッドを停止
         mGameLoopThread = null;
-    }
-
-    /**
-     * 実際のFPSを取得する
-     *
-     * @return FPS
-     */
-    public float getRealFps() {
-        return 1000 / mLoopTime;
-    }
-
-    /**
-     * 現在のフレーム数を取得する
-     *
-     * @return フレーム数
-     */
-    public long getFrameCount() {
-        return mFrameCount;
     }
 }

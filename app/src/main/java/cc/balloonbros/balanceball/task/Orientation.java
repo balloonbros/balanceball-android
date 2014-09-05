@@ -16,6 +16,8 @@ import cc.balloonbros.balanceball.task.message.OrientationMessage;
  * 端末の傾きを検知するタスク
  */
 public class Orientation extends AbstractTask implements Updateable, SensorEventListener {
+    private SensorManager mSensorManager = null;
+
     /**
      * 端末の傾きの計算をするために必要な変数
      */
@@ -29,11 +31,6 @@ public class Orientation extends AbstractTask implements Updateable, SensorEvent
      * 端末の傾き
      */
     private float[] mOrientationValues = new float[3];
-
-    /**
-     * センサーマネージャー
-     */
-    private SensorManager mSensorManager = null;
 
     @Override
     public void onRegistered() {
