@@ -5,6 +5,8 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 import cc.balloonbros.balanceball.lib.Drawable;
 import cc.balloonbros.balanceball.lib.task.timer.FrameTimerEventListener;
@@ -23,13 +25,18 @@ abstract public class AbstractTask {
     private GameMain mGame = null;
     private TaskManager mTaskManager = null;
     private TaskPriority mPriority = TaskPriority.MINIMUM;
-    private FrameTimer mFrameTimer = null;
 
     /**
      * このタスクの子タスクと親タスク
      */
     private ArrayList<AbstractTask> mChildren = new ArrayList<AbstractTask>();
     private AbstractTask mParent = null;
+
+    /**
+     * フレームタイマーのキュー
+     */
+    private LinkedList<FrameTimer> mFrameTimerQueue = new LinkedList<FrameTimer>();
+    private LinkedList<FrameTimer> mFrameTimerReserveQueue = new LinkedList<FrameTimer>();
 
     public int getPriority() {
         return mPriority.getPriority();
@@ -54,6 +61,10 @@ abstract public class AbstractTask {
         return mTaskManager;
     }
 
+    /**
+     * タスクのゲームループを実行する
+     * @param canvas キャンバス
+     */
     protected void execute(Canvas canvas) {
         if (this instanceof Updateable) {
             ((Updateable)this).onUpdate();
@@ -63,8 +74,19 @@ abstract public class AbstractTask {
             ((Drawable)this).onDraw(canvas);
         }
 
-        if (mFrameTimer != null && mFrameTimer.ready()) {
-            mFrameTimer.invoke();
+        for (FrameTimer timer: mFrameTimerReserveQueue) {
+            mFrameTimerQueue.offer(timer);
+        }
+        mFrameTimerReserveQueue.clear();
+        Iterator<FrameTimer> it = mFrameTimerQueue.iterator();
+        while (it.hasNext()) {
+            FrameTimer timer = it.next();
+            if (timer.ready()) {
+                timer.invoke();
+            }
+            if (timer.isRemovable()) {
+                it.remove();
+            }
         }
     }
 
@@ -153,11 +175,7 @@ abstract public class AbstractTask {
      * @param listener コールバックを受け取るリスナー
      */
     protected FrameTimer setFrameTimer(int frame, FrameTimerEventListener listener) {
-        if (mFrameTimer == null) {
-            mFrameTimer = new FrameTimer(getGame());
-        }
-
-        return mFrameTimer.start(frame, listener);
+        return setFrameTimerQueue().start(frame, listener);
     }
 
     /**
@@ -166,10 +184,12 @@ abstract public class AbstractTask {
      * @param listener コールバックを受け取るリスナー
      */
     protected FrameTimer setFrameInterval(int frame, FrameTimerEventListener listener) {
-        if (mFrameTimer == null) {
-            mFrameTimer = new FrameTimer(getGame());
-        }
+        return setFrameTimerQueue().start(frame, listener, true);
+    }
 
-        return mFrameTimer.start(frame, listener, true);
+    private FrameTimer setFrameTimerQueue() {
+        FrameTimer timer = new FrameTimer(getGame());
+        mFrameTimerReserveQueue.offer(timer);
+        return timer;
     }
 }

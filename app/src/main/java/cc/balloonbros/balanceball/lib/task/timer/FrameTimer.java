@@ -85,4 +85,12 @@ public class FrameTimer {
         mStarted = false;
         mLoop = false;
     }
+
+    /**
+     * このタイマーの実行完了後に削除していいかどうかを確認する
+     * @return 削除可能であればtrue
+     */
+    public boolean isRemovable() {
+        return mLoop;
+    }
 }

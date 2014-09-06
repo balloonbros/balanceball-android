@@ -3,13 +3,12 @@ package cc.balloonbros.balanceball.task;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 
-import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.Drawable;
 import cc.balloonbros.balanceball.lib.TaskEventListener;
 import cc.balloonbros.balanceball.lib.TaskMessage;
+import cc.balloonbros.balanceball.task.message.IntegerMessage;
 import cc.balloonbros.balanceball.task.message.OrientationMessage;
 
 /**
@@ -18,6 +17,7 @@ import cc.balloonbros.balanceball.task.message.OrientationMessage;
 public class DebugOutput extends AbstractTask implements Drawable, TaskEventListener {
     private Paint mPaint = new Paint();
     private float[] mOrientationValues;
+    private int mSpeed = 0;
 
     @Override
     public void onRegistered() {
@@ -35,12 +35,15 @@ public class DebugOutput extends AbstractTask implements Drawable, TaskEventList
             canvas.drawText("x-axis: " + Math.floor(Math.toDegrees(mOrientationValues[1])), 10, 60, mPaint);
             canvas.drawText("y-axis: " + Math.floor(Math.toDegrees(mOrientationValues[2])), 10, 70, mPaint);
         }
+        canvas.drawText("Speed :" + mSpeed, 10, 80, mPaint);
     }
 
     @Override
     public void onMessage(AbstractTask sender, TaskMessage message) {
         if (message instanceof OrientationMessage) {
             mOrientationValues = ((OrientationMessage)message).getOrientation();
+        } else if (message.getLabel().equals("speed")) {
+            mSpeed = ((IntegerMessage)message).getMessage();
         }
     }
 }

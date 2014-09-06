@@ -41,6 +41,7 @@ public class BalanceBall extends GameMain {
         initialTask1.setPriority(TaskPriority.BALL);
         initialTask3.setPriority(TaskPriority.WIND_OUT_BREAKER);
         initialTask4.setPriority(TaskPriority.DEBUG);
+        initialTask5.setPriority(TaskPriority.CENTER_CIRCLE);
 
         getTaskManager().register(initialTask1, initialTask2, initialTask3, initialTask4, initialTask5);
     }

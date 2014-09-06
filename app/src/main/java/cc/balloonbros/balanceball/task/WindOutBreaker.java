@@ -12,12 +12,12 @@ import cc.balloonbros.balanceball.lib.TaskMessage;
 /**
  * 風の発生源タスク
  */
-public class WindOutBreaker extends AbstractTask implements Updateable, TaskEventListener, FrameTimerEventListener {
+public class WindOutBreaker extends AbstractTask implements FrameTimerEventListener {
     private Random mRandom = new Random();
 
     @Override
-    public void onUpdate() {
-        setFrameTimer(mRandom.nextInt((int)getGame().getFps() * 2), this);
+    public void onRegistered() {
+        //setFrameTimer(mRandom.nextInt((int)getGame().getFps() * 2), this);
     }
 
     @Override
@@ -25,12 +25,7 @@ public class WindOutBreaker extends AbstractTask implements Updateable, TaskEven
         Wind wind = new Wind(mRandom.nextInt(360));
         wind.setPriority(TaskPriority.WIND);
         registerChild(wind);
-    }
 
-    @Override
-    public void onMessage(AbstractTask sender, TaskMessage message) {
-        if (message.getLabel().equals("wind_leaved")) {
-            //mWind = null;
-        }
+        setFrameTimer(mRandom.nextInt((int)getGame().getFps() * 2), this);
     }
 }

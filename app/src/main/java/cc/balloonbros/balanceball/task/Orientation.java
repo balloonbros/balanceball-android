@@ -10,6 +10,7 @@ import java.util.List;
 import cc.balloonbros.balanceball.TaskPriority;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.Updateable;
+import cc.balloonbros.balanceball.task.message.IntegerMessage;
 import cc.balloonbros.balanceball.task.message.OrientationMessage;
 
 /**
@@ -31,6 +32,12 @@ public class Orientation extends AbstractTask implements Updateable, SensorEvent
      * 端末の傾き
      */
     private float[] mOrientationValues = new float[3];
+
+    /**
+     * ボールの加速度
+     */
+    private int mAcceleration = 0;
+    private int mSpeed = 0;
 
     @Override
     public void onRegistered() {
@@ -61,11 +68,36 @@ public class Orientation extends AbstractTask implements Updateable, SensorEvent
         int divider = 2;
         int dx = (int)Math.floor(Math.toDegrees(mOrientationValues[2])) / divider;
         int dy = (int)Math.floor(Math.toDegrees(mOrientationValues[1])) / divider;
-        ball.move(dx, -dy);
+
+        // y軸方向の傾きは(2Dではx軸方向の移動に使う)
+        //   1. 右に傾けた場合はプラス
+        //   2. 左に傾けた場合はマイナス
+        //   3. -180〜180の値を取る
+        //   4. 画面を上方向にして水平にしたら0
+        //   5. 左側に傾けていって画面が下側に向いて水平になれば-180
+        //   6. 右側に傾けていって画面が下側に向いて水平になれば180
+        //   7. 画面を下方向にした場合-180と180が一気に切り替わる
+        if (ball.isBorderLeftEdge() || ball.isBorderRightEdge()) {
+            mSpeed = 0;
+        }
+        mAcceleration = (int)(Math.floor(Math.toDegrees(mOrientationValues[2])) / 3);
+        mSpeed += mAcceleration;
+        int distance = mSpeed / 10;
+
+        if (distance == 0) {
+            if (ball.isBorderLeftEdge() && mAcceleration > 0) {
+                distance = 1;
+            } else if (ball.isBorderRightEdge() && mAcceleration < 0) {
+                distance = -1;
+            }
+        }
+
+        ball.move(distance, 0);
 
         // デバッグ用に現在の傾きを画面に表示する
         DebugOutput debug = (DebugOutput)find(TaskPriority.DEBUG);
         sendMessage(debug, new OrientationMessage(mOrientationValues));
+        sendMessage(debug, new IntegerMessage("speed", mSpeed));
     }
 
     @Override

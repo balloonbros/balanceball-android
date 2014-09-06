@@ -36,6 +36,19 @@ public class Ball extends AbstractTask implements Drawable {
         canvas.drawBitmap(mBall, mCoordinates.x, mCoordinates.y, null);
     }
 
+    public boolean isBorderLeftEdge() {
+        return mCoordinates.x <= 0;
+    }
+    public boolean isBorderRightEdge() {
+        return mCoordinates.x + mBall.getWidth() >= getDisplaySize().x;
+    }
+    public boolean isBorderTopEdge() {
+        return mCoordinates.y <= 0;
+    }
+    public boolean isBorderBottomEdge() {
+        return mCoordinates.y + mBall.getHeight() >= getDisplaySize().y;
+    }
+
     /**
      * ボールを現在の位置から指定したオフセットだけ動かす
      * @param dx
@@ -47,16 +60,24 @@ public class Ball extends AbstractTask implements Drawable {
         Point displaySize = getDisplaySize();
 
         // ボールが画面外にはみ出してたら位置を調整する
-        if (mCoordinates.x < 0) {
+        if (isBorderLeftEdge()) {
             mCoordinates.x = 0;
-        } else if (mCoordinates.x + mBall.getWidth() >= displaySize.x) {
+        } else if (isBorderRightEdge()) {
             mCoordinates.x = displaySize.x - mBall.getWidth();
         }
 
-        if (mCoordinates.y < 0) {
+        if (isBorderTopEdge()) {
             mCoordinates.y = 0;
-        } else if (mCoordinates.y + mBall.getHeight() >= displaySize.y) {
+        } else if (isBorderBottomEdge()) {
             mCoordinates.y = displaySize.y - mBall.getHeight();
         }
+    }
+
+    /**
+     * ボールが壁と接しているかどうかを調べる
+     * @return ボールが壁と接していればtrue
+     */
+    public boolean isBorderEdge() {
+        return isBorderLeftEdge() || isBorderRightEdge() || isBorderTopEdge() || isBorderBottomEdge();
     }
 }
