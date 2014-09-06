@@ -6,24 +6,31 @@ import android.graphics.Point;
 
 import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.TaskPriority;
-import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.Drawable;
 import cc.balloonbros.balanceball.lib.Updateable;
+import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.task.message.LabelMessage;
 
 /**
  * 風
  */
 public class Wind extends AbstractTask implements Updateable, Drawable {
-    /**
-     * 風の座標
-     */
     private Point mCoordinates = new Point();
+    private Bitmap mWind = null;
 
     /**
-     * 風の画像
+     * 風の方向と移動距離
      */
-    private Bitmap mWind = null;
+    private int mAngle = 0;
+    private int mAcceleration = 0;
+    private int mSpeed = 0;
+
+    public Wind(int angle) {
+        super();
+        mAngle = angle;
+        mSpeed = 1;
+        mAcceleration = 1;
+    }
 
     @Override
     public void onRegistered() {
@@ -34,8 +41,19 @@ public class Wind extends AbstractTask implements Updateable, Drawable {
     @Override
     public void onUpdate() {
         // ボールに風の影響を与える
+        // 風の方向と移動距離からボールの次の位置を計算して移動させる
         Ball ball = (Ball)find(TaskPriority.BALL);
-        ball.move((getDisplaySize().x - mCoordinates.x) / 100, 0);
+        if (mSpeed >= 0) {
+            int distance = mSpeed / 4;
+            int dx = (int)(Math.cos(Math.toRadians(mAngle)) * distance);
+            int dy = (int)(Math.sin(Math.toRadians(mAngle)) * distance);
+            ball.move(dx, dy);
+            mSpeed += mAcceleration;
+            if (mSpeed > 30) {
+                mAcceleration = -1;
+            }
+        }
+        //ball.move((getDisplaySize().x - mCoordinates.x) / 100, 0);
 
         mCoordinates.x += 10;
         if (mCoordinates.x >= getDisplaySize().x) {

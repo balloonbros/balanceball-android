@@ -14,7 +14,7 @@ import cc.balloonbros.balanceball.lib.Updateable;
 /**
  * ボールタスク
  */
-public class Ball extends AbstractTask implements Updateable, Drawable {
+public class Ball extends AbstractTask implements Drawable {
     /**
      * ボールの座標
      */
@@ -25,17 +25,10 @@ public class Ball extends AbstractTask implements Updateable, Drawable {
      */
     private Bitmap mBall = null;
 
-    private Random mRandom = new Random();
-
     @Override
     public void onRegistered() {
-        mCoordinates.set(0, 100);
+        mCoordinates.set(200, 100);
         mBall = getImage(R.drawable.ic_launcher);
-    }
-
-    @Override
-    public void onUpdate() {
-        //move(mRandom.nextInt(5) - 2, mRandom.nextInt(5) - 2);
     }
 
     @Override

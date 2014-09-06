@@ -13,7 +13,7 @@ import cc.balloonbros.balanceball.lib.TaskEventListener;
 import cc.balloonbros.balanceball.TaskPriority;
 import cc.balloonbros.balanceball.lib.TaskMessage;
 import cc.balloonbros.balanceball.lib.Updateable;
-import cc.balloonbros.balanceball.lib.task.timer.FrameTimerObject;
+import cc.balloonbros.balanceball.lib.task.timer.FrameTimer;
 
 /**
  * ゲーム内のタスクの基底クラス。
@@ -23,7 +23,7 @@ abstract public class AbstractTask {
     private GameMain mGame = null;
     private TaskManager mTaskManager = null;
     private TaskPriority mPriority = TaskPriority.MINIMUM;
-    private FrameTimerObject mFrameTimerObject = null;
+    private FrameTimer mFrameTimer = null;
 
     /**
      * このタスクの子タスクと親タスク
@@ -63,8 +63,8 @@ abstract public class AbstractTask {
             ((Drawable)this).onDraw(canvas);
         }
 
-        if (mFrameTimerObject != null && mFrameTimerObject.ready()) {
-            mFrameTimerObject.invoke();
+        if (mFrameTimer != null && mFrameTimer.ready()) {
+            mFrameTimer.invoke();
         }
     }
 
@@ -152,24 +152,24 @@ abstract public class AbstractTask {
      * @param frame ここに指定したフレーム数経過後にコールバックを起動する
      * @param listener コールバックを受け取るリスナー
      */
-    protected void setFrameTimer(int frame, FrameTimerEventListener listener) {
-        if (mFrameTimerObject == null) {
-            mFrameTimerObject = new FrameTimerObject(getGame());
+    protected FrameTimer setFrameTimer(int frame, FrameTimerEventListener listener) {
+        if (mFrameTimer == null) {
+            mFrameTimer = new FrameTimer(getGame());
         }
 
-        mFrameTimerObject.start(frame, listener);
+        return mFrameTimer.start(frame, listener);
     }
 
     /**
-     * 指定フレーム後にタイマーを起動する
+     * 指定フレーム後にタイマーを起動を起動するのを繰り返す
      * @param frame ここに指定したフレーム数経過後にコールバックを起動する
      * @param listener コールバックを受け取るリスナー
      */
-    protected void setFrameInterval(int frame, FrameTimerEventListener listener) {
-        if (mFrameTimerObject == null) {
-            mFrameTimerObject = new FrameTimerObject(getGame());
+    protected FrameTimer setFrameInterval(int frame, FrameTimerEventListener listener) {
+        if (mFrameTimer == null) {
+            mFrameTimer = new FrameTimer(getGame());
         }
 
-        mFrameTimerObject.start(frame, listener, true);
+        return mFrameTimer.start(frame, listener, true);
     }
 }
