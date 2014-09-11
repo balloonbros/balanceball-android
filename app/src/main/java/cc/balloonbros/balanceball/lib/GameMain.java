@@ -3,7 +3,6 @@ package cc.balloonbros.balanceball.lib;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
-import android.hardware.SensorManager;
 import android.view.WindowManager;
 
 import cc.balloonbros.balanceball.lib.task.TaskManager;
@@ -13,10 +12,9 @@ abstract public class GameMain {
 
     private Context         mContext       = null;
     private GameSurfaceView mView          = null;
-    private TaskManager     mTaskManager   = null;
+    private TaskManager mTaskManager   = null;
     private AssetManager    mAssetManager  = null;
     private WindowManager   mWindowManager = null;
-    private SensorManager   mSensorManager = null;
 
     public Context getContext() {
         return mContext;
@@ -32,9 +30,6 @@ abstract public class GameMain {
     }
     public WindowManager getWindowManager() {
         return mWindowManager;
-    }
-    public SensorManager getSensorManager() {
-        return mSensorManager;
     }
 
     /**
@@ -67,7 +62,6 @@ abstract public class GameMain {
         mAssetManager  = new AssetManager(getContext().getResources());
         mView          = new GameSurfaceView(mContext);
         mWindowManager = (WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE);
-        mSensorManager = (SensorManager)mContext.getSystemService(Context.SENSOR_SERVICE);
         mGameLoop      = new GameLoop(this);
     }
 

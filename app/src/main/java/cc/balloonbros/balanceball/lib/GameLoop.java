@@ -2,7 +2,6 @@ package cc.balloonbros.balanceball.lib;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.view.SurfaceHolder;
 
 import cc.balloonbros.balanceball.lib.task.TaskManager;
@@ -83,7 +82,7 @@ public class GameLoop implements Runnable, SurfaceHolder.Callback {
             if (canvas == null) {
                 break;
             }
-            canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+            canvas.drawColor(Color.WHITE);
 
             // 全てのタスクを実行する
             taskManager.execute(canvas);

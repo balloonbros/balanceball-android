@@ -4,17 +4,13 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Point;
 
-import java.util.Random;
-
 import cc.balloonbros.balanceball.R;
-import cc.balloonbros.balanceball.lib.task.AbstractTask;
-import cc.balloonbros.balanceball.lib.Drawable;
-import cc.balloonbros.balanceball.lib.Updateable;
+import cc.balloonbros.balanceball.lib.task.DrawableTask;
 
 /**
  * ボールタスク
  */
-public class Ball extends AbstractTask implements Drawable {
+public class Ball extends DrawableTask {
     /**
      * ボールの座標
      */
@@ -27,8 +23,8 @@ public class Ball extends AbstractTask implements Drawable {
 
     @Override
     public void onRegistered() {
-        mCoordinates.set(200, 100);
-        mBall = getImage(R.drawable.ic_launcher);
+        mCoordinates.set(200, 370);
+        mBall = getImage(R.drawable.ball3);
     }
 
     @Override
@@ -73,11 +69,8 @@ public class Ball extends AbstractTask implements Drawable {
         }
     }
 
-    /**
-     * ボールが壁と接しているかどうかを調べる
-     * @return ボールが壁と接していればtrue
-     */
-    public boolean isBorderEdge() {
-        return isBorderLeftEdge() || isBorderRightEdge() || isBorderTopEdge() || isBorderBottomEdge();
+    @Override
+    public void onUpdate() {
+
     }
 }

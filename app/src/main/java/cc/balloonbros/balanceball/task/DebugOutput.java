@@ -5,23 +5,23 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
-import cc.balloonbros.balanceball.lib.Drawable;
-import cc.balloonbros.balanceball.lib.TaskEventListener;
-import cc.balloonbros.balanceball.lib.TaskMessage;
+import cc.balloonbros.balanceball.lib.task.DrawableTask;
+import cc.balloonbros.balanceball.lib.task.message.TaskEventListener;
+import cc.balloonbros.balanceball.lib.task.message.TaskMessage;
 import cc.balloonbros.balanceball.task.message.IntegerMessage;
 import cc.balloonbros.balanceball.task.message.OrientationMessage;
 
 /**
  * デバッグ用タスク
  */
-public class DebugOutput extends AbstractTask implements Drawable, TaskEventListener {
+public class DebugOutput extends DrawableTask implements TaskEventListener {
     private Paint mPaint = new Paint();
     private float[] mOrientationValues;
     private int mSpeed = 0;
 
     @Override
     public void onRegistered() {
-        mPaint.setColor(Color.WHITE);
+        mPaint.setColor(Color.BLACK);
     }
 
     @Override
@@ -45,5 +45,10 @@ public class DebugOutput extends AbstractTask implements Drawable, TaskEventList
         } else if (message.getLabel().equals("speed")) {
             mSpeed = ((IntegerMessage)message).getMessage();
         }
+    }
+
+    @Override
+    public void onUpdate() {
+
     }
 }

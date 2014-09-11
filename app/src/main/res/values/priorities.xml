@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="priority_maximum">0x0000</integer>
+    <integer name="priority_center_circle">0x0010</integer>
+    <integer name="priority_ball">0x0020</integer>
+    <integer name="priority_wind_out_breaker">0x0030</integer>
+    <integer name="priority_wind">0x0040</integer>
+    <integer name="priority_debug">0xfffe</integer>
+    <integer name="priority_minimum">0xffff</integer>
+</resources>

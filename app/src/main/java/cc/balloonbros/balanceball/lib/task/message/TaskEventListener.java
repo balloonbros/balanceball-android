@@ -1,4 +1,4 @@
-package cc.balloonbros.balanceball.lib;
+package cc.balloonbros.balanceball.lib.task.message;
 
 import java.util.EventListener;
 

@@ -26,4 +26,9 @@ public class IntervalTask extends AbstractTask {
             mCurrentFrame = frame;
         }
     }
+
+    @Override
+    public void onUpdate() {
+
+    }
 }

@@ -3,28 +3,25 @@ package cc.balloonbros.balanceball.lib.task;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 
-import cc.balloonbros.balanceball.lib.Drawable;
-import cc.balloonbros.balanceball.lib.task.timer.FrameTimerEventListener;
 import cc.balloonbros.balanceball.lib.GameMain;
-import cc.balloonbros.balanceball.lib.TaskEventListener;
-import cc.balloonbros.balanceball.TaskPriority;
-import cc.balloonbros.balanceball.lib.TaskMessage;
-import cc.balloonbros.balanceball.lib.Updateable;
+import cc.balloonbros.balanceball.lib.task.message.TaskEventListener;
+import cc.balloonbros.balanceball.lib.task.message.TaskMessage;
 import cc.balloonbros.balanceball.lib.task.timer.FrameTimer;
+import cc.balloonbros.balanceball.lib.task.timer.FrameTimerEventListener;
 
 /**
  * ゲーム内のタスクの基底クラス。
  * タスクはすべてこのクラスを継承する。
  */
-abstract public class AbstractTask {
+abstract public class AbstractTask implements Updateable {
     private GameMain mGame = null;
     private TaskManager mTaskManager = null;
-    private TaskPriority mPriority = TaskPriority.MINIMUM;
+    private int mPriority = 0xffff;
 
     /**
      * このタスクの子タスクと親タスク
@@ -35,13 +32,13 @@ abstract public class AbstractTask {
     /**
      * フレームタイマーのキュー
      */
-    private LinkedList<FrameTimer> mFrameTimerQueue = new LinkedList<FrameTimer>();
-    private LinkedList<FrameTimer> mFrameTimerReserveQueue = new LinkedList<FrameTimer>();
+    private ArrayList<FrameTimer> mFrameTimerQueue = new ArrayList<FrameTimer>();
+    private ArrayList<FrameTimer> mFrameTimerReserveQueue = new ArrayList<FrameTimer>();
 
     public int getPriority() {
-        return mPriority.getPriority();
+        return mPriority;
     }
-    public void setPriority(TaskPriority priority) {
+    public void setPriority(int priority) {
         mPriority = priority;
     }
     public AbstractTask getParent() {
@@ -61,31 +58,36 @@ abstract public class AbstractTask {
         return mTaskManager;
     }
 
+    public AbstractTask() {
+        setPriority(0xffff);
+    }
+
+    public AbstractTask(int priority) {
+        setPriority(priority);
+    }
+
     /**
      * タスクのゲームループを実行する
      * @param canvas キャンバス
      */
     protected void execute(Canvas canvas) {
-        if (this instanceof Updateable) {
-            ((Updateable)this).onUpdate();
-        }
+        this.onUpdate();
 
         if (this instanceof Drawable) {
             ((Drawable)this).onDraw(canvas);
         }
 
-        for (FrameTimer timer: mFrameTimerReserveQueue) {
-            mFrameTimerQueue.offer(timer);
+        for (int i = 0; i < mFrameTimerReserveQueue.size(); i++) {
+            mFrameTimerQueue.add(mFrameTimerReserveQueue.get(i));
         }
         mFrameTimerReserveQueue.clear();
-        Iterator<FrameTimer> it = mFrameTimerQueue.iterator();
-        while (it.hasNext()) {
-            FrameTimer timer = it.next();
+        for (int i = 0; i < mFrameTimerQueue.size(); i++) {
+            FrameTimer timer = mFrameTimerQueue.get(i);
             if (timer.ready()) {
                 timer.invoke();
             }
             if (timer.isRemovable()) {
-                it.remove();
+                mFrameTimerQueue.remove(i);
             }
         }
     }
@@ -154,8 +156,8 @@ abstract public class AbstractTask {
      * @param priority タスクのプライオリティ
      * @return 見つかったタスクを返す。タスクが見つからなければnull
      */
-    protected AbstractTask find(TaskPriority priority) {
-        return mTaskManager.find(priority.getPriority());
+    protected AbstractTask find(int priority) {
+        return mTaskManager.find(priority);
     }
 
     /**
@@ -189,7 +191,11 @@ abstract public class AbstractTask {
 
     private FrameTimer setFrameTimerQueue() {
         FrameTimer timer = new FrameTimer(getGame());
-        mFrameTimerReserveQueue.offer(timer);
+        mFrameTimerReserveQueue.add(timer);
         return timer;
+    }
+
+    protected void setTouchListener(View.OnTouchListener listener) {
+        getGame().getView().setOnTouchListener(listener);
     }
 }

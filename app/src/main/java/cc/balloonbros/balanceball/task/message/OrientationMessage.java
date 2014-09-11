@@ -1,6 +1,6 @@
 package cc.balloonbros.balanceball.task.message;
 
-import cc.balloonbros.balanceball.lib.AbstractTaskMessage;
+import cc.balloonbros.balanceball.lib.task.message.AbstractTaskMessage;
 
 public class OrientationMessage extends AbstractTaskMessage {
     private float[] mOrientatin =  new float[3];

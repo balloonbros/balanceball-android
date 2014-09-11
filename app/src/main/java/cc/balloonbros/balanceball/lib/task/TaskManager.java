@@ -1,6 +1,7 @@
 package cc.balloonbros.balanceball.lib.task;
 
 import android.graphics.Canvas;
+
 import java.util.LinkedList;
 
 import cc.balloonbros.balanceball.lib.GameMain;
@@ -70,7 +71,7 @@ public class TaskManager {
      * タスクリストからタスクを削除する。
      * registerと同じ理由でまずは予約リストに追加される。
      *
-     * @see TaskManager#register
+     * @see cc.balloonbros.balanceball.lib.task.TaskManager#register
      * @param removeTask 削除するタスク
      */
     public void remove(AbstractTask removeTask) {
