@@ -198,4 +198,8 @@ abstract public class AbstractTask implements Updateable {
     protected void setTouchListener(View.OnTouchListener listener) {
         getGame().getView().setOnTouchListener(listener);
     }
+
+    protected long getFrameCount() {
+        return getGame().getFrameCount();
+    }
 }

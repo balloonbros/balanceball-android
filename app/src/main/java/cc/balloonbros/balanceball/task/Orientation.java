@@ -4,6 +4,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.util.Log;
 
 import java.util.List;
 
@@ -95,7 +96,7 @@ public class Orientation extends AbstractTask implements SensorEventListener {
     }
 
     private static final int SPEED_RATIO = 20;
-    private static final int ORIENTATION_RATIO = 3;
+    private static final int ORIENTATION_RATIO = 5;
     private boolean[] directionChanging = new boolean[2];
 
     private int calculateAcceleration(int currentSpeed, float orientationValue, int axis) {
@@ -107,7 +108,7 @@ public class Orientation extends AbstractTask implements SensorEventListener {
         int signOfOrientation  = (int)Math.signum(orientation);
 
         // 今の速度と逆方向への傾きの場合は速度を急激に落とすために加速度を多めに設定する
-        if (signOfCurrentSpeed != 0 && signOfCurrentSpeed != signOfOrientation) {
+        if (signOfCurrentSpeed != 0 && signOfOrientation != 0 && signOfCurrentSpeed != signOfOrientation) {
             directionChanging[axis] = true;
             return orientation;
         }
@@ -117,15 +118,27 @@ public class Orientation extends AbstractTask implements SensorEventListener {
             return -(currentSpeed / 2);
         }
 
-        // 傾きが3以内の時は前のフレームの傾きの差分が2以上だったら1マス移動させるように速度を調整する
-
         // あまり傾いてない時は徐々に速度を落としていくように速度とは逆の符号の加速度を与える
         if (-3 < orientation && orientation < 3) {
-            return -(signOfCurrentSpeed * orientation);
+            if (signOfOrientation == 0) {
+                return -signOfCurrentSpeed;
+            } else {
+                return -(signOfCurrentSpeed * Math.abs(orientation));
+            }
         }
 
         // 傾きをそのまま加速度にすると値が大きすぎるので適当な数で割って小さく調整する
-        return orientation / ORIENTATION_RATIO;
+        // ただし動き始めの場合だけは素早く移動させたいので調整はしない
+        if (-SPEED_RATIO < currentSpeed && currentSpeed < SPEED_RATIO) {
+            if (-(SPEED_RATIO / 2) < orientation && orientation < SPEED_RATIO / 2) {
+                return signOfOrientation * (SPEED_RATIO / 2);
+            } else {
+                return orientation;
+            }
+        } else {
+            int ret = orientation / ORIENTATION_RATIO;
+            return ret == 0 ? signOfOrientation : ret;
+        }
     }
 
     private int calculateDistanceX(Ball ball, int currentSpeed, int acceleration) {
@@ -143,7 +156,7 @@ public class Orientation extends AbstractTask implements SensorEventListener {
     }
 
     private int calculateDistanceY(Ball ball, int currentSpeed, int acceleration) {
-        int distance = currentSpeed / 40;
+        int distance = currentSpeed / SPEED_RATIO;
 
         if (distance == 0) {
             if (ball.isBorderTopEdge() && acceleration > 0) {

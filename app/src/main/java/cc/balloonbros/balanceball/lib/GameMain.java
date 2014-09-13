@@ -63,6 +63,9 @@ abstract public class GameMain {
         mView          = new GameSurfaceView(mContext);
         mWindowManager = (WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE);
         mGameLoop      = new GameLoop(this);
+
+        // 画面の明るさをキープしたまま暗くならないようにする
+        ((Activity)mContext).getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
     /**
