@@ -1,7 +1,5 @@
 package cc.balloonbros.balanceball.lib.task.message;
 
-import cc.balloonbros.balanceball.lib.task.message.AbstractTaskMessage;
-
 public class IntegerMessage extends AbstractTaskMessage {
     private int mMessage;
 
