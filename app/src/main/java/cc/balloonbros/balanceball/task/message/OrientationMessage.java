@@ -7,7 +7,7 @@ public class OrientationMessage extends AbstractTaskMessage {
 
     public OrientationMessage(float[] orientations) {
         super("orientation");
-        mOrientation = orientations;
+        setOrientation(orientations);
     }
 
     public float getAxisZ() {
@@ -24,5 +24,8 @@ public class OrientationMessage extends AbstractTaskMessage {
 
     public float[] getOrientation() {
        return mOrientation;
+    }
+    public void setOrientation(float[] orientations) {
+        mOrientation = orientations;
     }
 }

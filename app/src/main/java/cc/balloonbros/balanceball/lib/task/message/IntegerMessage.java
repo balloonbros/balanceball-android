@@ -5,7 +5,7 @@ public class IntegerMessage extends AbstractTaskMessage {
 
     public IntegerMessage(String label, int message) {
         super(label);
-        mMessage = message;
+        setMessage(message);
     }
 
     public void setMessage(int message) {
