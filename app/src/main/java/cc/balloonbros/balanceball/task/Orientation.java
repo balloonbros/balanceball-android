@@ -4,14 +4,13 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.util.Log;
 
 import java.util.List;
 
 import cc.balloonbros.balanceball.BalanceBall;
 import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
-import cc.balloonbros.balanceball.task.message.IntegerMessage;
+import cc.balloonbros.balanceball.lib.task.message.IntegerMessage;
 import cc.balloonbros.balanceball.task.message.OrientationMessage;
 
 /**
@@ -66,14 +65,6 @@ public class Orientation extends AbstractTask implements SensorEventListener {
         // 傾きに合わせてボールを動かす
         Ball ball = (Ball)find(getInteger(R.integer.priority_ball));
 
-        // y軸方向の傾きは(2Dではx軸方向の移動に使う)
-        //   1. 右に傾けた場合はプラス
-        //   2. 左に傾けた場合はマイナス
-        //   3. -180〜180の値を取る
-        //   4. 画面を上方向にして水平にしたら0
-        //   5. 左側に傾けていって画面が下側に向いて水平になれば-180
-        //   6. 右側に傾けていって画面が下側に向いて水平になれば180
-        //   7. 画面を下方向にした場合-180と180が一気に切り替わる
         if (ball.isBorderLeftEdge() || ball.isBorderRightEdge()) {
             mSpeeds[0] = 0;
         }

@@ -1,4 +1,4 @@
-package cc.balloonbros.balanceball.task.message;
+package cc.balloonbros.balanceball.lib.task.message;
 
 import cc.balloonbros.balanceball.lib.task.message.AbstractTaskMessage;
 
@@ -10,6 +10,9 @@ public class IntegerMessage extends AbstractTaskMessage {
         mMessage = message;
     }
 
+    public void setMessage(int message) {
+        mMessage = message;
+    }
     public int getMessage() {
         return mMessage;
     }

@@ -8,7 +8,7 @@ import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.task.DrawableTask;
 import cc.balloonbros.balanceball.lib.task.message.TaskEventListener;
 import cc.balloonbros.balanceball.lib.task.message.TaskMessage;
-import cc.balloonbros.balanceball.task.message.IntegerMessage;
+import cc.balloonbros.balanceball.lib.task.message.IntegerMessage;
 import cc.balloonbros.balanceball.task.message.OrientationMessage;
 
 /**
