@@ -38,9 +38,14 @@ public class Orientation extends AbstractTask implements SensorEventListener {
      */
     private int[] mSpeeds = new int[2];
 
+    private OrientationMessage mOrientationMessage = null;
+    private IntegerMessage mSpeedMessage = null;
+
     @Override
     public void onRegistered() {
         mSensorManager = ((BalanceBall)getGame()).getSensorManager();
+        mOrientationMessage = new OrientationMessage();
+        mSpeedMessage = new IntegerMessage("speed");
     }
 
     @Override
@@ -164,11 +169,11 @@ public class Orientation extends AbstractTask implements SensorEventListener {
     public void onSensorChanged(SensorEvent sensorEvent) {
         switch (sensorEvent.sensor.getType()) {
             case Sensor.TYPE_MAGNETIC_FIELD: {
-                mMagneticFieldValues = sensorEvent.values.clone();
+                mMagneticFieldValues = sensorEvent.values;
                 break;
             }
             case Sensor.TYPE_ACCELEROMETER: {
-                mAccelerometerValues = sensorEvent.values.clone();
+                mAccelerometerValues = sensorEvent.values;
                 break;
             }
         }

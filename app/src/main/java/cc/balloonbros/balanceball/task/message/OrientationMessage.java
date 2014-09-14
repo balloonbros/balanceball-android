@@ -5,9 +5,8 @@ import cc.balloonbros.balanceball.lib.task.message.AbstractTaskMessage;
 public class OrientationMessage extends AbstractTaskMessage {
     private float[] mOrientation =  new float[3];
 
-    public OrientationMessage(float[] orientations) {
+    public OrientationMessage() {
         super("orientation");
-        setOrientation(orientations);
     }
 
     public float getAxisZ() {
