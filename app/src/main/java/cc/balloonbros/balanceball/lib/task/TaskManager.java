@@ -1,6 +1,7 @@
 package cc.balloonbros.balanceball.lib.task;
 
 import android.graphics.Canvas;
+import android.util.SparseArray;
 
 import java.util.LinkedList;
 
@@ -10,30 +11,20 @@ import cc.balloonbros.balanceball.lib.GameMain;
  * タスク管理クラス
  */
 public class TaskManager {
+    private GameMain mGame = null;
+
     /**
      * タスク一覧
      */
-    private LinkedList<AbstractTask> mTaskList = new LinkedList<AbstractTask>();
-
-    /**
-     * タスクを管理する対象のゲーム
-     */
-    private GameMain mGame = null;
+    private TaskList mTaskList = new TaskList();
+    private LinkedList<AbstractTask> mReservedRegisterTask = new LinkedList<AbstractTask>();
+    private LinkedList<AbstractTask> mReservedRemoveTask = new LinkedList<AbstractTask>();
+    private SparseArray<AbstractTask> mTaskCache = new SparseArray<AbstractTask>();
 
     /**
      * タスクループ中かどうかのフラグ。ループ中であればtrue
      */
     private boolean mWhileExecute = false;
-
-    /**
-     * タスク登録予約リスト
-     */
-    private LinkedList<AbstractTask> mReservedRegisterTask = new LinkedList<AbstractTask>();
-
-    /**
-     * タスク削除予約リスト
-     */
-    private LinkedList<AbstractTask> mReservedRemoveTask = new LinkedList<AbstractTask>();
 
     /**
      * コンストラクタ
@@ -89,7 +80,7 @@ public class TaskManager {
      * @return 現在のタスク数
      */
     public int getTaskCount() {
-        return mTaskList.size();
+        return mTaskList.getCount();
     }
 
     /**
@@ -101,8 +92,10 @@ public class TaskManager {
         mWhileExecute = true;
 
         // タスクリストに登録されているタスクの更新処理と描画処理を全て呼び出してフレームを進める
-        for (AbstractTask task: mTaskList) {
+        AbstractTask task = (AbstractTask)mTaskList.getFirst();
+        while (task != null) {
             task.execute(canvas);
+            task = (AbstractTask)task.getNext();
         }
 
         mWhileExecute = false;
@@ -118,13 +111,7 @@ public class TaskManager {
      * @return 見つかったタスク。タスクが見つからなければnull
      */
     public AbstractTask find(int priority) {
-        for (AbstractTask task: mTaskList) {
-            if (task.getPriority() == priority) {
-                return task;
-            }
-        }
-
-        return null;
+        return (AbstractTask)mTaskList.find(priority);
     }
 
     /**
@@ -135,25 +122,10 @@ public class TaskManager {
         // 優先度を見て、優先度が高いタスクほどリストの最初に登録する
         AbstractTask registeredTask = mReservedRegisterTask.poll();
         while (registeredTask != null) {
-            int index    = 0;
-            int location = -1;
-
-            // タスクリストの優先度と追加タスクの優先度を比較しながら挿入位置を探す
-            for (AbstractTask task: mTaskList) {
-                if (task.getPriority() > registeredTask.getPriority()) {
-                    location = index;
-                    break;
-                }
-                index++;
-            }
-
-            // 探した挿入位置にタスクを追加する
-            if (location == -1) {
-                mTaskList.add(registeredTask);
-            } else {
-                mTaskList.add(location, registeredTask);
-            }
             registeredTask.onRegistered();
+            mTaskList.register(registeredTask);
+
+            // 次のタスクへ
             registeredTask = mReservedRegisterTask.poll();
         }
 
@@ -169,8 +141,10 @@ public class TaskManager {
      * ゲームループに入るときに全てのタスクに通知を送る
      */
     public void enterLoop() {
-        for (AbstractTask task: mTaskList) {
+        AbstractTask task = (AbstractTask)mTaskList.getFirst();
+        while (task != null) {
             task.onEnterLoop();
+            task = (AbstractTask)task.getNext();
         }
     }
 
@@ -178,8 +152,10 @@ public class TaskManager {
      * ゲームループから抜けた際に全てのタスクに通知を送る
      */
     public void leaveLoop() {
-        for (AbstractTask task: mTaskList) {
+        AbstractTask task = (AbstractTask)mTaskList.getFirst();
+        while (task != null) {
             task.onLeaveLoop();
+            task = (AbstractTask)task.getNext();
         }
     }
 }

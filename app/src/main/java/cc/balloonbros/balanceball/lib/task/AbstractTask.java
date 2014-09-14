@@ -6,7 +6,6 @@ import android.graphics.Point;
 import android.view.View;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import cc.balloonbros.balanceball.lib.GameMain;
 import cc.balloonbros.balanceball.lib.task.message.TaskEventListener;
@@ -18,10 +17,9 @@ import cc.balloonbros.balanceball.lib.task.timer.FrameTimerEventListener;
  * ゲーム内のタスクの基底クラス。
  * タスクはすべてこのクラスを継承する。
  */
-abstract public class AbstractTask implements Updateable {
+abstract public class AbstractTask extends BaseTask implements Updateable {
     private GameMain mGame = null;
     private TaskManager mTaskManager = null;
-    private int mPriority = 0xffff;
 
     /**
      * このタスクの子タスクと親タスク
@@ -35,12 +33,6 @@ abstract public class AbstractTask implements Updateable {
     private ArrayList<FrameTimer> mFrameTimerQueue = new ArrayList<FrameTimer>();
     private ArrayList<FrameTimer> mFrameTimerReserveQueue = new ArrayList<FrameTimer>();
 
-    public int getPriority() {
-        return mPriority;
-    }
-    public void setPriority(int priority) {
-        mPriority = priority;
-    }
     public AbstractTask getParent() {
         return mParent;
     }
