@@ -114,6 +114,7 @@ public class GameLoop implements Runnable, SurfaceHolder.Callback {
 
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i2, int i3) {
+        mGame.getGameDisplay().updateDisplaySize();
     }
 
     @Override

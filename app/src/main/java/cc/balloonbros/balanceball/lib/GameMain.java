@@ -3,6 +3,7 @@ package cc.balloonbros.balanceball.lib;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Point;
 import android.view.WindowManager;
 
 import cc.balloonbros.balanceball.lib.task.TaskManager;
@@ -12,9 +13,9 @@ abstract public class GameMain {
 
     private Context         mContext       = null;
     private GameSurfaceView mView          = null;
-    private TaskManager mTaskManager   = null;
+    private TaskManager     mTaskManager   = null;
     private AssetManager    mAssetManager  = null;
-    private WindowManager   mWindowManager = null;
+    private GameDisplay     mGameDisplay   = null;
 
     public Context getContext() {
         return mContext;
@@ -28,9 +29,6 @@ abstract public class GameMain {
     public AssetManager getAssetManager() {
         return mAssetManager;
     }
-    public WindowManager getWindowManager() {
-        return mWindowManager;
-    }
 
     /**
      * コンストラクタ
@@ -38,6 +36,7 @@ abstract public class GameMain {
      */
     public GameMain(Context context) {
         mContext = context;
+        mGameDisplay = new GameDisplay(this);
     }
 
     public float getRealFps() {
@@ -52,17 +51,19 @@ abstract public class GameMain {
     public Resources getResources() {
         return mContext.getResources();
     }
+    public GameDisplay getGameDisplay() {
+        return mGameDisplay;
+    }
 
     /**
      * ゲーム初期化処理。
      * 必要であれば継承先でオーバーライドする
      */
     public void onInitialize() {
-        mTaskManager   = new TaskManager(this);
-        mAssetManager  = new AssetManager(getContext().getResources());
-        mView          = new GameSurfaceView(mContext);
-        mWindowManager = (WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE);
-        mGameLoop      = new GameLoop(this);
+        mTaskManager  = new TaskManager(this);
+        mAssetManager = new AssetManager(getContext().getResources());
+        mView         = new GameSurfaceView(mContext);
+        mGameLoop     = new GameLoop(this);
 
         // 画面の明るさをキープしたまま暗くならないようにする
         ((Activity)mContext).getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -86,5 +87,13 @@ abstract public class GameMain {
             mGameLoop.changeFps(fps);
         }
         ((Activity)mContext).setContentView(mView);
+    }
+
+    /**
+     * ゲームのディスプレイのサイズを取得する
+     * @return ディスプレイサイズ
+     */
+    public Point getDisplaySize() {
+        return mGameDisplay.getDisplaySize();
     }
 }

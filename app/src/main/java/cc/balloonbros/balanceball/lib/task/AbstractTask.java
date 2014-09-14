@@ -124,13 +124,10 @@ abstract public class AbstractTask implements Updateable {
 
     /**
      * デバイスのディスプレイサイズを取得する
-     *
      * @return ディスプレイサイズ
      */
     protected Point getDisplaySize() {
-        Point displaySize = new Point();
-        mGame.getWindowManager().getDefaultDisplay().getSize(displaySize);
-        return displaySize;
+        return mGame.getDisplaySize();
     }
 
     /**
