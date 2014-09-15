@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import cc.balloonbros.balanceball.lib.GameMain;
 import cc.balloonbros.balanceball.lib.task.message.TaskEventListener;
 import cc.balloonbros.balanceball.lib.task.message.TaskMessage;
+import cc.balloonbros.balanceball.lib.task.system.BaseTask;
 import cc.balloonbros.balanceball.lib.task.timer.FrameTimer;
 import cc.balloonbros.balanceball.lib.task.timer.FrameTimerEventListener;
 
@@ -19,7 +20,6 @@ import cc.balloonbros.balanceball.lib.task.timer.FrameTimerEventListener;
  */
 abstract public class AbstractTask extends BaseTask implements Updateable {
     private GameMain mGame = null;
-    private TaskManager mTaskManager = null;
 
     /**
      * このタスクの子タスクと親タスク
@@ -33,28 +33,22 @@ abstract public class AbstractTask extends BaseTask implements Updateable {
     private ArrayList<FrameTimer> mFrameTimerQueue = new ArrayList<FrameTimer>();
     private ArrayList<FrameTimer> mFrameTimerReserveQueue = new ArrayList<FrameTimer>();
 
-    public AbstractTask getParent() {
-        return mParent;
-    }
-    private void setParent(AbstractTask parentTask) {
-        mParent = parentTask;
-    }
-    public void setGame(GameMain game) {
-        mGame = game;
-        mTaskManager = mGame.getTaskManager();
-    }
+    public AbstractTask getParent() { return mParent; }
+    private void setParent(AbstractTask parentTask) { mParent = parentTask; }
+    public void setGame(GameMain game) { mGame = game; }
     protected GameMain getGame() {
         return mGame;
     }
-    protected TaskManager getTaskManager() {
-        return mTaskManager;
-    }
+    protected TaskManager getTaskManager() { return mGame.getTaskManager(); }
+    protected long getFrameCount() { return getGame().getFrameCount(); }
 
     public AbstractTask() {
+        super();
         setPriority(0xffff);
     }
 
     public AbstractTask(int priority) {
+        super();
         setPriority(priority);
     }
 
@@ -146,7 +140,7 @@ abstract public class AbstractTask extends BaseTask implements Updateable {
      * @return 見つかったタスクを返す。タスクが見つからなければnull
      */
     protected AbstractTask find(int priority) {
-        return mTaskManager.find(priority);
+        return getTaskManager().find(priority);
     }
 
     /**
@@ -157,7 +151,7 @@ abstract public class AbstractTask extends BaseTask implements Updateable {
     protected void registerChild(AbstractTask childTask) {
         childTask.setParent(this);
         mChildren.add(childTask);
-        mTaskManager.register(childTask);
+        getTaskManager().register(childTask);
     }
 
     /**
@@ -186,9 +180,5 @@ abstract public class AbstractTask extends BaseTask implements Updateable {
 
     protected void setTouchListener(View.OnTouchListener listener) {
         getGame().getView().setOnTouchListener(listener);
-    }
-
-    protected long getFrameCount() {
-        return getGame().getFrameCount();
     }
 }

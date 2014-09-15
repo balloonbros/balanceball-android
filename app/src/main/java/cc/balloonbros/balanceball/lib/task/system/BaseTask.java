@@ -1,4 +1,4 @@
-package cc.balloonbros.balanceball.lib.task;
+package cc.balloonbros.balanceball.lib.task.system;
 
 public class BaseTask {
     private BaseTask mPrev = null;
