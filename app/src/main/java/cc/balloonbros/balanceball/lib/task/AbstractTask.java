@@ -8,6 +8,7 @@ import android.view.View;
 import java.util.ArrayList;
 
 import cc.balloonbros.balanceball.lib.GameMain;
+import cc.balloonbros.balanceball.lib.scene.AbstractScene;
 import cc.balloonbros.balanceball.lib.task.message.TaskEventListener;
 import cc.balloonbros.balanceball.lib.task.message.TaskMessage;
 import cc.balloonbros.balanceball.lib.task.system.BaseTask;
@@ -19,7 +20,7 @@ import cc.balloonbros.balanceball.lib.task.timer.FrameTimerEventListener;
  * タスクはすべてこのクラスを継承する。
  */
 abstract public class AbstractTask extends BaseTask implements Updateable {
-    private GameMain mGame = null;
+    private AbstractScene mScene = null;
 
     /**
      * このタスクの子タスクと親タスク
@@ -35,11 +36,10 @@ abstract public class AbstractTask extends BaseTask implements Updateable {
 
     public AbstractTask getParent() { return mParent; }
     private void setParent(AbstractTask parentTask) { mParent = parentTask; }
-    public void setGame(GameMain game) { mGame = game; }
-    protected GameMain getGame() {
-        return mGame;
-    }
-    protected TaskManager getTaskManager() { return mGame.getTaskManager(); }
+    public void setScene(AbstractScene scene) { mScene = scene; }
+    public AbstractScene getScene() { return mScene; }
+    protected GameMain getGame() { return mScene.getGame(); }
+    protected TaskManager getTaskManager() { return getScene().getTaskManager(); }
     protected long getFrameCount() { return getGame().getFrameCount(); }
 
     public AbstractTask() {
@@ -101,27 +101,19 @@ abstract public class AbstractTask extends BaseTask implements Updateable {
      * @param assetId 画像ID
      * @return 画像
      */
-    protected Bitmap getImage(int assetId) {
-        return mGame.getAssetManager().getImage(assetId);
-    }
-    protected int getInteger(int id) {
-        return mGame.getResources().getInteger(id);
-    }
+    protected Bitmap getImage(int assetId) { return getScene().getAssetManager().getImage(assetId); }
+    protected int getInteger(int id) { return getGame().getResources().getInteger(id); }
 
     /**
      * デバイスのディスプレイサイズを取得する
      * @return ディスプレイサイズ
      */
-    protected Point getDisplaySize() {
-        return mGame.getDisplaySize();
-    }
+    protected Point getDisplaySize() { return getGame().getDisplaySize(); }
 
     /**
      * 自分自身をタスクリストから削除する
      */
-    protected void kill() {
-        mGame.getTaskManager().remove(this);
-    }
+    protected void kill() { getScene().getTaskManager().remove(this); }
 
     /**
      * このタスクから他タスクにメッセージを送信する

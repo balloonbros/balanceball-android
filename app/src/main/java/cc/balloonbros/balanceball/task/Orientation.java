@@ -86,9 +86,11 @@ public class Orientation extends AbstractTask implements SensorEventListener {
         ball.move(dx, dy);
 
         // デバッグ用に現在の傾きを画面に表示する
-        DebugOutput debug = (DebugOutput)find(getInteger(R.integer.priority_debug));
-        sendMessage(debug, new OrientationMessage(mOrientationValues));
-        sendMessage(debug, new IntegerMessage("speed", mSpeeds[0]));
+        //DebugOutput debug = (DebugOutput)find(getInteger(R.integer.priority_debug));
+        //mOrientationMessage.setOrientation(mOrientationValues);
+        //mSpeedMessage.setMessage(mSpeeds[0]);
+        //sendMessage(debug, mOrientationMessage);
+        //sendMessage(debug, mSpeedMessage);
     }
 
     private static final int SPEED_RATIO = 20;

@@ -9,7 +9,6 @@ import android.view.SurfaceView;
 public class GameSurfaceView extends SurfaceView {
     /**
      * コンストラクタ
-     *
      * @param context このサーフェイスが属するコンテキスト
      */
     public GameSurfaceView(Context context) {

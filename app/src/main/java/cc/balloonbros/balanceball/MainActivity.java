@@ -4,17 +4,17 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Window;
 
+import cc.balloonbros.balanceball.scene.PlayScene;
+
 public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-
         long fps = getResources().getInteger(R.integer.fps);
 
         // ゲーム開始
         BalanceBall game = new BalanceBall(this);
-        game.start(fps);
+        game.start(new PlayScene(game), fps);
     }
 }

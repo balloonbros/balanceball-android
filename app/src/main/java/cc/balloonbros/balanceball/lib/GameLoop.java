@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.view.SurfaceHolder;
 
+import cc.balloonbros.balanceball.lib.scene.AbstractScene;
 import cc.balloonbros.balanceball.lib.task.TaskManager;
 
 /**
@@ -70,7 +71,7 @@ public class GameLoop implements Runnable, SurfaceHolder.Callback {
      */
     @Override
     public void run() {
-        TaskManager taskManager = mGame.getTaskManager();
+        TaskManager taskManager = mGame.getCurrentScene().getTaskManager();
         taskManager.enterLoop();
 
         while (mGameLoopThread != null) {

@@ -6,13 +6,14 @@ import android.util.SparseArray;
 import java.util.LinkedList;
 
 import cc.balloonbros.balanceball.lib.GameMain;
+import cc.balloonbros.balanceball.lib.scene.AbstractScene;
 import cc.balloonbros.balanceball.lib.task.system.TaskList;
 
 /**
  * タスク管理クラス
  */
 public class TaskManager {
-    private GameMain mGame = null;
+    private AbstractScene mScene = null;
 
     /**
      * タスク一覧
@@ -30,10 +31,10 @@ public class TaskManager {
     /**
      * コンストラクタ
      *
-     * @param game タスクを管理する対象のゲーム
+     * @param scene タスクを管理する対象のシーン
      */
-    public TaskManager(GameMain game) {
-        mGame = game;
+    public TaskManager(AbstractScene scene) {
+        mScene = scene;
     }
 
     /**
@@ -49,7 +50,7 @@ public class TaskManager {
     public void register(AbstractTask... tasks) {
         // 受け取ったタスクはまず予約リストに登録する
         for (AbstractTask task: tasks) {
-            task.setGame(mGame);
+            task.setScene(mScene);
             mReservedRegisterTask.offer(task);
         }
 
