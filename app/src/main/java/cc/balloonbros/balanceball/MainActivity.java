@@ -2,9 +2,8 @@ package cc.balloonbros.balanceball;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.Window;
 
-import cc.balloonbros.balanceball.scene.PlayScene;
+import cc.balloonbros.balanceball.scene.LaunchScene;
 
 public class MainActivity extends Activity {
     @Override
@@ -15,6 +14,6 @@ public class MainActivity extends Activity {
 
         // ゲーム開始
         BalanceBall game = new BalanceBall(this);
-        game.start(new PlayScene(game), fps);
+        game.start(new LaunchScene(game), fps);
     }
 }
