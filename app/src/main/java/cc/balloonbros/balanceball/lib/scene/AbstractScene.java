@@ -1,5 +1,7 @@
 package cc.balloonbros.balanceball.lib.scene;
 
+import android.graphics.Point;
+
 import cc.balloonbros.balanceball.lib.AssetManager;
 import cc.balloonbros.balanceball.lib.GameLoop;
 import cc.balloonbros.balanceball.lib.GameMain;
@@ -23,6 +25,9 @@ public class AbstractScene {
 
     public void onInitialize() { }
 
+    public void changeFps(long fps) {
+        mGame.getGameLoop().changeFps(fps);
+    }
     public void loadAssets(int... assetId) {
         mAssetManager.loadAssets(assetId);
     }

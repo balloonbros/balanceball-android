@@ -13,5 +13,8 @@ public class LaunchScene extends AbstractScene {
     @Override
     public void onInitialize() {
         loadAssets(R.drawable.launch_logo);
+
+        changeFps(1);
+        getTaskManager().register(new Launch());
     }
 }
