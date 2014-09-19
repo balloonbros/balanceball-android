@@ -120,6 +120,8 @@ public class TaskManager {
      * 予約リストに入っているタスクの処理を確定させる
      */
     private void confirm() {
+        int beforeCount = mTaskList.getCount();
+
         // 登録予約タスクを登録する
         // 優先度を見て、優先度が高いタスクほどリストの最初に登録する
         AbstractTask registeredTask = mReservedRegisterTask.poll();
@@ -136,6 +138,11 @@ public class TaskManager {
         while (removedTask != null) {
             mTaskList.remove(removedTask);
             removedTask = mReservedRemoveTask.poll();
+        }
+
+        // 最初のタスクが登録された時にゲームループに通知する
+        if (beforeCount == 0 && mTaskList.getCount() > 0) {
+            mScene.getGameLoop().onFirstTaskRegistered();
         }
     }
 

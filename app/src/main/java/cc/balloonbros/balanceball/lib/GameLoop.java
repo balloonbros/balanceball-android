@@ -4,14 +4,14 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.view.SurfaceHolder;
 
-import cc.balloonbros.balanceball.lib.scene.AbstractScene;
 import cc.balloonbros.balanceball.lib.task.TaskManager;
+import cc.balloonbros.balanceball.lib.task.TaskManagerEventListener;
 
 /**
  * ゲームループを処理します。
  * ゲームループは別スレッドで処理されます。
  */
-public class GameLoop implements Runnable, SurfaceHolder.Callback {
+public class GameLoop implements Runnable, SurfaceHolder.Callback, TaskManagerEventListener {
     private GameMain      mGame           = null;
     private Thread        mGameLoopThread = null;
     private SurfaceHolder mHolder         = null;
@@ -124,5 +124,12 @@ public class GameLoop implements Runnable, SurfaceHolder.Callback {
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
         mGameLoopThread = null;
+    }
+
+    @Override
+    public void onFirstTaskRegistered() {
+        if (mGameLoopThread != null) {
+            mGameLoopThread.start();
+        }
     }
 }

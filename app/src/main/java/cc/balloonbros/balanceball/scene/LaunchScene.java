@@ -13,7 +13,5 @@ public class LaunchScene extends AbstractScene {
     @Override
     public void onInitialize() {
         loadAssets(R.drawable.launch_logo);
-
-        getTaskManager().register(new Launch());
     }
 }

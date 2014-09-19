@@ -24,6 +24,7 @@ abstract public class GameMain {
     public long getFrameCount() { return mGameLoop.getFrameCount(); }
     public Resources getResources() { return mContext.getResources(); }
     public GameDisplay getGameDisplay() { return mGameDisplay; }
+    public GameLoop getGameLoop() { return mGameLoop; }
 
     /**
      * コンストラクタ
