@@ -74,7 +74,7 @@ public class GameLoop implements Runnable, SurfaceHolder.Callback {
         TaskManager taskManager = mGame.getCurrentScene().getTaskManager();
         taskManager.enterLoop();
 
-        while (mGameLoopThread != null) {
+        while (mGameLoopThread != null && taskManager.getTaskCount() > 0) {
             long startTime = System.currentTimeMillis();
             mFrameCount++;
 
@@ -110,7 +110,10 @@ public class GameLoop implements Runnable, SurfaceHolder.Callback {
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
         mGameLoopThread = new Thread(this);
-        mGameLoopThread.start();
+
+        if (mGame.getCurrentScene().getTaskManager().getTaskCount() > 0) {
+            mGameLoopThread.start();
+        }
     }
 
     @Override
