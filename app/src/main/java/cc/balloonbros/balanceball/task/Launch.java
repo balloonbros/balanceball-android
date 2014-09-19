@@ -8,9 +8,13 @@ import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.lib.task.DrawableTask;
 
 public class Launch extends DrawableTask {
+    private Rect mSource = new Rect();
+    private Rect mDestination = new Rect();
+    private Bitmap mLogo;
+
     @Override
     public void onRegistered() {
-
+        mLogo = getImage(R.drawable.launch_logo);
     }
 
     @Override
@@ -19,11 +23,8 @@ public class Launch extends DrawableTask {
 
     @Override
     public void onDraw(Canvas canvas) {
-        Rect src = new Rect();
-        Rect dest = new Rect();
-        Bitmap logo = getImage(R.drawable.launch_logo);
-        src.set(0, 0, logo.getWidth(), logo.getHeight());
-        dest.set(0, 0, getDisplaySize().x, getDisplaySize().y);
-        canvas.drawBitmap(logo, src, dest, null);
+        mSource.set(0, 0, mLogo.getWidth(), mLogo.getHeight());
+        mDestination.set(0, 0, getDisplaySize().x, getDisplaySize().y);
+        canvas.drawBitmap(mLogo, mSource, mDestination, null);
     }
 }
