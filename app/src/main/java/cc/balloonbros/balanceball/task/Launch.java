@@ -9,6 +9,9 @@ import cc.balloonbros.balanceball.lib.task.DrawableTask;
 import cc.balloonbros.balanceball.lib.task.timer.TimerEventListener;
 import cc.balloonbros.balanceball.scene.PlayScene;
 
+/**
+ * ロゴ表示タスク
+ */
 public class Launch extends DrawableTask implements TimerEventListener {
     private Rect mSource = new Rect();
     private Rect mDestination = new Rect();
@@ -17,6 +20,8 @@ public class Launch extends DrawableTask implements TimerEventListener {
     @Override
     public void onRegistered() {
         mLogo = getImage(R.drawable.launch_logo);
+        mSource.set(0, 0, mLogo.getWidth(), mLogo.getHeight());
+        mDestination.set(0, 0, getDisplaySize().x, getDisplaySize().y);
         setTimer(5000, this);
     }
 
@@ -26,8 +31,6 @@ public class Launch extends DrawableTask implements TimerEventListener {
 
     @Override
     public void onDraw(Canvas canvas) {
-        mSource.set(0, 0, mLogo.getWidth(), mLogo.getHeight());
-        mDestination.set(0, 0, getDisplaySize().x, getDisplaySize().y);
         canvas.drawBitmap(mLogo, mSource, mDestination, null);
     }
 
