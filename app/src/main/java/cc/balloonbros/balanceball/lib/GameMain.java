@@ -16,6 +16,7 @@ abstract public class GameMain {
     private GameSurfaceView mView = null;
     private GameDisplay mGameDisplay = null;
     private AbstractScene mCurrentScene = null;
+    private AbstractScene mReservedScene = null;
 
     public Context getContext() { return mContext; }
     public GameSurfaceView getView() { return mView; }
@@ -25,6 +26,7 @@ abstract public class GameMain {
     public Resources getResources() { return mContext.getResources(); }
     public GameDisplay getGameDisplay() { return mGameDisplay; }
     public GameLoop getGameLoop() { return mGameLoop; }
+    public AbstractScene getCurrentScene() { return mCurrentScene; }
 
     /**
      * コンストラクタ
@@ -64,7 +66,8 @@ abstract public class GameMain {
      */
     public void start(AbstractScene startScene, long fps) {
         onInitialize();
-        changeScene(startScene);
+        mCurrentScene = startScene;
+        mCurrentScene.onInitialize();
 
         if (fps > 0) {
             mGameLoop.changeFps(fps);
@@ -81,15 +84,27 @@ abstract public class GameMain {
     }
 
     /**
-     * ゲームのシーンを切り替える
+     * ゲームのシーンを切り替える。
+     * 実際には現在実行中のフレームが終了してから切り替わる
      * @param scene 切り替える先のシーン
      */
-    public void changeScene(AbstractScene scene) {
+    public void changeScene(AbstractScene scene) { mReservedScene = scene; }
+
+    /**
+     * ゲームシーンの切り替え予定があるかどうかをチェックする
+     * @return 切り替え予定があればtrue
+     */
+    boolean hasReservedScene() { return mReservedScene != null; }
+
+    /**
+     * ゲームのシーン切り替えを実行する
+     */
+    void executeChangingScene() {
         if (mCurrentScene != null) {
             mCurrentScene.dispose();
         }
-        mCurrentScene = scene;
+        mCurrentScene = mReservedScene;
         mCurrentScene.onInitialize();
+        mReservedScene = null;
     }
-    public AbstractScene getCurrentScene() { return mCurrentScene; }
 }

@@ -5,13 +5,12 @@ import android.graphics.Color;
 import android.view.SurfaceHolder;
 
 import cc.balloonbros.balanceball.lib.task.TaskManager;
-import cc.balloonbros.balanceball.lib.task.TaskManagerEventListener;
 
 /**
  * ゲームループを処理します。
  * ゲームループは別スレッドで処理されます。
  */
-public class GameLoop implements Runnable, SurfaceHolder.Callback, TaskManagerEventListener {
+public class GameLoop implements Runnable, SurfaceHolder.Callback {
     private GameMain      mGame           = null;
     private Thread        mGameLoopThread = null;
     private SurfaceHolder mHolder         = null;
@@ -74,7 +73,7 @@ public class GameLoop implements Runnable, SurfaceHolder.Callback, TaskManagerEv
         TaskManager taskManager = mGame.getCurrentScene().getTaskManager();
         taskManager.enterLoop();
 
-        while (mGameLoopThread != null && taskManager.getTaskCount() > 0) {
+        while (mGameLoopThread != null) {
             long startTime = System.currentTimeMillis();
             mFrameCount++;
 
@@ -91,6 +90,11 @@ public class GameLoop implements Runnable, SurfaceHolder.Callback, TaskManagerEv
             // バッファ入れ替え。表側に描画する
             mHolder.unlockCanvasAndPost(canvas);
 
+            // シーンの切り替えフラグが立っていたら一度ループを抜ける
+            if (mGame.hasReservedScene()) {
+                break;
+            }
+
             // FPSを保つために処理が早く終わり過ぎたら1フレーム単位秒待つ
             long waitTime = System.currentTimeMillis() - startTime;
             if (waitTime < mFrameTime) {
@@ -105,15 +109,19 @@ public class GameLoop implements Runnable, SurfaceHolder.Callback, TaskManagerEv
         }
 
         taskManager.leaveLoop();
+
+        // シーン切り替えフラグが立っていればシーン切り替えてもう一度スレッドを実行する
+        if (mGame.hasReservedScene()) {
+            mGame.executeChangingScene();
+            mGameLoopThread = new Thread(this);
+            mGameLoopThread.start();
+        }
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
         mGameLoopThread = new Thread(this);
-
-        if (mGame.getCurrentScene().getTaskManager().getTaskCount() > 0) {
-            mGameLoopThread.start();
-        }
+        mGameLoopThread.start();
     }
 
     @Override
@@ -124,12 +132,5 @@ public class GameLoop implements Runnable, SurfaceHolder.Callback, TaskManagerEv
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
         mGameLoopThread = null;
-    }
-
-    @Override
-    public void onFirstTaskRegistered() {
-        if (mGameLoopThread != null) {
-            mGameLoopThread.start();
-        }
     }
 }

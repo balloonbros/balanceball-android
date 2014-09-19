@@ -13,7 +13,9 @@ import cc.balloonbros.balanceball.lib.task.message.TaskEventListener;
 import cc.balloonbros.balanceball.lib.task.message.TaskMessage;
 import cc.balloonbros.balanceball.lib.task.system.BaseTask;
 import cc.balloonbros.balanceball.lib.task.timer.FrameTimer;
-import cc.balloonbros.balanceball.lib.task.timer.FrameTimerEventListener;
+import cc.balloonbros.balanceball.lib.task.timer.TimerEventListener;
+import cc.balloonbros.balanceball.lib.task.timer.SecondTimer;
+import cc.balloonbros.balanceball.lib.task.timer.Timer;
 
 /**
  * ゲーム内のタスクの基底クラス。
@@ -31,8 +33,8 @@ abstract public class AbstractTask extends BaseTask implements Updateable {
     /**
      * フレームタイマーのキュー
      */
-    private ArrayList<FrameTimer> mFrameTimerQueue = new ArrayList<FrameTimer>();
-    private ArrayList<FrameTimer> mFrameTimerReserveQueue = new ArrayList<FrameTimer>();
+    private ArrayList<Timer> mTimerQueue = new ArrayList<Timer>();
+    private ArrayList<Timer> mTimerReserveQueue = new ArrayList<Timer>();
 
     public AbstractTask getParent() { return mParent; }
     private void setParent(AbstractTask parentTask) { mParent = parentTask; }
@@ -63,17 +65,17 @@ abstract public class AbstractTask extends BaseTask implements Updateable {
             ((Drawable)this).onDraw(canvas);
         }
 
-        for (int i = 0; i < mFrameTimerReserveQueue.size(); i++) {
-            mFrameTimerQueue.add(mFrameTimerReserveQueue.get(i));
+        for (int i = 0; i < mTimerReserveQueue.size(); i++) {
+            mTimerQueue.add(mTimerReserveQueue.get(i));
         }
-        mFrameTimerReserveQueue.clear();
-        for (int i = 0; i < mFrameTimerQueue.size(); i++) {
-            FrameTimer timer = mFrameTimerQueue.get(i);
+        mTimerReserveQueue.clear();
+        for (int i = 0; i < mTimerQueue.size(); i++) {
+            Timer timer = mTimerQueue.get(i);
             if (timer.ready()) {
                 timer.invoke();
             }
             if (timer.isRemovable()) {
-                mFrameTimerQueue.remove(i);
+                mTimerQueue.remove(i);
             }
         }
     }
@@ -147,26 +149,58 @@ abstract public class AbstractTask extends BaseTask implements Updateable {
     }
 
     /**
+     * シーンを切り替える
+     * @param scene 切り替え先のシーン
+     */
+    protected void changeScene(AbstractScene scene) {
+        getGame().changeScene(scene);
+    }
+
+    /**
      * 指定フレーム後にタイマーを起動する
      * @param frame ここに指定したフレーム数経過後にコールバックを起動する
      * @param listener コールバックを受け取るリスナー
      */
-    protected FrameTimer setFrameTimer(int frame, FrameTimerEventListener listener) {
+    protected Timer setFrameTimer(int frame, TimerEventListener listener) {
         return setFrameTimerQueue().start(frame, listener);
     }
 
     /**
-     * 指定フレーム後にタイマーを起動を起動するのを繰り返す
+     * 指定フレーム後にタイマーの起動を繰り返す
      * @param frame ここに指定したフレーム数経過後にコールバックを起動する
      * @param listener コールバックを受け取るリスナー
      */
-    protected FrameTimer setFrameInterval(int frame, FrameTimerEventListener listener) {
+    protected Timer setFrameInterval(int frame, TimerEventListener listener) {
         return setFrameTimerQueue().start(frame, listener, true);
     }
 
-    private FrameTimer setFrameTimerQueue() {
+    /**
+     * 指定秒数後にタイマーを起動する
+     * @param time ここに指定した秒数経過後にコールバックを起動する
+     * @param listener コールバックを受け取るリスナー
+     */
+    protected Timer setTimer(int time, TimerEventListener listener) {
+        return setSecondTimerQueue().start(time, listener);
+    }
+
+    /**
+     * 指定秒数後にタイマーの起動を繰り返す
+     * @param time ここに指定した秒数経過後にコールバックを起動する
+     * @param listener コールバックを受け取るリスナー
+     */
+    protected Timer setTimerInterval(int time, TimerEventListener listener) {
+        return setSecondTimerQueue().start(time, listener);
+    }
+
+    private Timer setFrameTimerQueue() {
         FrameTimer timer = new FrameTimer(getGame());
-        mFrameTimerReserveQueue.add(timer);
+        mTimerReserveQueue.add(timer);
+        return timer;
+    }
+
+    private Timer setSecondTimerQueue() {
+        SecondTimer timer = new SecondTimer();
+        mTimerReserveQueue.add(timer);
         return timer;
     }
 
