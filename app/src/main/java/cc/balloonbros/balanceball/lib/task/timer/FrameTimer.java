@@ -1,34 +1,23 @@
 package cc.balloonbros.balanceball.lib.task.timer;
 
-import cc.balloonbros.balanceball.lib.GameMain;
-
 /**
  * フレームでカウントするタイマー
  */
 public class FrameTimer extends AbstractTimer {
-    private GameMain mGame = null;
-    private long mStartFrame = -1;
-
-    /**
-     * コンストラクタ
-     * @param game フレームタイマーをセットするゲーム
-     */
-    public FrameTimer(GameMain game) {
-        mGame = game;
-    }
-
-    @Override
-    public void onStart() {
-        mStartFrame = mGame.getFrameCount();
-    }
+    private long mFrameCount = 0;
 
     @Override
     public boolean condition() {
-        return mGame.getFrameCount() - mStartFrame >= getTimerCount();
+        return mFrameCount >= getTimerCount();
+    }
+
+    @Override
+    public void onFrame() {
+        mFrameCount++;
     }
 
     @Override
     public void onInvoked() {
-        mStartFrame = mGame.getFrameCount();
+        mFrameCount = 0;
     }
 }

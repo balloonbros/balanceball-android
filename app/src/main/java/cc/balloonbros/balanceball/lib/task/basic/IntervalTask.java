@@ -2,7 +2,7 @@ package cc.balloonbros.balanceball.lib.task.basic;
 
 import android.graphics.Canvas;
 
-import cc.balloonbros.balanceball.lib.task.AbstractTask;
+import cc.balloonbros.balanceball.lib.task.system.AbstractTask;
 
 public class IntervalTask extends AbstractTask {
     private int mInterval;
@@ -19,7 +19,7 @@ public class IntervalTask extends AbstractTask {
     }
 
     @Override
-    protected void execute(Canvas canvas) {
+    public void execute(Canvas canvas) {
         long frame = getGame().getFrameCount();
         if (frame - mCurrentFrame >= mInterval) {
             super.execute(canvas);

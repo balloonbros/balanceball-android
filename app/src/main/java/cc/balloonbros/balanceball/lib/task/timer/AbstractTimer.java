@@ -18,6 +18,7 @@ abstract public class AbstractTimer implements Timer {
 
     public void onStart() { }
     public void onInvoked() { }
+    public void onFrame() { }
     public boolean condition() { return true; }
 
     @Override
@@ -49,6 +50,11 @@ abstract public class AbstractTimer implements Timer {
         if (!mLoop) {
             mStarted = false;
         }
+    }
+
+    @Override
+    public void process() {
+        onFrame();
     }
 
     @Override

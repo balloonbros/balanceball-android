@@ -2,6 +2,8 @@ package cc.balloonbros.balanceball.lib.task;
 
 import android.graphics.Point;
 
+import cc.balloonbros.balanceball.lib.task.system.AbstractTask;
+
 public abstract class DrawableTask extends AbstractTask implements Drawable {
     private Point mCoordinate = new Point();
 

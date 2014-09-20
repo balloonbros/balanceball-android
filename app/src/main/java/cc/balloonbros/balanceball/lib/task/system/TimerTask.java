@@ -1,0 +1,94 @@
+package cc.balloonbros.balanceball.lib.task.system;
+
+import java.util.ArrayList;
+
+import cc.balloonbros.balanceball.lib.task.timer.FrameTimer;
+import cc.balloonbros.balanceball.lib.task.timer.SecondTimer;
+import cc.balloonbros.balanceball.lib.task.timer.Timer;
+import cc.balloonbros.balanceball.lib.task.timer.TimerEventListener;
+
+public class TimerTask extends BaseTask {
+    /**
+     * フレームタイマーのキュー
+     */
+    private ArrayList<Timer> mTimerQueue = new ArrayList<Timer>();
+    private ArrayList<Timer> mTimerReserveQueue = new ArrayList<Timer>();
+
+    /**
+     * フレームタイマーの起動処理を実行する。
+     * 現在のキューに登録されているタイマーを全て捜査して
+     * 起動状態になっていればコールバックを呼び出す
+     */
+    void executeTimer() {
+        for (int i = 0; i < mTimerReserveQueue.size(); i++) {
+            mTimerQueue.add(mTimerReserveQueue.get(i));
+        }
+        mTimerReserveQueue.clear();
+        for (int i = 0; i < mTimerQueue.size(); i++) {
+            Timer timer = mTimerQueue.get(i);
+            timer.process();
+            if (timer.ready()) {
+                timer.invoke();
+            }
+            if (timer.isRemovable()) {
+                mTimerQueue.remove(i);
+            }
+        }
+    }
+
+    /**
+     * 指定フレーム後にタイマーを起動する
+     * @param frame ここに指定したフレーム数経過後にコールバックを起動する
+     * @param listener コールバックを受け取るリスナー
+     */
+    protected Timer setFrameTimer(int frame, TimerEventListener listener) {
+        return setFrameTimerQueue().start(frame, listener);
+    }
+
+    /**
+     * 指定フレーム後にタイマーの起動を繰り返す
+     * @param frame ここに指定したフレーム数経過後にコールバックを起動する
+     * @param listener コールバックを受け取るリスナー
+     */
+    protected Timer setFrameInterval(int frame, TimerEventListener listener) {
+        return setFrameTimerQueue().start(frame, listener, true);
+    }
+
+    /**
+     * 指定秒数後にタイマーを起動する
+     * @param time ここに指定した秒数経過後にコールバックを起動する
+     * @param listener コールバックを受け取るリスナー
+     */
+    protected Timer setTimer(int time, TimerEventListener listener) {
+        return setSecondTimerQueue().start(time, listener);
+    }
+
+    /**
+     * 指定秒数後にタイマーの起動を繰り返す
+     * @param time ここに指定した秒数経過後にコールバックを起動する
+     * @param listener コールバックを受け取るリスナー
+     */
+    protected Timer setTimerInterval(int time, TimerEventListener listener) {
+        return setSecondTimerQueue().start(time, listener);
+    }
+
+    /**
+     * フレームタイマーを生成してキューにセットしてから返す
+     * @return フレームタイマー
+     */
+    private Timer setFrameTimerQueue() {
+        FrameTimer timer = new FrameTimer();
+        mTimerReserveQueue.add(timer);
+        return timer;
+    }
+
+    /**
+     * 通常のタイマーを生成してキューにセットしてから返す
+     * @return タイマー
+     */
+    private Timer setSecondTimerQueue() {
+        SecondTimer timer = new SecondTimer();
+        mTimerReserveQueue.add(timer);
+        return timer;
+    }
+}

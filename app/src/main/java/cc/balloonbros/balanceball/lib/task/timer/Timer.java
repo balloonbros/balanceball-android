@@ -28,6 +28,11 @@ public interface Timer {
     public void invoke();
 
     /**
+     * フレーム毎に処理される関数
+     */
+    public void process();
+
+    /**
      * タイマーを止める
      */
     public void stop();

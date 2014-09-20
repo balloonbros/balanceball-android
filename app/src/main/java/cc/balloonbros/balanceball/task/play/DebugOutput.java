@@ -4,7 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import cc.balloonbros.balanceball.lib.task.AbstractTask;
+import cc.balloonbros.balanceball.lib.task.system.AbstractTask;
 import cc.balloonbros.balanceball.lib.task.DrawableTask;
 import cc.balloonbros.balanceball.lib.task.message.TaskEventListener;
 import cc.balloonbros.balanceball.lib.task.message.TaskMessage;
