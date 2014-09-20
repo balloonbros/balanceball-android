@@ -3,7 +3,7 @@ package cc.balloonbros.balanceball.lib.task.timer;
 /**
  * 秒数でカウントするタイマー
  */
-public class SecondTimer extends AbstractTimer {
+public class BasicTimer extends AbstractTimer {
     private long mStartSecond = -1;
 
     @Override

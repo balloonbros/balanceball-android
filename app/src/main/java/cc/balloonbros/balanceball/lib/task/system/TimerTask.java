@@ -2,8 +2,8 @@ package cc.balloonbros.balanceball.lib.task.system;
 
 import java.util.ArrayList;
 
+import cc.balloonbros.balanceball.lib.task.timer.BasicTimer;
 import cc.balloonbros.balanceball.lib.task.timer.FrameTimer;
-import cc.balloonbros.balanceball.lib.task.timer.SecondTimer;
 import cc.balloonbros.balanceball.lib.task.timer.Timer;
 import cc.balloonbros.balanceball.lib.task.timer.TimerEventListener;
 
@@ -60,7 +60,7 @@ public class TimerTask extends BaseTask {
      * @param listener コールバックを受け取るリスナー
      */
     public Timer setTimer(int time, TimerEventListener listener) {
-        return setSecondTimerQueue().start(time, listener);
+        return setBasicTimerQueue().start(time, listener);
     }
 
     /**
@@ -69,7 +69,7 @@ public class TimerTask extends BaseTask {
      * @param listener コールバックを受け取るリスナー
      */
     public Timer setTimerInterval(int time, TimerEventListener listener) {
-        return setSecondTimerQueue().start(time, listener);
+        return setBasicTimerQueue().start(time, listener);
     }
 
     /**
@@ -86,8 +86,8 @@ public class TimerTask extends BaseTask {
      * 通常のタイマーを生成してキューにセットしてから返す
      * @return タイマー
      */
-    private Timer setSecondTimerQueue() {
-        SecondTimer timer = new SecondTimer();
+    private Timer setBasicTimerQueue() {
+        BasicTimer timer = new BasicTimer();
         mTimerReserveQueue.add(timer);
         return timer;
     }
