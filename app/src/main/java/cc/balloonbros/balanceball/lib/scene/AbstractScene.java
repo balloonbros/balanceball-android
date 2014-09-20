@@ -4,6 +4,9 @@ import cc.balloonbros.balanceball.lib.AssetManager;
 import cc.balloonbros.balanceball.lib.GameMain;
 import cc.balloonbros.balanceball.lib.task.TaskManager;
 
+/**
+ * シーンの基底クラス。
+ */
 public class AbstractScene {
     private GameMain mGame;
     private AssetManager mAssetManager;
@@ -13,21 +16,40 @@ public class AbstractScene {
     public AssetManager getAssetManager() { return mAssetManager; }
     public GameMain getGame() { return mGame; }
 
+    /**
+     * コンストラクタ
+     * @param game シーンが属するゲーム
+     */
     public AbstractScene(GameMain game) {
         mGame = game;
         mAssetManager = new AssetManager(game.getContext().getResources());
         mTaskManager  = new TaskManager(this);
     }
 
+    /**
+     * シーンが切り替わる際に最初に実行される
+     */
     public void onInitialize() { }
 
+    /**
+     * FPSを変更する
+     * @param fps 変更後のFPS
+     */
     public void changeFps(long fps) {
         mGame.getGameLoop().changeFps(fps);
     }
+
+    /**
+     * 素材を読み込む
+     * @param assetId 素材のID
+     */
     public void loadAssets(int... assetId) {
         mAssetManager.loadAssets(assetId);
     }
 
+    /**
+     * シーンを破棄する
+     */
     public void dispose() {
         mTaskManager.dispose();
         mAssetManager.dispose();
