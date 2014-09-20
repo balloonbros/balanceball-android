@@ -8,6 +8,7 @@ import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.lib.task.DrawableTask;
 import cc.balloonbros.balanceball.lib.task.timer.TimerEventListener;
 import cc.balloonbros.balanceball.scene.PlayScene;
+import cc.balloonbros.balanceball.scene.TitleScene;
 
 /**
  * ロゴ表示タスク
@@ -36,6 +37,6 @@ public class Logo extends DrawableTask implements TimerEventListener {
 
     @Override
     public void onTimer() {
-        changeScene(new PlayScene(getGame()));
+        changeScene(new TitleScene(getGame()));
     }
 }
