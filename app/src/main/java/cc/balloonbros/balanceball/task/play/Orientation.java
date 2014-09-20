@@ -1,4 +1,4 @@
-package cc.balloonbros.balanceball.task;
+package cc.balloonbros.balanceball.task.play;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;

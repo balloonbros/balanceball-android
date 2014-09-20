@@ -1,4 +1,4 @@
-package cc.balloonbros.balanceball.task;
+package cc.balloonbros.balanceball.task.play;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;

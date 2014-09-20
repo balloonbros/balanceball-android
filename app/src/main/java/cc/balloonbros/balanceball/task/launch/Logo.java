@@ -1,4 +1,4 @@
-package cc.balloonbros.balanceball.task;
+package cc.balloonbros.balanceball.task.launch;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -12,7 +12,7 @@ import cc.balloonbros.balanceball.scene.PlayScene;
 /**
  * ロゴ表示タスク
  */
-public class Launch extends DrawableTask implements TimerEventListener {
+public class Logo extends DrawableTask implements TimerEventListener {
     private Rect mSource = new Rect();
     private Rect mDestination = new Rect();
     private Bitmap mLogo = null;

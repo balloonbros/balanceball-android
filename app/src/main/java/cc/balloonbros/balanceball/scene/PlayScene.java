@@ -5,11 +5,11 @@ import android.content.res.Resources;
 import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.lib.GameMain;
 import cc.balloonbros.balanceball.lib.scene.AbstractScene;
-import cc.balloonbros.balanceball.task.Ball;
-import cc.balloonbros.balanceball.task.CenterCircle;
-import cc.balloonbros.balanceball.task.DebugOutput;
-import cc.balloonbros.balanceball.task.Orientation;
-import cc.balloonbros.balanceball.task.WindOutBreaker;
+import cc.balloonbros.balanceball.task.play.Ball;
+import cc.balloonbros.balanceball.task.play.CenterCircle;
+import cc.balloonbros.balanceball.task.play.DebugOutput;
+import cc.balloonbros.balanceball.task.play.Orientation;
+import cc.balloonbros.balanceball.task.play.WindOutBreaker;
 
 public class PlayScene extends AbstractScene {
     public PlayScene(GameMain game) {
