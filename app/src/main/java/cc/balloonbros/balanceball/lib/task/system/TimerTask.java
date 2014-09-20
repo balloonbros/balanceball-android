@@ -41,7 +41,7 @@ public class TimerTask extends BaseTask {
      * @param frame ここに指定したフレーム数経過後にコールバックを起動する
      * @param listener コールバックを受け取るリスナー
      */
-    protected Timer setFrameTimer(int frame, TimerEventListener listener) {
+    public Timer setFrameTimer(int frame, TimerEventListener listener) {
         return setFrameTimerQueue().start(frame, listener);
     }
 
@@ -50,7 +50,7 @@ public class TimerTask extends BaseTask {
      * @param frame ここに指定したフレーム数経過後にコールバックを起動する
      * @param listener コールバックを受け取るリスナー
      */
-    protected Timer setFrameInterval(int frame, TimerEventListener listener) {
+    public Timer setFrameInterval(int frame, TimerEventListener listener) {
         return setFrameTimerQueue().start(frame, listener, true);
     }
 
@@ -59,7 +59,7 @@ public class TimerTask extends BaseTask {
      * @param time ここに指定した秒数経過後にコールバックを起動する
      * @param listener コールバックを受け取るリスナー
      */
-    protected Timer setTimer(int time, TimerEventListener listener) {
+    public Timer setTimer(int time, TimerEventListener listener) {
         return setSecondTimerQueue().start(time, listener);
     }
 
@@ -68,7 +68,7 @@ public class TimerTask extends BaseTask {
      * @param time ここに指定した秒数経過後にコールバックを起動する
      * @param listener コールバックを受け取るリスナー
      */
-    protected Timer setTimerInterval(int time, TimerEventListener listener) {
+    public Timer setTimerInterval(int time, TimerEventListener listener) {
         return setSecondTimerQueue().start(time, listener);
     }
 
