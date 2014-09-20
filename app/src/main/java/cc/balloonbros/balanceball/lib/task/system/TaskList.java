@@ -12,6 +12,18 @@ public class TaskList {
     public BaseTask getLast()  { return mLast; }
     public int      getCount() { return mTaskCount; }
 
+    public void clear() {
+        mCache.clear();
+        mCache = null;
+
+        BaseTask task = mFirst;
+        while (task != null) {
+            BaseTask nextTask = task.getNext();
+            task.clearLink();
+            task = nextTask;
+        }
+    }
+
     public BaseTask find(int priority) {
         if (mFirst.getPriority() == priority) {
             return mFirst;
