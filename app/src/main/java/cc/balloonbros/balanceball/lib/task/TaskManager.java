@@ -21,7 +21,6 @@ public class TaskManager {
     private TaskList mTaskList = new TaskList();
     private LinkedList<AbstractTask> mReservedRegisterTask = new LinkedList<AbstractTask>();
     private LinkedList<AbstractTask> mReservedRemoveTask = new LinkedList<AbstractTask>();
-    private SparseArray<AbstractTask> mTaskCache = new SparseArray<AbstractTask>();
 
     /**
      * タスクループ中かどうかのフラグ。ループ中であればtrue
@@ -159,5 +158,18 @@ public class TaskManager {
             task.onLeaveLoop();
             task = (AbstractTask)task.getNext();
         }
+    }
+
+    /**
+     * このタスクマネージャーを破棄する
+     */
+    public void dispose() {
+        mTaskList.clear();
+        mReservedRegisterTask.clear();
+        mReservedRemoveTask.clear();
+
+        mTaskList = null;
+        mReservedRegisterTask = null;
+        mReservedRemoveTask = null;
     }
 }
