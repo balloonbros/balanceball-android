@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import java.util.LinkedList;
 
 import cc.balloonbros.balanceball.lib.scene.AbstractScene;
-import cc.balloonbros.balanceball.lib.task.system.AbstractTask;
 import cc.balloonbros.balanceball.lib.task.system.TaskList;
 
 /**
@@ -14,9 +13,7 @@ import cc.balloonbros.balanceball.lib.task.system.TaskList;
 public class TaskManager {
     private AbstractScene mScene = null;
 
-    /**
-     * タスク一覧
-     */
+    /** タスク一覧 */
     private TaskList mTaskList = new TaskList();
     private LinkedList<AbstractTask> mReservedRegisterTask = new LinkedList<AbstractTask>();
     private LinkedList<AbstractTask> mReservedRemoveTask = new LinkedList<AbstractTask>();
@@ -76,7 +73,6 @@ public class TaskManager {
 
     /**
      * 現在のタスク数を取得する
-     *
      * @return 現在のタスク数
      */
     public int getTaskCount() {
@@ -85,7 +81,6 @@ public class TaskManager {
 
     /**
      * タスクループを実行する
-     *
      * @param canvas 描画対象のキャンバス
      */
     public void execute(Canvas canvas) {
@@ -106,7 +101,6 @@ public class TaskManager {
 
     /**
      * 指定されたプライオリティを持つタスクを検索して取得する
-     *
      * @param priority プライオリティ
      * @return 見つかったタスク。タスクが見つからなければnull
      */

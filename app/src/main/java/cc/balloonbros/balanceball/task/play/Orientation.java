@@ -9,7 +9,7 @@ import java.util.List;
 
 import cc.balloonbros.balanceball.BalanceBall;
 import cc.balloonbros.balanceball.R;
-import cc.balloonbros.balanceball.lib.task.system.AbstractTask;
+import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.task.message.IntegerMessage;
 import cc.balloonbros.balanceball.task.message.OrientationMessage;
 

@@ -1,4 +1,4 @@
-package cc.balloonbros.balanceball.lib.task.system;
+package cc.balloonbros.balanceball.lib.task;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -9,11 +9,9 @@ import java.util.ArrayList;
 
 import cc.balloonbros.balanceball.lib.GameMain;
 import cc.balloonbros.balanceball.lib.scene.AbstractScene;
-import cc.balloonbros.balanceball.lib.task.Drawable;
-import cc.balloonbros.balanceball.lib.task.TaskManager;
-import cc.balloonbros.balanceball.lib.task.Updateable;
 import cc.balloonbros.balanceball.lib.task.message.TaskEventListener;
 import cc.balloonbros.balanceball.lib.task.message.TaskMessage;
+import cc.balloonbros.balanceball.lib.task.system.TimerTask;
 
 /**
  * ゲーム内のタスクの基底クラス。
@@ -67,24 +65,6 @@ abstract public class AbstractTask extends TimerTask implements Updateable {
 
         executeTimer();
     }
-
-    /**
-     * タスクがタスクマネージャーに登録された時に呼ばれる。
-     * 継承先でオーバーライドして使用する
-     */
-    protected void onRegistered() { }
-
-    /**
-     * ゲームループに入る時に呼ばれる。
-     * 継承先でオーバーライドして使用する
-     */
-    protected void onEnterLoop() { }
-
-    /**
-     * ゲームループから抜けた時に呼ばれる。
-     * 継承先でオーバーライドして使用する
-     */
-    protected void onLeaveLoop() { }
 
     /**
      * ロードされたリソースから画像を取得する
@@ -150,4 +130,23 @@ abstract public class AbstractTask extends TimerTask implements Updateable {
     protected void setTouchListener(View.OnTouchListener listener) {
         getGame().getView().setOnTouchListener(listener);
     }
+
+    /* ==============================================
+     *           オーバーライド専用メソッド
+     * ============================================== */
+
+     /**
+     * タスクがタスクマネージャーに登録された時に呼ばれる
+     */
+    protected void onRegistered() { }
+
+    /**
+     * ゲームループに入る時に呼ばれる
+     */
+    protected void onEnterLoop() { }
+
+    /**
+     * ゲームループから抜けた時に呼ばれる
+     */
+    protected void onLeaveLoop() { }
 }

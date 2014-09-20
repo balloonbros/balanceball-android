@@ -4,7 +4,7 @@ import java.util.Random;
 
 import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.lib.task.timer.TimerEventListener;
-import cc.balloonbros.balanceball.lib.task.system.AbstractTask;
+import cc.balloonbros.balanceball.lib.task.AbstractTask;
 
 /**
  * 風の発生源タスク

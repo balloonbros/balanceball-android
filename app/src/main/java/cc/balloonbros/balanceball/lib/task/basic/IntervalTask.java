@@ -2,7 +2,7 @@ package cc.balloonbros.balanceball.lib.task.basic;
 
 import android.graphics.Canvas;
 
-import cc.balloonbros.balanceball.lib.task.system.AbstractTask;
+import cc.balloonbros.balanceball.lib.task.AbstractTask;
 
 public class IntervalTask extends AbstractTask {
     private int mInterval;

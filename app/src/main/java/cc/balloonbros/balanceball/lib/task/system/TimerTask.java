@@ -19,7 +19,7 @@ public class TimerTask extends BaseTask {
      * 現在のキューに登録されているタイマーを全て捜査して
      * 起動状態になっていればコールバックを呼び出す
      */
-    void executeTimer() {
+    protected void executeTimer() {
         for (int i = 0; i < mTimerReserveQueue.size(); i++) {
             mTimerQueue.add(mTimerReserveQueue.get(i));
         }
