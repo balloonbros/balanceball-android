@@ -31,6 +31,6 @@ public class PlayScene extends AbstractScene {
         initialTask4.setPriority(res.getInteger(R.integer.priority_debug));
         initialTask5.setPriority(res.getInteger(R.integer.priority_center_circle));
 
-        getTaskManager().register(initialTask1, initialTask2, initialTask3, initialTask5);
+        getTaskManager().register(initialTask1, initialTask2, initialTask3, initialTask4, initialTask5);
     }
 }
