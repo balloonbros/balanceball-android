@@ -7,11 +7,9 @@ import android.view.MotionEvent;
 
 import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.lib.task.Drawable;
-import cc.balloonbros.balanceball.lib.task.DrawableTask;
 import cc.balloonbros.balanceball.lib.task.basic.TouchTask;
 import cc.balloonbros.balanceball.lib.task.timer.Timer;
 import cc.balloonbros.balanceball.lib.task.timer.TimerEventListener;
-import cc.balloonbros.balanceball.scene.PlayScene;
 import cc.balloonbros.balanceball.scene.TitleScene;
 
 /**
