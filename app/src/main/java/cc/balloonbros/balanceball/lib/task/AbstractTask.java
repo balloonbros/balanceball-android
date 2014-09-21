@@ -89,7 +89,10 @@ abstract public class AbstractTask extends TimerTask implements Updateable {
     /**
      * 自分自身をタスクリストから削除する
      */
-    public void kill() { getScene().getTaskManager().remove(this); }
+    public void kill() {
+        getScene().getTaskManager().remove(this);
+        onKilled();
+    }
 
     /**
      * このタスクから他タスクにメッセージを送信する
@@ -127,10 +130,6 @@ abstract public class AbstractTask extends TimerTask implements Updateable {
         getGame().changeScene(scene);
     }
 
-    protected void setTouchListener(View.OnTouchListener listener) {
-        getGame().getView().setOnTouchListener(listener);
-    }
-
     /* ==============================================
      *           オーバーライド専用メソッド
      * ============================================== */
@@ -149,4 +148,9 @@ abstract public class AbstractTask extends TimerTask implements Updateable {
      * ゲームループから抜けた時に呼ばれる
      */
     protected void onLeaveLoop() { }
+
+    /**
+     * タスクが削除される時に呼ばれる
+     */
+    protected void onKilled() { }
 }

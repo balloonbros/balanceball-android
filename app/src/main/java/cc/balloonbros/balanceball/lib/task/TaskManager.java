@@ -157,6 +157,11 @@ public class TaskManager {
      * このタスクマネージャーを破棄する
      */
     public void dispose() {
+        AbstractTask task = (AbstractTask)mTaskList.getFirst();
+        while (task != null) {
+            task.onKilled();
+            task = (AbstractTask)task.getNext();
+        }
         mTaskList.clear();
         mReservedRegisterTask.clear();
         mReservedRemoveTask.clear();

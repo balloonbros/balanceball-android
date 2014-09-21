@@ -27,6 +27,11 @@ abstract public class TouchTask extends AbstractTask implements View.OnTouchList
         return onTouch(event);
     }
 
+    @Override
+    public void onKilled() {
+        setTouchListener(null);
+    }
+
     /* ==============================================
      *           オーバーライド専用メソッド
      * ============================================== */
