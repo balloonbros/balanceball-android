@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="open_sans_light">opensans-light.ttf</string>
-    <string name="open_sans_bold">opensans-bold.ttf</string>
+    <string name="open_sans_light">open-sans-light.ttf</string>
+    <string name="open_sans_bold">open-sans-bold.ttf</string>
 </resources>
