@@ -72,7 +72,7 @@ abstract public class AbstractTimer implements Timer {
 
     @Override
     public boolean isRemovable() {
-        return mLoop;
+        return !mLoop && !mStarted;
     }
 
     /* ==============================================
