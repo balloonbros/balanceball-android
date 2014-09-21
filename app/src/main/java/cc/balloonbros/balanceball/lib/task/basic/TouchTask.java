@@ -41,5 +41,5 @@ abstract public class TouchTask extends AbstractTask implements View.OnTouchList
      * @param event モーションイベント
      * @return trueを返すとイベントを検知し続ける
      */
-    public boolean onTouch(MotionEvent event) { return false; }
+    abstract public boolean onTouch(MotionEvent event);
 }
