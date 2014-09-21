@@ -12,6 +12,7 @@
     <integer name="priority_ball">0x0020</integer>
     <integer name="priority_wind_out_breaker">0x0030</integer>
     <integer name="priority_wind">0x0040</integer>
+    <integer name="priority_orientation">0x0050</integer>
     <integer name="priority_countdown_timer">0x0100</integer>
     <integer name="priority_debug">0xfffe</integer>
 </resources>
