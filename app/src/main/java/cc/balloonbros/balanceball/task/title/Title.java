@@ -5,14 +5,19 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Typeface;
+import android.util.Log;
+import android.view.MotionEvent;
 
 import cc.balloonbros.balanceball.R;
+import cc.balloonbros.balanceball.lib.task.Drawable;
 import cc.balloonbros.balanceball.lib.task.DrawableTask;
+import cc.balloonbros.balanceball.lib.task.basic.TouchTask;
+import cc.balloonbros.balanceball.scene.PlayScene;
 
 /**
  * タイトルタスク
  */
-public class Title extends DrawableTask {
+public class Title extends TouchTask implements Drawable {
     private Paint mTitlePaint = null;
     private Paint mBasePaint = new Paint();
     private Point mTitlePosition = new Point();
@@ -44,6 +49,8 @@ public class Title extends DrawableTask {
     }
     @Override
     public void onRegistered() {
+        super.onRegistered();
+
         mTitlePaint = createTitlePaint();
         mBasePaint  = createBasePaint();
 
@@ -51,6 +58,12 @@ public class Title extends DrawableTask {
         float x = displaySize.x / 2;
         float y = displaySize.y / 3;
         mTitlePosition.set((int) x, (int) y);
+    }
+
+    @Override
+    public boolean onTouch(MotionEvent event) {
+        changeScene(new PlayScene(getGame()));
+        return false;
     }
 
     @Override
