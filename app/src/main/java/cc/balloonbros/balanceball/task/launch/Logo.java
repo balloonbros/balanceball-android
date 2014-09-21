@@ -55,8 +55,9 @@ public class Logo extends TouchTask implements Drawable, TimerEventListener {
 
     @Override
     public boolean onTouch(MotionEvent event) {
+        super.onTouch(event);
         mTimer.stop();
         onTimer();
-        return true;
+        return false;
     }
 }
