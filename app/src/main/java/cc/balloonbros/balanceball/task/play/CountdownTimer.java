@@ -28,6 +28,12 @@ public class CountdownTimer extends DrawableTask implements TimerEventListener {
     @Override
     public void onTimer() {
         mRestTime--;
+        if (mRestTime == 0) {
+            registerTask(new Result());
+            kill();
+            find(_.i(R.integer.priority_orientation)).kill();
+            find(_.i(R.integer.priority_wind_out_breaker)).kill();
+        }
     }
 
     @Override

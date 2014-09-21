@@ -125,6 +125,14 @@ abstract public class AbstractTask extends TimerTask implements TaskFunction {
     }
 
     /**
+     * 新しくタスクをタスクマネージャーに登録する
+     * @param registerTask 登録するタスク
+     */
+    public void registerTask(AbstractTask registerTask) {
+        getTaskManager().register(registerTask);
+    }
+
+    /**
      * このタスクの子タスクとしてタスクマネージャーにタスクを登録する
      * @param childTask 登録するタスク
      */
