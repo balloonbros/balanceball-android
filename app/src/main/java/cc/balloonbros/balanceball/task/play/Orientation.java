@@ -76,7 +76,7 @@ public class Orientation extends AbstractTask implements SensorEventListener {
         if (ball.isBorderTopEdge() || ball.isBorderBottomEdge()) {
             mSpeeds[1] = 0;
         }
-        int accelerationX = calculateAcceleration(mSpeeds[0], mOrientationValues[1], 0);
+        int accelerationX = calculateAcceleration(mSpeeds[0], -mOrientationValues[1], 0);
         int accelerationY = calculateAcceleration(mSpeeds[1], -mOrientationValues[2], 1);
         mSpeeds[0] += accelerationX;
         mSpeeds[1] += accelerationY;
