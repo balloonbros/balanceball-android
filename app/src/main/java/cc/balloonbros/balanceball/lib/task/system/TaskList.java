@@ -79,12 +79,16 @@ public class TaskList {
             BaseTask nextFirst = mFirst.getNext();
             mFirst.clearLink();
             mFirst = nextFirst;
-            nextFirst.setPrev(null);
+            if (nextFirst != null) {
+                nextFirst.setPrev(null);
+            }
         } else if (mLast == removeTask) {
             BaseTask nextLast = mLast.getPrev();
             mLast.clearLink();
             mLast = nextLast;
-            nextLast.setNext(null);
+            if (nextLast != null) {
+                nextLast.setNext(null);
+            }
         } else {
             removeTask.getPrev().setNext(removeTask.getNext());
             removeTask.getNext().setPrev(removeTask.getPrev());
