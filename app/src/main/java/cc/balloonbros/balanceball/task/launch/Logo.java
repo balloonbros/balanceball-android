@@ -45,7 +45,7 @@ public class Logo extends TouchTask implements Drawable, TimerEventListener {
 
     @Override
     public void onTimer() {
-        changeScene(new TitleScene(getGame()));
+        changeScene(new TitleScene());
     }
 
     @Override

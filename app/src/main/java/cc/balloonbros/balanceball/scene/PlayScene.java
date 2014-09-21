@@ -12,10 +12,6 @@ import cc.balloonbros.balanceball.task.play.Orientation;
 import cc.balloonbros.balanceball.task.play.WindOutBreaker;
 
 public class PlayScene extends AbstractScene {
-    public PlayScene(GameMain game) {
-        super(game);
-    }
-
     @Override
     public void onInitialize() {
         loadBitmaps(

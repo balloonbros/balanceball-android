@@ -11,10 +11,6 @@ import cc.balloonbros.balanceball.task.title.Title;
  * タイトルシーン
  */
 public class TitleScene extends AbstractScene {
-    public TitleScene(GameMain game) {
-        super(game);
-    }
-
     @Override
     public void onInitialize() {
         loadFonts(

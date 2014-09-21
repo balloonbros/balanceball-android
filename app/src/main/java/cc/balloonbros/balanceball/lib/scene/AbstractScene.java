@@ -19,18 +19,19 @@ public class AbstractScene {
 
     /**
      * コンストラクタ
-     * @param game シーンが属するゲーム
      */
-    public AbstractScene(GameMain game) {
-        mGame = game;
-        mAssetManager = new AssetManager(game.getContext().getResources());
-        mTaskManager  = new TaskManager(this);
+    public AbstractScene() {
+        mTaskManager = new TaskManager(this);
     }
 
     /**
-     * シーンが切り替わる際に最初に実行される
+     * シーンが属するゲームをセットする
+     * @param game シーンが属するゲーム
      */
-    public void onInitialize() { }
+    public void setGame(GameMain game) {
+        mAssetManager = new AssetManager(game.getContext().getResources());
+        mGame = game;
+    }
 
     /**
      * FPSを変更する
@@ -42,9 +43,7 @@ public class AbstractScene {
      * タスクを新しく登録する
      * @param tasks 登録するタスク。複数指定可能
      */
-    public void registerTasks(AbstractTask... tasks) {
-        getTaskManager().register(tasks);
-    }
+    public void registerTasks(AbstractTask... tasks) { getTaskManager().register(tasks); }
 
     /**
      * 画像を読み込む
@@ -65,4 +64,13 @@ public class AbstractScene {
         mTaskManager.dispose();
         mAssetManager.dispose();
     }
+
+    /* ==============================================
+     *           オーバーライド専用メソッド
+     * ============================================== */
+
+    /**
+     * シーンが切り替わる際に最初に実行される
+     */
+    public void onInitialize() { }
 }

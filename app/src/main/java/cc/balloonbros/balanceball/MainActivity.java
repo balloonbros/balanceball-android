@@ -14,6 +14,6 @@ public class MainActivity extends Activity {
 
         // ゲーム開始
         BalanceBall game = new BalanceBall(this);
-        game.start(new LaunchScene(game), fps);
+        game.start(new LaunchScene(), fps);
     }
 }

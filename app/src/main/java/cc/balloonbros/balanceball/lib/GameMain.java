@@ -70,8 +70,8 @@ abstract public class GameMain {
         if (fps > 0) {
             mGameLoop.changeFps(fps);
         }
-        mCurrentScene = startScene;
-        mCurrentScene.onInitialize();
+        changeScene(startScene);
+        executeChangingScene();
 
         ((Activity)mContext).setContentView(mView);
     }
@@ -105,6 +105,7 @@ abstract public class GameMain {
             mCurrentScene.dispose();
         }
         mCurrentScene = mReservedScene;
+        mCurrentScene.setGame(this);
         mCurrentScene.onInitialize();
         mReservedScene = null;
     }

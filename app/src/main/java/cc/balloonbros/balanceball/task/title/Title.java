@@ -62,7 +62,7 @@ public class Title extends TouchTask implements Drawable, TimerEventListener {
 
     @Override
     public boolean onTouch(MotionEvent event) {
-        changeScene(new PlayScene(getGame()));
+        changeScene(new PlayScene());
         return false;
     }
 
