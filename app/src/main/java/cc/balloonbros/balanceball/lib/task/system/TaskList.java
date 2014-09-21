@@ -45,32 +45,25 @@ public class TaskList {
         mCache.put(task.getPriority(), task);
     }
 
-    public void remove(BaseTask task) {
-        if (mFirst == task) {
+    public void remove(BaseTask removeTask) {
+        if (mFirst == removeTask) {
             BaseTask nextFirst = mFirst.getNext();
             mFirst.clearLink();
             mFirst = nextFirst;
             nextFirst.setPrev(null);
-        } else if (mLast == task) {
+        } else if (mLast == removeTask) {
             BaseTask nextLast = mLast.getPrev();
             mLast.clearLink();
             mLast = nextLast;
             nextLast.setNext(null);
         } else {
-            BaseTask base = mFirst.getNext();
-            while (base != null) {
-                if (base == task) {
-                    task.getPrev().setNext(task.getNext());
-                    task.getNext().setPrev(task.getPrev());
-                    task.clearLink();
-                    break;
-                }
-                base = base.getNext();
-            }
+            removeTask.getPrev().setNext(removeTask.getNext());
+            removeTask.getNext().setPrev(removeTask.getPrev());
+            removeTask.clearLink();
         }
 
         mTaskCount--;
-        mCache.remove(task.getPriority());
+        mCache.remove(removeTask.getPriority());
     }
 
     private void insert(BaseTask task) {
