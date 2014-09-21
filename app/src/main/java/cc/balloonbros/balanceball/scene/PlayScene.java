@@ -6,6 +6,7 @@ import cc.balloonbros.balanceball.lib._;
 import cc.balloonbros.balanceball.lib.scene.AbstractScene;
 import cc.balloonbros.balanceball.task.play.Ball;
 import cc.balloonbros.balanceball.task.play.CenterCircle;
+import cc.balloonbros.balanceball.task.play.CountdownTimer;
 import cc.balloonbros.balanceball.task.play.DebugOutput;
 import cc.balloonbros.balanceball.task.play.Orientation;
 import cc.balloonbros.balanceball.task.play.WindOutBreaker;
@@ -22,6 +23,7 @@ public class PlayScene extends AbstractScene {
             R.drawable.area3,
             R.drawable.wind3
         );
+        loadFonts(_.s(R.string.open_sans_light));
 
         Ball initialTask1 = new Ball();
         Orientation initialTask2 = new Orientation();
@@ -35,11 +37,12 @@ public class PlayScene extends AbstractScene {
         initialTask5.setPriority(_.i(R.integer.priority_center_circle));
 
         registerTasks(
-            initialTask1,
-            initialTask2,
-            initialTask3,
-            initialTask4,
-            initialTask5
+                initialTask1,
+                initialTask2,
+                initialTask3,
+                initialTask4,
+                initialTask5,
+                new CountdownTimer()
         );
     }
 }

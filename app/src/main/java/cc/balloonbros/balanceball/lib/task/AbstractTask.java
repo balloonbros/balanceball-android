@@ -34,6 +34,7 @@ abstract public class AbstractTask extends TimerTask implements TaskFunction {
     protected GameMain getGame() { return mScene.getGame(); }
     protected TaskManager getTaskManager() { return getScene().getTaskManager(); }
     protected long getFrameCount() { return getGame().getFrameCount(); }
+    protected long getFps() { return getGame().getFps(); }
 
     /**
      * コンストラクタ。
