@@ -4,7 +4,7 @@ import android.graphics.Canvas;
 
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
 
-public class IntervalTask extends AbstractTask {
+abstract public class IntervalTask extends AbstractTask {
     private int mInterval;
     private long mCurrentFrame;
 
@@ -25,10 +25,5 @@ public class IntervalTask extends AbstractTask {
             super.execute(canvas);
             mCurrentFrame = frame;
         }
-    }
-
-    @Override
-    public void onUpdate() {
-
     }
 }

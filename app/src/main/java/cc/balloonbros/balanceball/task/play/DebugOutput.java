@@ -46,9 +46,4 @@ public class DebugOutput extends DrawableTask implements TaskEventListener {
             mSpeed = ((IntegerMessage)message).getMessage();
         }
     }
-
-    @Override
-    public void onUpdate() {
-
-    }
 }

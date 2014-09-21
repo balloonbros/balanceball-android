@@ -35,7 +35,7 @@ public class Wind extends DrawableTask {
     }
 
     @Override
-    public void onUpdate() {
+    public void update() {
         // ボールに風の影響を与える
         // 風の方向と移動距離からボールの次の位置を計算して移動させる
         Ball ball = (Ball)find(getInteger(R.integer.priority_ball));

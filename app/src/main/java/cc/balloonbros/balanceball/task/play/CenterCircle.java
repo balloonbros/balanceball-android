@@ -29,9 +29,4 @@ public class CenterCircle extends DrawableTask {
     public Point getPosition() {
         return mCoordinates;
     }
-
-    @Override
-    public void onUpdate() {
-
-    }
 }

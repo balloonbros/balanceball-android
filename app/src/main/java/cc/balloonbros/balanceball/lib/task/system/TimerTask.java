@@ -7,7 +7,7 @@ import cc.balloonbros.balanceball.lib.task.timer.FrameTimer;
 import cc.balloonbros.balanceball.lib.task.timer.Timer;
 import cc.balloonbros.balanceball.lib.task.timer.TimerEventListener;
 
-public class TimerTask extends BaseTask {
+abstract public class TimerTask extends BaseTask {
     /**
      * フレームタイマーのキュー
      */
@@ -34,6 +34,13 @@ public class TimerTask extends BaseTask {
                 mTimerQueue.remove(i);
             }
         }
+    }
+
+    @Override
+    public void kill() {
+        super.kill();
+        mTimerReserveQueue.clear();
+        mTimerQueue.clear();
     }
 
     /**

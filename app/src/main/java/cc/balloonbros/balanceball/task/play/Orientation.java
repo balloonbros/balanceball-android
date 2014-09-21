@@ -19,23 +19,17 @@ import cc.balloonbros.balanceball.task.message.OrientationMessage;
 public class Orientation extends AbstractTask implements SensorEventListener {
     private SensorManager mSensorManager = null;
 
-    /**
-     * 端末の傾きの計算をするために必要な変数
-     */
+    /** 端末の傾きの計算をするために必要な変数 */
     private float[] mMagneticFieldValues = new float[3];
     private float[] mAccelerometerValues = new float[3];
     private float[] inR  = new float[16];
     private float[] outR = new float[16];
     private float[] I    = new float[16];
 
-    /**
-     * 端末の傾き
-     */
+    /** 端末の傾き */
     private float[] mOrientationValues = new float[3];
 
-    /**
-     * x方向とy方向のボールの移動スピード
-     */
+    /** x方向とy方向のボールの移動スピード */
     private int[] mSpeeds = new int[2];
 
     private OrientationMessage mOrientationMessage = null;
@@ -66,7 +60,7 @@ public class Orientation extends AbstractTask implements SensorEventListener {
     }
 
     @Override
-    public void onUpdate() {
+    public void update() {
         // 傾きに合わせてボールを動かす
         Ball ball = (Ball)find(getInteger(R.integer.priority_ball));
 
@@ -189,6 +183,5 @@ public class Orientation extends AbstractTask implements SensorEventListener {
     }
 
     @Override
-    public void onAccuracyChanged(Sensor sensor, int i) {
-    }
+    public void onAccuracyChanged(Sensor sensor, int i) { }
 }

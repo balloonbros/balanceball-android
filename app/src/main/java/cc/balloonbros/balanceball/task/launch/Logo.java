@@ -41,9 +41,6 @@ public class Logo extends TouchTask implements Drawable, TimerEventListener {
     }
 
     @Override
-    public void onUpdate() { }
-
-    @Override
     public void onDraw(Canvas canvas) {
         canvas.drawBitmap(mLogo, mSource, mDestination, null);
     }

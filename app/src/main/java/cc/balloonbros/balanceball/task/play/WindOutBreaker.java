@@ -25,9 +25,4 @@ public class WindOutBreaker extends AbstractTask implements TimerEventListener {
 
         setFrameTimer(mRandom.nextInt((int)getGame().getFps() * 5), this);
     }
-
-    @Override
-    public void onUpdate() {
-
-    }
 }

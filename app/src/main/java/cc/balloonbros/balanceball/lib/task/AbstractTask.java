@@ -3,7 +3,6 @@ package cc.balloonbros.balanceball.lib.task;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Point;
-import android.view.View;
 
 import java.util.ArrayList;
 
@@ -17,8 +16,9 @@ import cc.balloonbros.balanceball.lib.task.system.TimerTask;
  * ゲーム内のタスクの基底クラス。
  * タスクはすべてこのクラスを継承する。
  */
-abstract public class AbstractTask extends TimerTask implements Updateable {
+abstract public class AbstractTask extends TimerTask implements TaskFunction {
     private AbstractScene mScene = null;
+    private TaskFunction mCurrentFunction = this;
 
     /**
      * このタスクの子タスクと親タスク
@@ -57,13 +57,23 @@ abstract public class AbstractTask extends TimerTask implements Updateable {
      * @param canvas キャンバス
      */
     public void execute(Canvas canvas) {
-        this.onUpdate();
+        if (mCurrentFunction != null) {
+            mCurrentFunction.update();
+        }
 
         if (this instanceof Drawable) {
             ((Drawable)this).onDraw(canvas);
         }
 
         executeTimer();
+    }
+
+    /**
+     * タスク実行関数を遷移させる
+     * @param function タスク実行関数
+     */
+    public void changeTask(TaskFunction function) {
+        mCurrentFunction = function;
     }
 
     /**
@@ -97,6 +107,8 @@ abstract public class AbstractTask extends TimerTask implements Updateable {
      * 自分自身をタスクリストから削除する
      */
     public void kill() {
+        super.kill();
+        mCurrentFunction = null;
         getScene().getTaskManager().remove(this);
         onKilled();
     }
@@ -140,6 +152,11 @@ abstract public class AbstractTask extends TimerTask implements Updateable {
     /* ==============================================
      *           オーバーライド専用メソッド
      * ============================================== */
+
+    /**
+     * タスク処理関数
+     */
+    public void update() { }
 
      /**
      * タスクがタスクマネージャーに登録された時に呼ばれる

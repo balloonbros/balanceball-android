@@ -73,9 +73,4 @@ public class Ball extends DrawableTask {
             mCoordinates.y = displaySize.y - mBall.getHeight();
         }
     }
-
-    @Override
-    public void onUpdate() {
-
-    }
 }
