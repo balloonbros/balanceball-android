@@ -66,12 +66,12 @@ abstract public class GameMain {
      */
     public void start(AbstractScene startScene, long fps) {
         onInitialize();
-        mCurrentScene = startScene;
-        mCurrentScene.onInitialize();
-
         if (fps > 0) {
             mGameLoop.changeFps(fps);
         }
+        mCurrentScene = startScene;
+        mCurrentScene.onInitialize();
+
         ((Activity)mContext).setContentView(mView);
     }
 

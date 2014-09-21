@@ -20,9 +20,6 @@ public class LaunchScene extends AbstractScene {
     @Override
     public void onInitialize() {
         loadAssets(R.drawable.launch_logo);
-
-        // 起動シーンはロゴを表示するだけなのでFPSは極限まで低くてよい
-        changeFps(1);
         getTaskManager().register(new Logo());
     }
 }
