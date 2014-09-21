@@ -61,11 +61,11 @@ abstract public class AbstractTask extends TimerTask implements TaskFunction {
             mCurrentFunction.update();
         }
 
+        executeTimer();
+
         if (this instanceof Drawable) {
             ((Drawable)this).onDraw(canvas);
         }
-
-        executeTimer();
     }
 
     /**
