@@ -41,7 +41,7 @@ public class AbstractScene {
      * 画像を読み込む
      * @param assetId 素材のID
      */
-    public void loadAssets(int... assetId) { mAssetManager.loadBitmaps(assetId); }
+    public void loadBitmaps(int... assetId) { mAssetManager.loadBitmaps(assetId); }
 
     /**
      * フォントを読み込む

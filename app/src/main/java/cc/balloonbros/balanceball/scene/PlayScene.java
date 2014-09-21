@@ -17,7 +17,7 @@ public class PlayScene extends AbstractScene {
 
     @Override
     public void onInitialize() {
-        loadAssets(R.drawable.ball3, R.drawable.area3, R.drawable.wind3);
+        loadBitmaps(R.drawable.ball3, R.drawable.area3, R.drawable.wind3);
         Ball initialTask1 = new Ball();
         Orientation initialTask2 = new Orientation();
         WindOutBreaker initialTask3 = new WindOutBreaker();
