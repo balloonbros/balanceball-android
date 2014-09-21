@@ -4,6 +4,7 @@ import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.lib.GameMain;
 import cc.balloonbros.balanceball.lib._;
 import cc.balloonbros.balanceball.lib.scene.AbstractScene;
+import cc.balloonbros.balanceball.task.title.FadeIn;
 import cc.balloonbros.balanceball.task.title.Title;
 
 /**
@@ -20,6 +21,6 @@ public class TitleScene extends AbstractScene {
             _.s(R.string.open_sans_bold),
             _.s(R.string.open_sans_light)
         );
-        getTaskManager().register(new Title());
+        getTaskManager().register(new Title(), new FadeIn());
     }
 }

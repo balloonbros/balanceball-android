@@ -49,6 +49,7 @@ public class Title extends TouchTask implements Drawable, TimerEventListener {
     @Override
     public void onRegistered() {
         super.onRegistered();
+        setPriority(_.i(R.integer.priority_title));
 
         mTitlePaint = createTitlePaint();
         mBasePaint  = createBasePaint();
