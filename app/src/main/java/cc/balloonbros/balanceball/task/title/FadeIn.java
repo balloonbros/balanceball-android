@@ -26,6 +26,6 @@ public class FadeIn extends DrawableTask {
 
     @Override
     public void onDraw(Canvas canvas) {
-        canvas.drawColor(Color.argb(mAlpha, 0, 0, 0));
+        canvas.drawColor(Color.BLACK & mAlpha << 24);
     }
 }
