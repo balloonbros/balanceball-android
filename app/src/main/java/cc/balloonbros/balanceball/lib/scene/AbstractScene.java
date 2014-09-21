@@ -2,6 +2,7 @@ package cc.balloonbros.balanceball.lib.scene;
 
 import cc.balloonbros.balanceball.lib.AssetManager;
 import cc.balloonbros.balanceball.lib.GameMain;
+import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.task.TaskManager;
 
 /**
@@ -36,6 +37,14 @@ public class AbstractScene {
      * @param fps 変更後のFPS
      */
     public void changeFps(long fps) { mGame.getGameLoop().changeFps(fps); }
+
+    /**
+     * タスクを新しく登録する
+     * @param tasks 登録するタスク。複数指定可能
+     */
+    public void registerTasks(AbstractTask... tasks) {
+        getTaskManager().register(tasks);
+    }
 
     /**
      * 画像を読み込む

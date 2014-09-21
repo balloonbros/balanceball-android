@@ -17,7 +17,12 @@ public class PlayScene extends AbstractScene {
 
     @Override
     public void onInitialize() {
-        loadBitmaps(R.drawable.ball3, R.drawable.area3, R.drawable.wind3);
+        loadBitmaps(
+            R.drawable.ball3,
+            R.drawable.area3,
+            R.drawable.wind3
+        );
+
         Ball initialTask1 = new Ball();
         Orientation initialTask2 = new Orientation();
         WindOutBreaker initialTask3 = new WindOutBreaker();
@@ -29,6 +34,12 @@ public class PlayScene extends AbstractScene {
         initialTask4.setPriority(_.i(R.integer.priority_debug));
         initialTask5.setPriority(_.i(R.integer.priority_center_circle));
 
-        getTaskManager().register(initialTask1, initialTask2, initialTask3, initialTask4, initialTask5);
+        registerTasks(
+            initialTask1,
+            initialTask2,
+            initialTask3,
+            initialTask4,
+            initialTask5
+        );
     }
 }
