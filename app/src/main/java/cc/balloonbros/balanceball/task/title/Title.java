@@ -8,6 +8,7 @@ import android.graphics.Typeface;
 import android.view.MotionEvent;
 
 import cc.balloonbros.balanceball.R;
+import cc.balloonbros.balanceball.lib._;
 import cc.balloonbros.balanceball.lib.task.Drawable;
 import cc.balloonbros.balanceball.lib.task.TaskFunction;
 import cc.balloonbros.balanceball.lib.task.basic.TouchTask;
@@ -29,7 +30,7 @@ public class Title extends TouchTask implements Drawable, TimerEventListener {
         p.setTextSize(66.0F);
         p.setTextAlign(Paint.Align.CENTER);
         p.setAntiAlias(true);
-        p.setTypeface(getFont("opensans-bold.ttf"));
+        p.setTypeface(getFont(_.s(R.string.open_sans_bold)));
 
         return p;
     }
@@ -40,7 +41,7 @@ public class Title extends TouchTask implements Drawable, TimerEventListener {
         p.setTextSize(20.0F);
         p.setTextAlign(Paint.Align.CENTER);
         p.setAntiAlias(true);
-        p.setTypeface(getFont("opensans-light.ttf"));
+        p.setTypeface(getFont(_.s(R.string.open_sans_light)));
 
         return p;
     }
@@ -82,7 +83,7 @@ public class Title extends TouchTask implements Drawable, TimerEventListener {
     @Override
     public void onDraw(Canvas canvas) {
         mBasePaint.setAlpha(mAlpha);
-        canvas.drawText(getString(R.string.game_start_label), mTitlePosition.x, 300, mBasePaint);
-        canvas.drawText(getString(R.string.app_name), mTitlePosition.x, mTitlePosition.y, mTitlePaint);
+        canvas.drawText(_.s(R.string.game_start_label), mTitlePosition.x, 300, mBasePaint);
+        canvas.drawText(_.s(R.string.app_name), mTitlePosition.x, mTitlePosition.y, mTitlePaint);
     }
 }

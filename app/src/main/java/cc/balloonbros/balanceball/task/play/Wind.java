@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 
 import cc.balloonbros.balanceball.R;
+import cc.balloonbros.balanceball.lib._;
 import cc.balloonbros.balanceball.lib.task.DrawableTask;
 
 /**
@@ -38,7 +39,7 @@ public class Wind extends DrawableTask {
     public void update() {
         // ボールに風の影響を与える
         // 風の方向と移動距離からボールの次の位置を計算して移動させる
-        Ball ball = (Ball)find(getInteger(R.integer.priority_ball));
+        Ball ball = (Ball)find(_.i(R.integer.priority_ball));
         if (mSpeed >= 0) {
             int distance = mSpeed / 10;
             int dx = (int)(Math.cos(Math.toRadians(mAngle)) * distance);

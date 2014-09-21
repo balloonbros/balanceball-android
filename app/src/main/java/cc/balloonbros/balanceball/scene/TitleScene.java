@@ -1,6 +1,8 @@
 package cc.balloonbros.balanceball.scene;
 
+import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.lib.GameMain;
+import cc.balloonbros.balanceball.lib._;
 import cc.balloonbros.balanceball.lib.scene.AbstractScene;
 import cc.balloonbros.balanceball.task.title.Title;
 
@@ -14,7 +16,10 @@ public class TitleScene extends AbstractScene {
 
     @Override
     public void onInitialize() {
-        loadFonts("opensans-bold.ttf", "opensans-light.ttf");
+        loadFonts(
+            _.s(R.string.open_sans_bold),
+            _.s(R.string.open_sans_light)
+        );
         getTaskManager().register(new Title());
     }
 }

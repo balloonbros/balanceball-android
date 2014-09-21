@@ -9,6 +9,7 @@ import java.util.List;
 
 import cc.balloonbros.balanceball.BalanceBall;
 import cc.balloonbros.balanceball.R;
+import cc.balloonbros.balanceball.lib._;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.task.message.IntegerMessage;
 import cc.balloonbros.balanceball.task.message.OrientationMessage;
@@ -62,7 +63,7 @@ public class Orientation extends AbstractTask implements SensorEventListener {
     @Override
     public void update() {
         // 傾きに合わせてボールを動かす
-        Ball ball = (Ball)find(getInteger(R.integer.priority_ball));
+        Ball ball = (Ball)find(_.i(R.integer.priority_ball));
 
         if (ball.isBorderLeftEdge() || ball.isBorderRightEdge()) {
             mSpeeds[0] = 0;
@@ -80,7 +81,7 @@ public class Orientation extends AbstractTask implements SensorEventListener {
         ball.move(dx, dy);
 
         // デバッグ用に現在の傾きを画面に表示する
-        DebugOutput debug = (DebugOutput)find(getInteger(R.integer.priority_debug));
+        DebugOutput debug = (DebugOutput)find(_.i(R.integer.priority_debug));
         mOrientationMessage.setOrientation(mOrientationValues);
         mSpeedMessage.setMessage(mSpeeds[0]);
         sendMessage(debug, mOrientationMessage);

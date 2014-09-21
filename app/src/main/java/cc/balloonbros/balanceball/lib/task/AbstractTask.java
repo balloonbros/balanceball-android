@@ -73,9 +73,7 @@ abstract public class AbstractTask extends TimerTask implements TaskFunction {
      * タスク実行関数を遷移させる
      * @param function タスク実行関数
      */
-    public void changeTask(TaskFunction function) {
-        mCurrentFunction = function;
-    }
+    public void changeTask(TaskFunction function) { mCurrentFunction = function; }
 
     /**
      * ロードされたリソースから画像を取得する
@@ -85,25 +83,11 @@ abstract public class AbstractTask extends TimerTask implements TaskFunction {
     public Bitmap getImage(int assetId) { return getScene().getAssetManager().getImage(assetId); }
 
     /**
-     * 数値リソースを取得する
-     * @param id リソースID
-     * @return 数値
-     */
-    public int getInteger(int id) { return getGame().getResources().getInteger(id); }
-
-    /**
      * フォントを取得する
      * @param font フォント名
      * @return フォント
      */
     public Typeface getFont(String font) { return getScene().getAssetManager().getFont(font); }
-
-    /**
-     * 文字列リソースを取得する
-     * @param id リソースID
-     * @return 文字列
-     */
-    public String getString(int id) { return getGame().getResources().getString(id); }
 
     /**
      * デバイスのディスプレイサイズを取得する

@@ -35,6 +35,7 @@ abstract public class GameMain {
     public GameMain(Context context) {
         mContext     = context;
         mGameDisplay = new GameDisplay(this);
+        _.set(context.getResources());
     }
 
     /**

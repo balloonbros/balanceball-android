@@ -1,9 +1,8 @@
 package cc.balloonbros.balanceball.scene;
 
-import android.content.res.Resources;
-
 import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.lib.GameMain;
+import cc.balloonbros.balanceball.lib._;
 import cc.balloonbros.balanceball.lib.scene.AbstractScene;
 import cc.balloonbros.balanceball.task.play.Ball;
 import cc.balloonbros.balanceball.task.play.CenterCircle;
@@ -25,11 +24,10 @@ public class PlayScene extends AbstractScene {
         DebugOutput initialTask4 = new DebugOutput();
         CenterCircle initialTask5 = new CenterCircle();
 
-        Resources res = getGame().getResources();
-        initialTask1.setPriority(res.getInteger(R.integer.priority_ball));
-        initialTask3.setPriority(res.getInteger(R.integer.priority_wind_out_breaker));
-        initialTask4.setPriority(res.getInteger(R.integer.priority_debug));
-        initialTask5.setPriority(res.getInteger(R.integer.priority_center_circle));
+        initialTask1.setPriority(_.i(R.integer.priority_ball));
+        initialTask3.setPriority(_.i(R.integer.priority_wind_out_breaker));
+        initialTask4.setPriority(_.i(R.integer.priority_debug));
+        initialTask5.setPriority(_.i(R.integer.priority_center_circle));
 
         getTaskManager().register(initialTask1, initialTask2, initialTask3, initialTask4, initialTask5);
     }
