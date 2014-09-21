@@ -14,6 +14,7 @@ public class TitleScene extends AbstractScene {
 
     @Override
     public void onInitialize() {
+        loadFonts("opensans-bold.ttf", "opensans-light.ttf");
         getTaskManager().register(new Title());
     }
 }

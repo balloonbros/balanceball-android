@@ -3,6 +3,7 @@ package cc.balloonbros.balanceball.lib.task;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.graphics.Typeface;
 
 import java.util.ArrayList;
 
@@ -89,6 +90,13 @@ abstract public class AbstractTask extends TimerTask implements TaskFunction {
      * @return 数値
      */
     public int getInteger(int id) { return getGame().getResources().getInteger(id); }
+
+    /**
+     * フォントを取得する
+     * @param font フォント名
+     * @return フォント
+     */
+    public Typeface getFont(String font) { return getScene().getAssetManager().getFont(font); }
 
     /**
      * 文字列リソースを取得する

@@ -24,27 +24,23 @@ public class Title extends TouchTask implements Drawable, TimerEventListener {
     private int mAlpha = 255;
 
     private Paint createTitlePaint() {
-        Typeface typeface = Typeface.createFromAsset(getGame().getContext().getAssets(), "fonts/opensans-bold.ttf");
-
         Paint p = new Paint();
         p.setColor(Color.rgb(0xfc, 0x50, 0x41));
         p.setTextSize(66.0F);
         p.setTextAlign(Paint.Align.CENTER);
         p.setAntiAlias(true);
-        p.setTypeface(typeface);
+        p.setTypeface(getFont("opensans-bold.ttf"));
 
         return p;
     }
 
     private Paint createBasePaint() {
-        Typeface typeface = Typeface.createFromAsset(getGame().getContext().getAssets(), "fonts/opensans-light.ttf");
-
         Paint p = new Paint();
         p.setColor(Color.GRAY);
         p.setTextSize(20.0F);
         p.setTextAlign(Paint.Align.CENTER);
         p.setAntiAlias(true);
-        p.setTypeface(typeface);
+        p.setTypeface(getFont("opensans-light.ttf"));
 
         return p;
     }

@@ -35,17 +35,19 @@ public class AbstractScene {
      * FPSを変更する
      * @param fps 変更後のFPS
      */
-    public void changeFps(long fps) {
-        mGame.getGameLoop().changeFps(fps);
-    }
+    public void changeFps(long fps) { mGame.getGameLoop().changeFps(fps); }
 
     /**
-     * 素材を読み込む
+     * 画像を読み込む
      * @param assetId 素材のID
      */
-    public void loadAssets(int... assetId) {
-        mAssetManager.loadAssets(assetId);
-    }
+    public void loadAssets(int... assetId) { mAssetManager.loadBitmaps(assetId); }
+
+    /**
+     * フォントを読み込む
+     * @param fonts フォント名。複数指定可能
+     */
+    public void loadFonts(String... fonts) { mAssetManager.loadFonts(fonts); }
 
     /**
      * シーンを破棄する
