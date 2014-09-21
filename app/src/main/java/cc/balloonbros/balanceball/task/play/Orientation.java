@@ -55,6 +55,11 @@ public class Orientation extends AbstractTask implements SensorEventListener {
     }
 
     @Override
+    public void onKilled() {
+        onLeaveLoop();
+    }
+
+    @Override
     public void onLeaveLoop() {
         // ゲームループ中以外はセンサー不要なのでリスナー解除しておく
         mSensorManager.unregisterListener(this);
