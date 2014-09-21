@@ -71,7 +71,8 @@ public class Title extends TouchTask implements Drawable, TimerEventListener {
     @Override
     public void update() {
         mAlpha -= 5;
-        if (mAlpha <= 0) {
+        if (mAlpha < 0) {
+            mAlpha = 255;
             changeTask(null);
             setTimer(500, this);
         }
