@@ -81,6 +81,13 @@ abstract public class AbstractTask extends TimerTask implements Updateable {
     public int getInteger(int id) { return getGame().getResources().getInteger(id); }
 
     /**
+     * 文字列リソースを取得する
+     * @param id リソースID
+     * @return 文字列
+     */
+    public String getString(int id) { return getGame().getResources().getString(id); }
+
+    /**
      * デバイスのディスプレイサイズを取得する
      * @return ディスプレイサイズ
      */
