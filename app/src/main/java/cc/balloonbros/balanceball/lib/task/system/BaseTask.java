@@ -36,6 +36,10 @@ public class BaseTask {
         return mPriority;
     }
     public void setPriority(int priority) {
+        if (mPriority == priority) {
+            return;
+        }
+
         if (mTaskList != null) {
             mTaskList.remove(this);
         }
