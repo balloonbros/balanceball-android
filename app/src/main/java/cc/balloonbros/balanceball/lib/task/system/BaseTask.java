@@ -14,6 +14,7 @@ abstract public class BaseTask {
     }
     void clearLink() {
         mPrev = mNext = null;
+        mTaskList = null;
     }
     void belongsTo(TaskList taskList) {
         mTaskList = taskList;
