@@ -18,17 +18,21 @@ import cc.balloonbros.balanceball.lib.task.system.TimerTask;
  * タスクはすべてこのクラスを継承する。
  */
 abstract public class AbstractTask extends TimerTask implements TaskFunction {
+    /** タスクが属しているシーン */
     private AbstractScene mScene = null;
+
+    /** タスク処理関数 */
     private TaskFunction mCurrentFunction = this;
 
-    /**
-     * このタスクの子タスクと親タスク
-     */
+    /** このタスクの子タスクと親タスク */
     private ArrayList<AbstractTask> mChildren = new ArrayList<AbstractTask>();
     private AbstractTask mParent = null;
 
     /** タスクが実行された時のフレームカウント */
     private long mFrameCountInExecution = 0;
+
+    /** タスクが一時停止中かどうか */
+    private boolean mStop = false;
 
     public AbstractTask getParent() { return mParent; }
     private void setParent(AbstractTask parentTask) { mParent = parentTask; }
@@ -69,17 +73,33 @@ abstract public class AbstractTask extends TimerTask implements TaskFunction {
             return;
         }
 
-        if (mCurrentFunction != null) {
-            mCurrentFunction.update();
+        if (!mStop) {
+            if (mCurrentFunction != null) {
+                mCurrentFunction.update();
+            }
+            executeTimer();
         }
-
-        executeTimer();
 
         if (this instanceof Drawable) {
             ((Drawable)this).onDraw(canvas);
         }
 
         mFrameCountInExecution = getFrameCount();
+    }
+
+    /**
+     * タスクの実行を一時的に停止します
+     * タスクは停止されても描画はし続けます
+     */
+    public void stop() {
+        mStop = true;
+    }
+
+    /**
+     * タスクの実行を再開します
+     */
+    public void resume() {
+        mStop = false;
     }
 
     /**
