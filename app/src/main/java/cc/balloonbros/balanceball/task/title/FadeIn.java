@@ -5,9 +5,10 @@ import android.graphics.Color;
 
 import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.lib._;
-import cc.balloonbros.balanceball.lib.task.DrawableTask;
+import cc.balloonbros.balanceball.lib.task.AbstractTask;
+import cc.balloonbros.balanceball.lib.task.Drawable;
 
-public class FadeIn extends DrawableTask {
+public class FadeIn extends AbstractTask implements Drawable {
     private int mAlpha = 0xff;
 
     @Override

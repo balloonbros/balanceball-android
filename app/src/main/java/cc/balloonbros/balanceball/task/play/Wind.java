@@ -6,22 +6,24 @@ import android.graphics.Point;
 
 import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.lib._;
-import cc.balloonbros.balanceball.lib.task.DrawableTask;
+import cc.balloonbros.balanceball.lib.task.basic.MovableTask;
 
 /**
  * 風
  */
-public class Wind extends DrawableTask {
-    private Point mCoordinates = new Point();
+public class Wind extends MovableTask {
+    /** 風画像 */
     private Bitmap mWind = null;
 
-    /**
-     * 風の方向と移動距離
-     */
+    /** 風の方向と移動距離 */
     private int mAngle = 0;
     private int mAcceleration = 0;
     private int mSpeed = 0;
 
+    /**
+     * コンストラクタ。風の方向を指定する
+     * @param angle 風の方向
+     */
     public Wind(int angle) {
         super();
         mAngle = angle;
@@ -31,8 +33,8 @@ public class Wind extends DrawableTask {
 
     @Override
     public void onRegistered() {
+        super.onRegistered();
         mWind = getImage(R.drawable.wind3);
-        mCoordinates.set(0, 0);
     }
 
     @Override
@@ -44,22 +46,32 @@ public class Wind extends DrawableTask {
             int distance = mSpeed / 10;
             int dx = (int)(Math.cos(Math.toRadians(mAngle)) * distance);
             int dy = (int)(Math.sin(Math.toRadians(mAngle)) * distance);
-            ball.move(dx, dy);
+            ball.moveInArea(dx, dy);
             mSpeed += mAcceleration;
             if (mSpeed > 50) {
                 mAcceleration = -1;
             }
         }
-        //ball.move((getDisplaySize().x - mCoordinates.x) / 100, 0);
 
-        mCoordinates.x += 10;
-        if (mCoordinates.x >= getDisplaySize().x) {
+        move(10, 0);
+        if (isInvisible()) {
             kill();
         }
     }
 
     @Override
     public void onDraw(Canvas canvas) {
-        canvas.drawBitmap(mWind, mCoordinates.x, mCoordinates.y, null);
+        Point p = getPosition();
+        canvas.drawBitmap(mWind, p.x, p.y, null);
+    }
+
+    @Override
+    public int getWidth() {
+        return mWind.getWidth();
+    }
+
+    @Override
+    public int getHeight() {
+        return mWind.getHeight();
     }
 }

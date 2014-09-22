@@ -3,13 +3,14 @@ package cc.balloonbros.balanceball.task.play;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 
 import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.lib._;
-import cc.balloonbros.balanceball.lib.task.DrawableTask;
+import cc.balloonbros.balanceball.lib.task.basic.PositionableTask;
 import cc.balloonbros.balanceball.lib.task.timer.TimerEventListener;
 
-public class CountdownTimer extends DrawableTask implements TimerEventListener {
+public class CountdownTimer extends PositionableTask implements TimerEventListener {
     private int mRestTime = _.i(R.integer.game_time);
     private Paint mPaint = new Paint();
 
@@ -23,6 +24,9 @@ public class CountdownTimer extends DrawableTask implements TimerEventListener {
         mPaint.setTypeface(getFont(_.s(R.string.open_sans_light)));
         mPaint.setTextAlign(Paint.Align.CENTER);
         mPaint.setAntiAlias(true);
+
+        Point p = getDisplaySize();
+        position(p.x / 2, p.y / 2 + 100);
     }
 
     @Override
@@ -38,6 +42,7 @@ public class CountdownTimer extends DrawableTask implements TimerEventListener {
 
     @Override
     public void onDraw(Canvas canvas) {
-        canvas.drawText(String.valueOf(mRestTime), getDisplaySize().x / 2, getDisplaySize().y - 100, mPaint);
+        Point p = getPosition();
+        canvas.drawText(String.valueOf(mRestTime), p.x, p.y, mPaint);
     }
 }

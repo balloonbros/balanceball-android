@@ -5,11 +5,10 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 
 import cc.balloonbros.balanceball.R;
-import cc.balloonbros.balanceball.lib.task.DrawableTask;
+import cc.balloonbros.balanceball.lib.task.basic.PositionableTask;
 
-public class CenterCircle extends DrawableTask {
+public class CenterCircle extends PositionableTask {
     private Bitmap mCircle = null;
-    private Point mCoordinates = new Point();
 
     @Override
     public void onRegistered() {
@@ -18,15 +17,12 @@ public class CenterCircle extends DrawableTask {
         Point displaySize = getDisplaySize();
         int x = (displaySize.x / 2) - (mCircle.getWidth()  / 2);
         int y = (displaySize.y / 2) - (mCircle.getHeight() / 2);
-        mCoordinates.set(x, y);
+        position(x, y);
     }
 
     @Override
     public void onDraw(Canvas canvas) {
-        canvas.drawBitmap(mCircle, mCoordinates.x, mCoordinates.y, null);
-    }
-
-    public Point getPosition() {
-        return mCoordinates;
+        Point p = getPosition();
+        canvas.drawBitmap(mCircle, p.x, p.y, null);
     }
 }
