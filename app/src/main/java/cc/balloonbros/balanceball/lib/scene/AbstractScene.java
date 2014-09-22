@@ -28,7 +28,7 @@ public class AbstractScene {
      * シーンが属するゲームをセットする
      * @param game シーンが属するゲーム
      */
-    public void setGame(GameMain game) {
+    public void belongsTo(GameMain game) {
         mAssetManager = new AssetManager(game.getContext().getResources());
         mGame = game;
     }

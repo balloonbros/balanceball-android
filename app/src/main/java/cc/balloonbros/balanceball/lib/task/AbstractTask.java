@@ -32,7 +32,7 @@ abstract public class AbstractTask extends TimerTask implements TaskFunction {
 
     public AbstractTask getParent() { return mParent; }
     private void setParent(AbstractTask parentTask) { mParent = parentTask; }
-    public void setScene(AbstractScene scene) { mScene = scene; }
+    public void belongsTo(AbstractScene scene) { mScene = scene; }
     public AbstractScene getScene() { return mScene; }
     protected GameMain getGame() { return mScene.getGame(); }
     protected TaskManager getTaskManager() { return getScene().getTaskManager(); }

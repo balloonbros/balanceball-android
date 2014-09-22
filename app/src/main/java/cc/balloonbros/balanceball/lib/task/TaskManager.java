@@ -45,7 +45,7 @@ public class TaskManager {
     public void register(AbstractTask... tasks) {
         // 受け取ったタスクはまず予約リストに登録する
         for (AbstractTask task: tasks) {
-            task.setScene(mScene);
+            task.belongsTo(mScene);
             mReservedRegisterTask.offer(task);
         }
 

@@ -8,7 +8,6 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import cc.balloonbros.balanceball.lib.scene.AbstractScene;
-import cc.balloonbros.balanceball.lib.task.TaskManager;
 
 abstract public class GameMain {
     private GameLoop mGameLoop = null;
@@ -105,7 +104,7 @@ abstract public class GameMain {
             mCurrentScene.dispose();
         }
         mCurrentScene = mReservedScene;
-        mCurrentScene.setGame(this);
+        mCurrentScene.belongsTo(this);
         mCurrentScene.onInitialize();
         mReservedScene = null;
     }
