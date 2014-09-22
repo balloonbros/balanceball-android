@@ -4,6 +4,7 @@ public class BaseTask {
     private BaseTask mPrev = null;
     private BaseTask mNext = null;
     private int mPriority = 0xffff;
+    private TaskList mTaskList = null;
 
     void setPrev(BaseTask prev) {
         mPrev = prev;
@@ -13,6 +14,9 @@ public class BaseTask {
     }
     void clearLink() {
         mPrev = mNext = null;
+    }
+    void belongsTo(TaskList taskList) {
+        mTaskList = taskList;
     }
 
     public BaseTask getPrev() {
@@ -32,6 +36,14 @@ public class BaseTask {
         return mPriority;
     }
     public void setPriority(int priority) {
+        if (mTaskList != null) {
+            mTaskList.remove(this);
+        }
+
         mPriority = priority;
+
+        if (mTaskList != null) {
+            mTaskList.register(this);
+        }
     }
 }

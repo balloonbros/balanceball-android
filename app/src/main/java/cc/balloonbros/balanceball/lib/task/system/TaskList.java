@@ -66,6 +66,7 @@ public class TaskList {
             insert(registerTask);
         }
 
+        registerTask.belongsTo(this);
         mTaskCount++;
         mCache.put(registerTask.getPriority(), registerTask);
     }
