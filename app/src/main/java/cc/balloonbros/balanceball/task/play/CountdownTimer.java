@@ -37,6 +37,7 @@ public class CountdownTimer extends PositionableTask implements TimerEventListen
             kill();
             find(_.i(R.integer.priority_orientation)).kill();
             find(_.i(R.integer.priority_wind_out_breaker)).kill();
+            find(_.i(R.integer.priority_ball)).stop();
         }
     }
 
