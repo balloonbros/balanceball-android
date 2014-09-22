@@ -1,6 +1,6 @@
 package cc.balloonbros.balanceball.lib.task.system;
 
-public class BaseTask {
+abstract public class BaseTask {
     private BaseTask mPrev = null;
     private BaseTask mNext = null;
     private int mPriority = 0xffff;
