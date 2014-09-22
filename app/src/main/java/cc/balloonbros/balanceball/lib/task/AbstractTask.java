@@ -27,6 +27,9 @@ abstract public class AbstractTask extends TimerTask implements TaskFunction {
     private ArrayList<AbstractTask> mChildren = new ArrayList<AbstractTask>();
     private AbstractTask mParent = null;
 
+    /** タスクが実行された時のフレームカウント */
+    private long mFrameCountInExecution = 0;
+
     public AbstractTask getParent() { return mParent; }
     private void setParent(AbstractTask parentTask) { mParent = parentTask; }
     public void setScene(AbstractScene scene) { mScene = scene; }
@@ -59,6 +62,13 @@ abstract public class AbstractTask extends TimerTask implements TaskFunction {
      * @param canvas キャンバス
      */
     public void execute(Canvas canvas) {
+        // タスクの優先度が後ろに下がった場合、既に実行済みのタスクがもう一度実行される可能性があるため
+        // タスクの実行が終わったらその時のフレームカウントを保存しておき
+        // 同じフレーム内でのタスク実行はスキップする
+        if (mFrameCountInExecution == getFrameCount()) {
+            return;
+        }
+
         if (mCurrentFunction != null) {
             mCurrentFunction.update();
         }
@@ -68,6 +78,8 @@ abstract public class AbstractTask extends TimerTask implements TaskFunction {
         if (this instanceof Drawable) {
             ((Drawable)this).onDraw(canvas);
         }
+
+        mFrameCountInExecution = getFrameCount();
     }
 
     /**
