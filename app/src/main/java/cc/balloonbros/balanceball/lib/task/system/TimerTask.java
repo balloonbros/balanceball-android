@@ -36,9 +36,10 @@ abstract public class TimerTask extends BaseTask {
         }
     }
 
-    @Override
-    public void kill() {
-        super.kill();
+    /**
+     * 登録されているタイマーを全てリセットする
+     */
+    public void resetTimers() {
         mTimerReserveQueue.clear();
         mTimerQueue.clear();
     }

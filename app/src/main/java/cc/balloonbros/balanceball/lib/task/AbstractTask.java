@@ -100,7 +100,7 @@ abstract public class AbstractTask extends TimerTask implements TaskFunction {
      * 自分自身をタスクリストから削除する
      */
     public void kill() {
-        super.kill();
+        resetTimers();
         mCurrentFunction = null;
         getScene().getTaskManager().remove(this);
         onKilled();

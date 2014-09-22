@@ -27,9 +27,6 @@ public class BaseTask {
     public boolean isLast() {
         return mNext == null;
     }
-    public void kill() {
-        clearLink();
-    }
 
     public int getPriority() {
         return mPriority;
