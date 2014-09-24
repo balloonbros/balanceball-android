@@ -11,4 +11,5 @@ public class _ {
 
     public static int i(int id) { return mResources.getInteger(id); }
     public static String s(int id) { return mResources.getString(id); }
+    public static int c(int id) { return mResources.getColor(id); }
 }
