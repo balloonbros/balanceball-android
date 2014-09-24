@@ -10,8 +10,8 @@ abstract public class PositionableTask extends AbstractTask implements Drawable 
     Point mCoordinate = new Point();
 
     @Override
-    public void onRegistered() {
-        super.onRegistered();
+    public void onRegister() {
+        super.onRegister();
         mCoordinate.set(0, 0);
     }
 

@@ -22,7 +22,7 @@ public class DebugOutput extends AbstractTask implements Drawable, TaskEventList
     private int mSpeed = 0;
 
     @Override
-    public void onRegistered() {
+    public void onRegister() {
         setPriority(_.i(R.integer.priority_debug));
         mPaint.setColor(Color.BLACK);
     }

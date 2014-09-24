@@ -1,7 +1,6 @@
 package cc.balloonbros.balanceball.task.title;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.view.MotionEvent;
@@ -45,8 +44,8 @@ public class Title extends TouchTask implements Drawable, TimerEventListener {
     }
 
     @Override
-    public void onRegistered() {
-        super.onRegistered();
+    public void onRegister() {
+        super.onRegister();
         setPriority(_.i(R.integer.priority_title));
 
         mTitlePaint = createTitlePaint();

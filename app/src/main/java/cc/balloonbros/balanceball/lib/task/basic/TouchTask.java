@@ -18,7 +18,7 @@ abstract public class TouchTask extends AbstractTask implements View.OnTouchList
     }
 
     @Override
-    public void onRegistered() {
+    public void onRegister() {
         setTouchListener(this);
     }
 

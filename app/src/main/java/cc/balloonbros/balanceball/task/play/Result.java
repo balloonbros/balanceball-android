@@ -10,8 +10,8 @@ import cc.balloonbros.balanceball.lib.task.Drawable;
 
 public class Result extends AbstractTask implements Drawable {
     @Override
-    public void onRegistered() {
-        super.onRegistered();
+    public void onRegister() {
+        super.onRegister();
         setPriority(_.i(R.integer.priority_result));
     }
 

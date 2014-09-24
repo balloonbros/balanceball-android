@@ -8,8 +8,8 @@ abstract public class MovableTask extends PositionableTask {
     private Rect mMovableArea = new Rect();
 
     @Override
-    public void onRegistered() {
-        super.onRegistered();
+    public void onRegister() {
+        super.onRegister();
 
         Point displaySize = getDisplaySize();
         mMovableArea.set(0, 0, displaySize.x, displaySize.y);

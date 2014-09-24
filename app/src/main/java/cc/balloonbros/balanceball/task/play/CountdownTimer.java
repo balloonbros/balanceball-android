@@ -7,6 +7,7 @@ import android.graphics.Point;
 
 import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.lib._;
+import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.task.basic.PositionableTask;
 import cc.balloonbros.balanceball.lib.task.timer.TimerEventListener;
 
@@ -15,8 +16,8 @@ public class CountdownTimer extends PositionableTask implements TimerEventListen
     private Paint mPaint = new Paint();
 
     @Override
-    public void onRegistered() {
-        super.onRegistered();
+    public void onRegister() {
+        super.onRegister();
         setFrameInterval((int)getFps(), this);
 
         mPaint.setColor(Color.rgb(0xe5, 0x40, 0x73));
@@ -38,6 +39,9 @@ public class CountdownTimer extends PositionableTask implements TimerEventListen
             find(_.i(R.integer.priority_orientation)).kill();
             find(_.i(R.integer.priority_wind_out_breaker)).kill();
             find(_.i(R.integer.priority_ball)).stop();
+            for (AbstractTask task: findByTag("wind")) {
+                task.stop();
+            }
         }
     }
 

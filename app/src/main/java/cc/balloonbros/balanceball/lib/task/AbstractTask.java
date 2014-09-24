@@ -34,14 +34,18 @@ abstract public class AbstractTask extends TimerTask implements TaskFunction {
     /** タスクが一時停止中かどうか */
     private boolean mStop = false;
 
+    /** タスク検索に利用するタグ */
+    private String mTag = "";
+
     public AbstractTask getParent() { return mParent; }
     private void setParent(AbstractTask parentTask) { mParent = parentTask; }
     public void belongsTo(AbstractScene scene) { mScene = scene; }
     public AbstractScene getScene() { return mScene; }
-    protected GameMain getGame() { return mScene.getGame(); }
-    protected TaskManager getTaskManager() { return getScene().getTaskManager(); }
-    protected long getFrameCount() { return getGame().getFrameCount(); }
-    protected long getFps() { return getGame().getFps(); }
+    public GameMain getGame() { return mScene.getGame(); }
+    public TaskManager getTaskManager() { return getScene().getTaskManager(); }
+    public long getFrameCount() { return getGame().getFrameCount(); }
+    public long getFps() { return getGame().getFps(); }
+    public String getTag() { return mTag; }
 
     /**
      * コンストラクタ。
@@ -85,6 +89,16 @@ abstract public class AbstractTask extends TimerTask implements TaskFunction {
         }
 
         mFrameCountInExecution = getFrameCount();
+    }
+
+    /**
+     * タスクにタグを設定する
+     */
+    public void setTag(String tag) {
+        mTag = tag;
+        if (getScene() != null) {
+            getTaskManager().registerTagList(this);
+        }
     }
 
     /**
@@ -157,6 +171,15 @@ abstract public class AbstractTask extends TimerTask implements TaskFunction {
     }
 
     /**
+     * 指定されたタグがついているタスクを探して取得する
+     * @param tag 検索するタグ
+     * @return タスクのリスト
+     */
+    public ArrayList<AbstractTask> findByTag(String tag) {
+        return getTaskManager().findByTag(tag);
+    }
+
+    /**
      * 新しくタスクをタスクマネージャーに登録する
      * @param registerTask 登録するタスク
      */
@@ -194,7 +217,7 @@ abstract public class AbstractTask extends TimerTask implements TaskFunction {
      /**
      * タスクがタスクマネージャーに登録された時に呼ばれる
      */
-    protected void onRegistered() { }
+    protected void onRegister() { }
 
     /**
      * ゲームループに入る時に呼ばれる

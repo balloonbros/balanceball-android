@@ -17,8 +17,8 @@ public class Wind extends MovableTask {
 
     /** 風の方向と移動距離 */
     private int mAngle = 0;
-    private int mAcceleration = 0;
-    private int mSpeed = 0;
+    private int mAcceleration = 2;
+    private int mSpeed = 1;
 
     /**
      * コンストラクタ。風の方向を指定する
@@ -27,13 +27,13 @@ public class Wind extends MovableTask {
     public Wind(int angle) {
         super();
         mAngle = angle;
-        mSpeed = 1;
-        mAcceleration = 2;
     }
 
     @Override
-    public void onRegistered() {
-        super.onRegistered();
+    public void onRegister() {
+        super.onRegister();
+        setTag("wind");
+        setPriority(_.i(R.integer.priority_wind));
         mWind = getImage(R.drawable.wind3);
     }
 

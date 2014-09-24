@@ -16,8 +16,8 @@ public class Ball extends MovableTask {
     private Bitmap mBall = null;
 
     @Override
-    public void onRegistered() {
-        super.onRegistered();
+    public void onRegister() {
+        super.onRegister();
         setPriority(_.i(R.integer.priority_ball));
         mBall = getImage(R.drawable.ball3);
 

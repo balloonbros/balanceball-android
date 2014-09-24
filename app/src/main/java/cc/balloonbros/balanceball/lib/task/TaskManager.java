@@ -2,6 +2,8 @@ package cc.balloonbros.balanceball.lib.task;
 
 import android.graphics.Canvas;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import cc.balloonbros.balanceball.lib.scene.AbstractScene;
@@ -17,6 +19,10 @@ public class TaskManager {
     private TaskList mTaskList = new TaskList();
     private LinkedList<AbstractTask> mReservedRegisterTask = new LinkedList<AbstractTask>();
     private LinkedList<AbstractTask> mReservedRemoveTask = new LinkedList<AbstractTask>();
+
+    /** タグ一覧 */
+    private HashMap<String, ArrayList<AbstractTask>> mTagList = new HashMap<String, ArrayList<AbstractTask>>();
+    private ArrayList<AbstractTask> mEmptyTagList = new ArrayList<AbstractTask>();
 
     /**
      * タスクループ中かどうかのフラグ。ループ中であればtrue
@@ -109,6 +115,19 @@ public class TaskManager {
     }
 
     /**
+     * 指定されたタグをもつタスクのリストを検索する
+     * @param tag 検索対象のタグ
+     * @return タスクのリスト
+     */
+    public ArrayList<AbstractTask> findByTag(String tag) {
+        if (mTagList.containsKey(tag)) {
+            return mTagList.get(tag);
+        } else {
+            return mEmptyTagList;
+        }
+    }
+
+    /**
      * 予約リストに入っているタスクの処理を確定させる
      */
     private void confirm() {
@@ -116,7 +135,8 @@ public class TaskManager {
         // 優先度を見て、優先度が高いタスクほどリストの最初に登録する
         AbstractTask registeredTask = mReservedRegisterTask.poll();
         while (registeredTask != null) {
-            registeredTask.onRegistered();
+            registeredTask.onRegister();
+            registerTagList(registeredTask);
             mTaskList.register(registeredTask);
 
             // 次のタスクへ
@@ -169,5 +189,24 @@ public class TaskManager {
         mTaskList = null;
         mReservedRegisterTask = null;
         mReservedRemoveTask = null;
+    }
+
+    /**
+     * タスクをタグリストに追加する
+     * @param task 追加対象のタスク
+     */
+    void registerTagList(AbstractTask task) {
+        String tag = task.getTag();
+
+        if (mTagList.containsKey(tag)) {
+            ArrayList<AbstractTask> list = mTagList.get(tag);
+            if (!list.contains(task)) {
+                list.add(task);
+            }
+        } else {
+            ArrayList<AbstractTask> list = new ArrayList<AbstractTask>();
+            list.add(task);
+            mTagList.put(tag, list);
+        }
     }
 }

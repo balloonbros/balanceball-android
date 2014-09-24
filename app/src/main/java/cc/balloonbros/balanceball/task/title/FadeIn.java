@@ -12,7 +12,7 @@ public class FadeIn extends AbstractTask implements Drawable {
     private int mAlpha = 0xff;
 
     @Override
-    public void onRegistered() {
+    public void onRegister() {
         setPriority(_.i(R.integer.priority_fade_in));
     }
 

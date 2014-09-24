@@ -13,8 +13,8 @@ abstract public class IntervalTask extends AbstractTask {
     }
 
     @Override
-    public void onRegistered() {
-        super.onRegistered();
+    public void onRegister() {
+        super.onRegister();
         mCurrentFrame = getGame().getFrameCount();
     }
 

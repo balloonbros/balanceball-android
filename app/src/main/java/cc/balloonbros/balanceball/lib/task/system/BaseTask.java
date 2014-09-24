@@ -6,12 +6,8 @@ abstract public class BaseTask {
     private int mPriority = 0xffff;
     private TaskList mTaskList = null;
 
-    void setPrev(BaseTask prev) {
-        mPrev = prev;
-    }
-    void setNext(BaseTask next) {
-        mNext = next;
-    }
+    void setPrev(BaseTask prev) { mPrev = prev; }
+    void setNext(BaseTask next) { mNext = next; }
     void clearLink() {
         mPrev = mNext = null;
         mTaskList = null;
@@ -20,12 +16,8 @@ abstract public class BaseTask {
         mTaskList = taskList;
     }
 
-    public BaseTask getPrev() {
-        return mPrev;
-    }
-    public BaseTask getNext() {
-        return mNext;
-    }
+    public BaseTask getPrev() { return mPrev; }
+    public BaseTask getNext() { return mNext; }
     public boolean isFirst() {
         return mPrev == null;
     }

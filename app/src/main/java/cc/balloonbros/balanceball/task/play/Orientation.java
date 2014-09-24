@@ -37,7 +37,7 @@ public class Orientation extends AbstractTask implements SensorEventListener {
     private IntegerMessage mSpeedMessage = null;
 
     @Override
-    public void onRegistered() {
+    public void onRegister() {
         setPriority(_.i(R.integer.priority_orientation));
         mSensorManager = ((BalanceBall)getGame()).getSensorManager();
         mOrientationMessage = new OrientationMessage();

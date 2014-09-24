@@ -12,8 +12,8 @@ public class CenterCircle extends PositionableTask {
     private Bitmap mCircle = null;
 
     @Override
-    public void onRegistered() {
-        super.onRegistered();
+    public void onRegister() {
+        super.onRegister();
         mCircle = getImage(R.drawable.area3);
         setPriority(_.i(R.integer.priority_center_circle));
 

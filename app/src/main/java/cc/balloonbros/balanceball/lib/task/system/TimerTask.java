@@ -77,7 +77,7 @@ abstract public class TimerTask extends BaseTask {
      * @param listener コールバックを受け取るリスナー
      */
     public Timer setTimerInterval(int time, TimerEventListener listener) {
-        return setBasicTimerQueue().start(time, listener);
+        return setBasicTimerQueue().start(time, listener, true);
     }
 
     /**
