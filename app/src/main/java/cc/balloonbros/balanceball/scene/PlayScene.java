@@ -8,6 +8,7 @@ import cc.balloonbros.balanceball.task.play.Ball;
 import cc.balloonbros.balanceball.task.play.CenterCircle;
 import cc.balloonbros.balanceball.task.play.CountdownTimer;
 import cc.balloonbros.balanceball.task.play.DebugOutput;
+import cc.balloonbros.balanceball.task.play.Judgement;
 import cc.balloonbros.balanceball.task.play.Orientation;
 import cc.balloonbros.balanceball.task.play.WindOutBreaker;
 
@@ -27,7 +28,8 @@ public class PlayScene extends AbstractScene {
                 new WindOutBreaker(),
                 new DebugOutput(),
                 new CenterCircle(),
-                new CountdownTimer()
+                new CountdownTimer(),
+                new Judgement()
         );
     }
 }

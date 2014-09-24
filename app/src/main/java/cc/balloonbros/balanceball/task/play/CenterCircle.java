@@ -9,7 +9,16 @@ import cc.balloonbros.balanceball.lib._;
 import cc.balloonbros.balanceball.lib.task.basic.PositionableTask;
 
 public class CenterCircle extends PositionableTask {
+    /** 中央円の画像 */
     private Bitmap mCircle = null;
+
+    /**
+     * 中央円の半径を取得する
+     * @return 中央円の半径
+     */
+    public int getRadius() {
+        return mCircle.getWidth() / 2;
+    }
 
     @Override
     public void onRegister() {

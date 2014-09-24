@@ -15,6 +15,14 @@ public class Ball extends MovableTask {
     /** ボール画像 */
     private Bitmap mBall = null;
 
+    /**
+     * ボールの半径を取得する
+     * @return ボールの半径
+     */
+    public int getRadius() {
+        return mBall.getWidth() / 2;
+    }
+
     @Override
     public void onRegister() {
         super.onRegister();
