@@ -13,7 +13,7 @@ import cc.balloonbros.balanceball.task.play.WindOutBreaker;
 
 public class PlayScene extends AbstractScene {
     @Override
-    public void onInitialize() {
+    protected void onInitialize() {
         loadBitmaps(
             R.drawable.ball3,
             R.drawable.area3,

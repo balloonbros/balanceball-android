@@ -12,7 +12,7 @@ import cc.balloonbros.balanceball.task.title.Title;
  */
 public class TitleScene extends AbstractScene {
     @Override
-    public void onInitialize() {
+    protected void onInitialize() {
         loadFonts(
             _.s(R.string.open_sans_bold),
             _.s(R.string.open_sans_light)

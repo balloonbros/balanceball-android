@@ -10,7 +10,7 @@ import cc.balloonbros.balanceball.task.launch.Logo;
  */
 public class LaunchScene extends AbstractScene {
     @Override
-    public void onInitialize() {
+    protected void onInitialize() {
         loadBitmaps(R.drawable.launch_logo);
         registerTasks(new Logo());
     }

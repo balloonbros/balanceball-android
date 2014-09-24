@@ -31,6 +31,7 @@ public class AbstractScene {
     public void belongsTo(GameMain game) {
         mAssetManager = new AssetManager(game.getContext().getResources());
         mGame = game;
+        onInitialize();
     }
 
     /**
@@ -72,5 +73,5 @@ public class AbstractScene {
     /**
      * シーンが切り替わる際に最初に実行される
      */
-    public void onInitialize() { }
+    protected void onInitialize() { }
 }

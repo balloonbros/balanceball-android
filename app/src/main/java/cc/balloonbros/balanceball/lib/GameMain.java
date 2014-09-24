@@ -105,7 +105,6 @@ abstract public class GameMain {
         }
         mCurrentScene = mReservedScene;
         mCurrentScene.belongsTo(this);
-        mCurrentScene.onInitialize();
         mReservedScene = null;
     }
 }
