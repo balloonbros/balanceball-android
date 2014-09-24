@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 
 import cc.balloonbros.balanceball.R;
+import cc.balloonbros.balanceball.lib._;
 import cc.balloonbros.balanceball.lib.task.basic.MovableTask;
 
 /**
@@ -17,6 +18,7 @@ public class Ball extends MovableTask {
     @Override
     public void onRegistered() {
         super.onRegistered();
+        setPriority(_.i(R.integer.priority_ball));
         mBall = getImage(R.drawable.ball3);
 
         // 最初は真ん中に配置

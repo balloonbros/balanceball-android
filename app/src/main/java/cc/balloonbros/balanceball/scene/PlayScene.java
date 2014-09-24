@@ -21,23 +21,12 @@ public class PlayScene extends AbstractScene {
         );
         loadFonts(_.s(R.string.open_sans_light));
 
-        Ball initialTask1 = new Ball();
-        Orientation initialTask2 = new Orientation();
-        WindOutBreaker initialTask3 = new WindOutBreaker();
-        DebugOutput initialTask4 = new DebugOutput();
-        CenterCircle initialTask5 = new CenterCircle();
-
-        initialTask1.setPriority(_.i(R.integer.priority_ball));
-        initialTask3.setPriority(_.i(R.integer.priority_wind_out_breaker));
-        initialTask4.setPriority(_.i(R.integer.priority_debug));
-        initialTask5.setPriority(_.i(R.integer.priority_center_circle));
-
         registerTasks(
-                initialTask1,
-                initialTask2,
-                initialTask3,
-                initialTask4,
-                initialTask5,
+                new Ball(),
+                new Orientation(),
+                new WindOutBreaker(),
+                new DebugOutput(),
+                new CenterCircle(),
                 new CountdownTimer()
         );
     }

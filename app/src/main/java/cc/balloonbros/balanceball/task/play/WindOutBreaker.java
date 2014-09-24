@@ -15,6 +15,8 @@ public class WindOutBreaker extends AbstractTask implements TimerEventListener {
 
     @Override
     public void onRegistered() {
+        super.onRegistered();
+        setPriority(_.i(R.integer.priority_wind_out_breaker));
         //setFrameTimer(mRandom.nextInt((int)getGame().getFps() * 5), this);
     }
 

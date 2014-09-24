@@ -4,6 +4,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import cc.balloonbros.balanceball.R;
+import cc.balloonbros.balanceball.lib._;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.task.Drawable;
 import cc.balloonbros.balanceball.lib.task.message.TaskEventListener;
@@ -21,6 +23,7 @@ public class DebugOutput extends AbstractTask implements Drawable, TaskEventList
 
     @Override
     public void onRegistered() {
+        setPriority(_.i(R.integer.priority_debug));
         mPaint.setColor(Color.BLACK);
     }
 
