@@ -4,13 +4,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.graphics.Typeface;
 import android.view.MotionEvent;
 
 import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.lib._;
 import cc.balloonbros.balanceball.lib.task.Drawable;
-import cc.balloonbros.balanceball.lib.task.TaskFunction;
 import cc.balloonbros.balanceball.lib.task.basic.TouchTask;
 import cc.balloonbros.balanceball.lib.task.timer.TimerEventListener;
 import cc.balloonbros.balanceball.scene.PlayScene;
@@ -26,7 +24,7 @@ public class Title extends TouchTask implements Drawable, TimerEventListener {
 
     private Paint createTitlePaint() {
         Paint p = new Paint();
-        p.setColor(Color.rgb(0xfc, 0x50, 0x41));
+        p.setColor(_.c(R.color.title_font_color));
         p.setTextSize(66.0F);
         p.setTextAlign(Paint.Align.CENTER);
         p.setAntiAlias(true);
@@ -37,7 +35,7 @@ public class Title extends TouchTask implements Drawable, TimerEventListener {
 
     private Paint createBasePaint() {
         Paint p = new Paint();
-        p.setColor(Color.GRAY);
+        p.setColor(_.c(R.color.base_font_color));
         p.setTextSize(20.0F);
         p.setTextAlign(Paint.Align.CENTER);
         p.setAntiAlias(true);
