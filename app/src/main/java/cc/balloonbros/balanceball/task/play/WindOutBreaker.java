@@ -17,12 +17,13 @@ public class WindOutBreaker extends AbstractTask implements TimerEventListener {
     public void onRegister() {
         super.onRegister();
         setPriority(_.i(R.integer.priority_wind_out_breaker));
-        setTimerInterval(500, this);
+        setTimer(1000 * (mRandom.nextInt(2) + 1), this);
     }
 
     @Override
     public void onTimer() {
         Wind wind = new Wind(mRandom.nextInt(360));
         registerChild(wind);
+        setTimer(1000 * (mRandom.nextInt(2) + 1), this);
     }
 }
