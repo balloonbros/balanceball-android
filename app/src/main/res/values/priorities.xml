@@ -15,6 +15,7 @@
     <integer name="priority_orientation">0x0050</integer>
     <integer name="priority_countdown_timer">0x0100</integer>
     <integer name="priority_judgement">0x0200</integer>
+    <integer name="priority_score">0x0210</integer>
     <integer name="priority_result">0xf000</integer>
     <integer name="priority_debug">0xfffe</integer>
 </resources>

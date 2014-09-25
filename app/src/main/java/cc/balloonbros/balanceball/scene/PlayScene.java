@@ -10,15 +10,16 @@ import cc.balloonbros.balanceball.task.play.CountdownTimer;
 import cc.balloonbros.balanceball.task.play.DebugOutput;
 import cc.balloonbros.balanceball.task.play.Judgement;
 import cc.balloonbros.balanceball.task.play.Orientation;
+import cc.balloonbros.balanceball.task.play.Score;
 import cc.balloonbros.balanceball.task.play.WindOutBreaker;
 
 public class PlayScene extends AbstractScene {
     @Override
     protected void onInitialize() {
         loadBitmaps(
-            R.drawable.ball3,
-            R.drawable.area3,
-            R.drawable.wind3
+                R.drawable.ball3,
+                R.drawable.area3,
+                R.drawable.wind3
         );
         loadFonts(_.s(R.string.open_sans_light));
 
@@ -29,6 +30,7 @@ public class PlayScene extends AbstractScene {
                 new DebugOutput(),
                 new CenterCircle(),
                 new CountdownTimer(),
+                new Score(),
                 new Judgement()
         );
     }

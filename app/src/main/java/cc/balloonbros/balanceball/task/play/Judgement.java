@@ -5,6 +5,7 @@ import android.graphics.Point;
 import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.lib._;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
+import cc.balloonbros.balanceball.lib.task.message.BasicMessage;
 
 public class Judgement extends AbstractTask {
     /** ボール */
@@ -13,13 +14,20 @@ public class Judgement extends AbstractTask {
     /** 中央の円 */
     private CenterCircle mCenterCircle;
 
+    /** スコアタスク */
+    private Score mScore;
+
+    /** スコアタスクに送信するメッセージ */
+    private BasicMessage mMessageToScore = new BasicMessage("into_the_circle");
+
     @Override
-    public void onRegistered() {
-        super.onRegistered();
+    public void onRegister() {
+        super.onRegister();
         setPriority(_.i(R.integer.priority_judgement));
 
         mCenterCircle = (CenterCircle)find(_.i(R.integer.priority_center_circle));
         mBall         = (Ball)        find(_.i(R.integer.priority_ball));
+        mScore        = (Score)       find(_.i(R.integer.priority_score));
     }
 
     @Override
@@ -29,9 +37,9 @@ public class Judgement extends AbstractTask {
         int dx = bp.x - cp.x;
         int dy = bp.y - cp.y;
 
-        int collisionDistance = mBall.getRadius() + mCenterCircle.getRadius() - 10;
+        int collisionDistance = mCenterCircle.getRadius() - (mBall.getRadius() / 2);
         if (dx * dx + dy * dy < collisionDistance * collisionDistance) {
-
+            sendMessage(mScore, mMessageToScore);
         }
     }
 }
