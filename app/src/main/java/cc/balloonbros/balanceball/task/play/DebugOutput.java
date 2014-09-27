@@ -8,7 +8,7 @@ import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.lib._;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.task.Drawable;
-import cc.balloonbros.balanceball.lib.task.message.TaskEventListener;
+import cc.balloonbros.balanceball.lib.task.message.TaskMessageListener;
 import cc.balloonbros.balanceball.lib.task.message.TaskMessage;
 import cc.balloonbros.balanceball.lib.task.message.IntegerMessage;
 import cc.balloonbros.balanceball.task.message.OrientationMessage;
@@ -16,7 +16,7 @@ import cc.balloonbros.balanceball.task.message.OrientationMessage;
 /**
  * デバッグ用タスク
  */
-public class DebugOutput extends AbstractTask implements Drawable, TaskEventListener {
+public class DebugOutput extends AbstractTask implements Drawable, TaskMessageListener {
     private Paint mPaint = new Paint();
     private float[] mOrientationValues;
     private int mSpeed = 0;

@@ -8,10 +8,10 @@ import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.lib._;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.task.basic.PositionableTask;
-import cc.balloonbros.balanceball.lib.task.message.TaskEventListener;
+import cc.balloonbros.balanceball.lib.task.message.TaskMessageListener;
 import cc.balloonbros.balanceball.lib.task.message.TaskMessage;
 
-public class Score extends PositionableTask implements TaskEventListener {
+public class Score extends PositionableTask implements TaskMessageListener {
     /** ボールがサークルの中にとどまっていたフレーム数 */
     private int mFrameCountInCircle = 0;
 

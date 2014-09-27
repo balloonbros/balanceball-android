@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import cc.balloonbros.balanceball.lib.GameMain;
 import cc.balloonbros.balanceball.lib.scene.AbstractScene;
-import cc.balloonbros.balanceball.lib.task.message.TaskEventListener;
+import cc.balloonbros.balanceball.lib.task.message.TaskMessageListener;
 import cc.balloonbros.balanceball.lib.task.message.TaskMessage;
 import cc.balloonbros.balanceball.lib.task.system.TimerTask;
 
@@ -157,7 +157,7 @@ abstract public class AbstractTask extends TimerTask implements TaskFunction {
      * @param targetTask メッセージを送信する先のタスク
      * @param message メッセージオブジェクト。必要に応じて受取先でキャストする
      */
-    public void sendMessage(TaskEventListener targetTask, TaskMessage message) {
+    public void sendMessage(TaskMessageListener targetTask, TaskMessage message) {
         targetTask.onMessage(this, message);
     }
 
