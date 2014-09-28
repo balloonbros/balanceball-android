@@ -6,6 +6,7 @@ import android.graphics.Point;
 import android.view.MotionEvent;
 
 import cc.balloonbros.balanceball.R;
+import cc.balloonbros.balanceball.lib.graphic.Surface;
 import cc.balloonbros.balanceball.lib._;
 import cc.balloonbros.balanceball.lib.task.Drawable;
 import cc.balloonbros.balanceball.lib.task.basic.TouchTask;
@@ -79,7 +80,7 @@ public class Title extends TouchTask implements Drawable, TimerEventListener {
     }
 
     @Override
-    public void onDraw(Canvas canvas) {
+    public void onDraw(Canvas canvas, Surface surface) {
         mBasePaint.setAlpha(mAlpha);
         canvas.drawText(_.s(R.string.game_start_label), mTitlePosition.x, 300, mBasePaint);
         canvas.drawText(_.s(R.string.app_name), mTitlePosition.x, mTitlePosition.y, mTitlePaint);

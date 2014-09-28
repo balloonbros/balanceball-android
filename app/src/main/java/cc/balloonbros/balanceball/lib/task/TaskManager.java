@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import cc.balloonbros.balanceball.lib.graphic.Surface;
 import cc.balloonbros.balanceball.lib.scene.AbstractScene;
+import cc.balloonbros.balanceball.lib.task.basic.PositionableTask;
 import cc.balloonbros.balanceball.lib.task.system.TaskList;
 
 /**
@@ -89,13 +91,18 @@ public class TaskManager {
      * タスクループを実行する
      * @param canvas 描画対象のキャンバス
      */
-    public void execute(Canvas canvas) {
+    public void execute(Canvas canvas, Surface surface) {
         mWhileExecute = true;
 
         // タスクリストに登録されているタスクの更新処理と描画処理を全て呼び出してフレームを進める
         AbstractTask task = (AbstractTask)mTaskList.getFirst();
         while (task != null) {
-            task.execute(canvas);
+            if (task instanceof PositionableTask) {
+                surface.setDefaultDrawingPosition(((PositionableTask) task).getPosition());
+            } else {
+                surface.setDefaultDrawingPosition(null);
+            }
+            task.execute(canvas, surface);
             task = (AbstractTask)task.getNext();
         }
 

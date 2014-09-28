@@ -1,37 +1,37 @@
 package cc.balloonbros.balanceball.task.play;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 
 import cc.balloonbros.balanceball.R;
+import cc.balloonbros.balanceball.lib.graphic.DrawString;
+import cc.balloonbros.balanceball.lib.graphic.StyleTemplate;
+import cc.balloonbros.balanceball.lib.graphic.Surface;
 import cc.balloonbros.balanceball.lib._;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.task.basic.PositionableTask;
-import cc.balloonbros.balanceball.lib.task.timer.TimerEventListener;
 
-public class CountdownTimer extends PositionableTask implements TimerEventListener {
-    private int mRestTime = _.i(R.integer.game_time);
-    private Paint mPaint = new Paint();
+public class CountdownTimer extends PositionableTask {
+    private int mRestTime = 0;
+    private DrawString mDisplayRestTime = new DrawString(5);
 
     @Override
     public void onRegister() {
         super.onRegister();
-        setFrameInterval((int)getFps(), this);
 
-        mPaint.setColor(Color.rgb(0xe5, 0x40, 0x73));
-        mPaint.setTextSize(36F);
-        mPaint.setTypeface(getFont(_.s(R.string.open_sans_light)));
-        mPaint.setTextAlign(Paint.Align.CENTER);
-        mPaint.setAntiAlias(true);
+        StyleTemplate t = new StyleTemplate();
+        t.color(_.c(R.color.countdown_color)).size(_.i(R.integer.countdown_font_size)).font(getFont(_.s(R.string.open_sans_light))).align(Paint.Align.CENTER);
+        mDisplayRestTime.setTemplate(t);
+
+        mRestTime = _.i(R.integer.game_time) * (int)getFps();
 
         Point p = getDisplaySize();
         position(p.x / 2, p.y / 2 + 100);
     }
 
     @Override
-    public void onTimer() {
+    public void update() {
         mRestTime--;
         if (mRestTime == 0) {
             registerTask(new Result());
@@ -46,8 +46,16 @@ public class CountdownTimer extends PositionableTask implements TimerEventListen
     }
 
     @Override
-    public void onDraw(Canvas canvas) {
-        Point p = getPosition();
-        canvas.drawText(String.valueOf(mRestTime), p.x, p.y, mPaint);
+    public void onDraw(Canvas canvas, Surface surface) {
+        int integerPart = mRestTime / (int)getFps();
+        int decimalPart = mRestTime % (int)getFps();
+
+        mDisplayRestTime.set(integerPart).append('.');
+        if (decimalPart < 10) {
+            mDisplayRestTime.append('0');
+        }
+        mDisplayRestTime.append(decimalPart);
+
+        surface.draw(mDisplayRestTime);
     }
 }

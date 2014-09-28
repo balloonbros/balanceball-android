@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.view.SurfaceHolder;
 
+import cc.balloonbros.balanceball.lib.graphic.Surface;
 import cc.balloonbros.balanceball.lib.task.TaskManager;
 
 /**
@@ -14,6 +15,7 @@ public class GameLoop implements Runnable, SurfaceHolder.Callback {
     private GameMain      mGame           = null;
     private Thread        mGameLoopThread = null;
     private SurfaceHolder mHolder         = null;
+    private Surface mSurface        = new Surface();
 
     /**
      * FPSと1フレームの秒数
@@ -85,7 +87,8 @@ public class GameLoop implements Runnable, SurfaceHolder.Callback {
             canvas.drawColor(Color.WHITE);
 
             // 全てのタスクを実行する
-            taskManager.execute(canvas);
+            mSurface.setCanvas(canvas);
+            taskManager.execute(canvas, mSurface);
 
             // バッファ入れ替え。表側に描画する
             mHolder.unlockCanvasAndPost(canvas);

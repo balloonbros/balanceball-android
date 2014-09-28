@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import cc.balloonbros.balanceball.R;
+import cc.balloonbros.balanceball.lib.graphic.Surface;
 import cc.balloonbros.balanceball.lib._;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.task.Drawable;
@@ -28,7 +29,8 @@ public class DebugOutput extends AbstractTask implements Drawable, TaskMessageLi
     }
 
     @Override
-    public void onDraw(Canvas canvas) {
+    public void onDraw(Canvas canvas, Surface surface) {
+        /*
         canvas.drawText("TaskCount: " + getTaskManager().getTaskCount(), 10, 10, mPaint);
         canvas.drawText("FrameCount: " + getGame().getFrameCount(), 10, 20, mPaint);
         canvas.drawText("RealFPS: " + getGame().getRealFps(), 10, 30, mPaint);
@@ -39,6 +41,7 @@ public class DebugOutput extends AbstractTask implements Drawable, TaskMessageLi
             canvas.drawText("y-axis: " + Math.floor(Math.toDegrees(mOrientationValues[2])), 10, 70, mPaint);
         }
         canvas.drawText("Speed :" + mSpeed, 10, 80, mPaint);
+        */
     }
 
     @Override

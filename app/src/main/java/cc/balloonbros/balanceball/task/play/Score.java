@@ -5,6 +5,7 @@ import android.graphics.Paint;
 import android.graphics.Point;
 
 import cc.balloonbros.balanceball.R;
+import cc.balloonbros.balanceball.lib.graphic.Surface;
 import cc.balloonbros.balanceball.lib._;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.task.basic.PositionableTask;
@@ -35,7 +36,7 @@ public class Score extends PositionableTask implements TaskMessageListener {
     }
 
     @Override
-    public void onDraw(Canvas canvas) {
+    public void onDraw(Canvas canvas, Surface surface) {
         Point p = getPosition();
         canvas.drawText("keep      sec", p.x, p.y, mPaint);
         canvas.drawText(String.valueOf(getScore()), p.x + 10, p.y, mPaint);

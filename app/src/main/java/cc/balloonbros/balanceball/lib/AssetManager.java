@@ -3,6 +3,7 @@ package cc.balloonbros.balanceball.lib;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.util.SparseArray;
 
@@ -20,6 +21,9 @@ public class AssetManager {
 
     /** 読み込んだフォント */
     private HashMap<String, Typeface> mFonts = new HashMap<String, Typeface>();
+
+    /** 読み込んだペイント */
+    private SparseArray<Paint> mPaints = new SparseArray<Paint>();
 
     /**
      * コンストラクタ

@@ -8,6 +8,7 @@ import android.graphics.Typeface;
 import java.util.ArrayList;
 
 import cc.balloonbros.balanceball.lib.GameMain;
+import cc.balloonbros.balanceball.lib.graphic.Surface;
 import cc.balloonbros.balanceball.lib.scene.AbstractScene;
 import cc.balloonbros.balanceball.lib.task.message.TaskMessageListener;
 import cc.balloonbros.balanceball.lib.task.message.TaskMessage;
@@ -69,7 +70,7 @@ abstract public class AbstractTask extends TimerTask implements TaskFunction {
      * タスクのゲームループを実行する
      * @param canvas キャンバス
      */
-    public void execute(Canvas canvas) {
+    public void execute(Canvas canvas, Surface surface) {
         // タスクの優先度が後ろに下がった場合、既に実行済みのタスクがもう一度実行される可能性があるため
         // タスクの実行が終わったらその時のフレームカウントを保存しておき
         // 同じフレーム内でのタスク実行はスキップする
@@ -85,7 +86,7 @@ abstract public class AbstractTask extends TimerTask implements TaskFunction {
         }
 
         if (this instanceof Drawable) {
-            ((Drawable)this).onDraw(canvas);
+            ((Drawable)this).onDraw(canvas, surface);
         }
 
         mFrameCountInExecution = getFrameCount();

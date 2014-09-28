@@ -6,6 +6,7 @@ import android.graphics.Rect;
 import android.view.MotionEvent;
 
 import cc.balloonbros.balanceball.R;
+import cc.balloonbros.balanceball.lib.graphic.Surface;
 import cc.balloonbros.balanceball.lib.task.Drawable;
 import cc.balloonbros.balanceball.lib.task.basic.TouchTask;
 import cc.balloonbros.balanceball.lib.task.timer.Timer;
@@ -39,7 +40,7 @@ public class Logo extends TouchTask implements Drawable, TimerEventListener {
     }
 
     @Override
-    public void onDraw(Canvas canvas) {
+    public void onDraw(Canvas canvas, Surface surface) {
         canvas.drawBitmap(mLogo, mSource, mDestination, null);
     }
 

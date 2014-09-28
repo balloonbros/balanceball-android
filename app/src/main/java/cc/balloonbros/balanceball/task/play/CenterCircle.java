@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 
 import cc.balloonbros.balanceball.R;
+import cc.balloonbros.balanceball.lib.graphic.Surface;
 import cc.balloonbros.balanceball.lib._;
 import cc.balloonbros.balanceball.lib.task.basic.PositionableTask;
 
@@ -33,7 +34,7 @@ public class CenterCircle extends PositionableTask {
     }
 
     @Override
-    public void onDraw(Canvas canvas) {
+    public void onDraw(Canvas canvas, Surface surface) {
         Point p = getPosition();
         canvas.drawBitmap(mCircle, p.x, p.y, null);
     }

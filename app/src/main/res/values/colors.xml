@@ -2,5 +2,6 @@
 <resources>
     <color name="title_font_color">#fc5041</color>
     <color name="score_color">#e54073</color>
+    <color name="countdown_color">#e54073</color>
     <color name="base_font_color">#777777</color>
 </resources>
