@@ -2,13 +2,14 @@ package cc.balloonbros.balanceball.lib.scene;
 
 import cc.balloonbros.balanceball.lib.AssetManager;
 import cc.balloonbros.balanceball.lib.GameMain;
+import cc.balloonbros.balanceball.lib.ResourceBase;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.task.TaskManager;
 
 /**
  * シーンの基底クラス。
  */
-public class AbstractScene {
+public class AbstractScene extends ResourceBase {
     private GameMain mGame;
     private AssetManager mAssetManager;
     private TaskManager mTaskManager;

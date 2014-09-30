@@ -7,7 +7,7 @@ import java.util.HashMap;
 public class PaintFactory {
     private HashMap<String, Paint> mCache = new HashMap<String, Paint>();
 
-    public Paint createFromTemplate(StyleTemplate template) {
+    public Paint createFromTemplate(Style template) {
         if (mCache.containsKey(template.hash())) {
             return mCache.get(template.hash());
         }

@@ -4,7 +4,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 
-public class StyleTemplate {
+public class Style {
     private String mHash = null;
     private Typeface mFont = null;
     private float mSize = 0;
@@ -13,7 +13,7 @@ public class StyleTemplate {
     private boolean mAntiAlias = true;
     private Paint.Align mAlign = Paint.Align.LEFT;
 
-    public StyleTemplate font(Typeface font) {
+    public Style font(Typeface font) {
         if (mFont == null || !mFont.equals(font)) {
             mHash = null;
             mFont = font;
@@ -21,7 +21,7 @@ public class StyleTemplate {
         return this;
     }
 
-    public StyleTemplate size(float size) {
+    public Style size(float size) {
         if (mSize != size) {
             mHash = null;
             mSize = size;
@@ -29,7 +29,7 @@ public class StyleTemplate {
         return this;
     }
 
-    public StyleTemplate color(int color) {
+    public Style color(int color) {
         if (mColor != color) {
             mHash = null;
             mColor = color;
@@ -37,7 +37,7 @@ public class StyleTemplate {
         return this;
     }
 
-    public StyleTemplate alpha(int alpha) {
+    public Style alpha(int alpha) {
         if (mAlpha != alpha) {
             mHash = null;
             mAlpha = alpha;
@@ -45,7 +45,7 @@ public class StyleTemplate {
         return this;
     }
 
-    public StyleTemplate antiAlias(boolean antiAlias) {
+    public Style antiAlias(boolean antiAlias) {
         if (mAntiAlias != antiAlias) {
             mHash = null;
             mAntiAlias = antiAlias;
@@ -53,12 +53,24 @@ public class StyleTemplate {
         return this;
     }
 
-    public StyleTemplate align(Paint.Align align) {
+    public Style align(Paint.Align align) {
         if (mAlign != align) {
             mHash = null;
             mAlign = align;
         }
         return this;
+    }
+
+    public Style center() {
+        return align(Paint.Align.CENTER);
+    }
+
+    public Style right() {
+        return align(Paint.Align.RIGHT);
+    }
+
+    public Style left() {
+        return align(Paint.Align.RIGHT);
     }
 
     protected Paint generatePaint() {

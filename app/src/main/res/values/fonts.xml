@@ -2,4 +2,8 @@
 <resources>
     <string name="open_sans_light">open-sans-light.ttf</string>
     <string name="open_sans_bold">open-sans-bold.ttf</string>
+
+    <integer name="title_font_size">66</integer>
+    <integer name="game_start_label_font_size">20</integer>
+    <integer name="countdown_font_size">36</integer>
 </resources>

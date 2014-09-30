@@ -36,7 +36,7 @@ public class Logo extends TouchTask implements Drawable, TimerEventListener {
         mLogo = getImage(R.drawable.launch_logo);
         mSource.set(0, 0, mLogo.getWidth(), mLogo.getHeight());
         mDestination.set(0, 0, getDisplaySize().x, getDisplaySize().y);
-        mTimer = setTimer(3000, this);
+        mTimer = setTimer(_i(R.integer.display_time_for_logo), this);
     }
 
     @Override

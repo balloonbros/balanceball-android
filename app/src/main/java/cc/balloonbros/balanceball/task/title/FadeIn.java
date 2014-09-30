@@ -14,7 +14,7 @@ public class FadeIn extends AbstractTask implements Drawable {
 
     @Override
     public void onRegister() {
-        setPriority(_.i(R.integer.priority_fade_in));
+        setPriority(_i(R.integer.priority_fade_in));
     }
 
     @Override

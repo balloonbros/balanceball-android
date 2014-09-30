@@ -5,25 +5,39 @@ public class DrawString {
     private char[] mChars = null;
     private int mLength = 0;
     private String mFirstString = null;
-    private StyleTemplate mTemplate = null;
+    private Style mTemplate = null;
 
     public DrawString() {
         this(INITIAL_CHAR_SIZE);
     }
 
     public DrawString(int size) {
-        mChars = new char[size];
+        this(size, null);
     }
 
     public DrawString(String value) {
-        append(value);
+        this(value, null);
     }
 
-    public void setTemplate(StyleTemplate template) {
+    public DrawString(Style template) {
+        this(INITIAL_CHAR_SIZE, template);
+    }
+
+    public DrawString(int size, Style template) {
+        mChars = new char[size];
+        setTemplate(template);
+    }
+
+    public DrawString(String value, Style template) {
+        append(value);
+        setTemplate(template);
+    }
+
+    public void setTemplate(Style template) {
         mTemplate = template;
     }
 
-    public StyleTemplate getTemplate() {
+    public Style getTemplate() {
         return mTemplate;
     }
 

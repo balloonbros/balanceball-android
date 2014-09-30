@@ -6,7 +6,7 @@ import android.graphics.Point;
 
 import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.lib.graphic.DrawString;
-import cc.balloonbros.balanceball.lib.graphic.StyleTemplate;
+import cc.balloonbros.balanceball.lib.graphic.Style;
 import cc.balloonbros.balanceball.lib.graphic.Surface;
 import cc.balloonbros.balanceball.lib._;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
@@ -20,7 +20,7 @@ public class CountdownTimer extends PositionableTask {
     public void onRegister() {
         super.onRegister();
 
-        StyleTemplate t = new StyleTemplate();
+        Style t = new Style();
         t.color(_.c(R.color.countdown_color)).size(_.i(R.integer.countdown_font_size)).font(getFont(_.s(R.string.open_sans_light))).align(Paint.Align.CENTER);
         mDisplayRestTime.setTemplate(t);
 

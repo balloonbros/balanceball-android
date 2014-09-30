@@ -2,6 +2,5 @@
 <resources>
     <integer name="fps">60</integer>
     <integer name="game_time">60</integer>
-
-    <integer name="countdown_font_size">36</integer>
+    <integer name="display_time_for_logo">3000</integer>
 </resources>

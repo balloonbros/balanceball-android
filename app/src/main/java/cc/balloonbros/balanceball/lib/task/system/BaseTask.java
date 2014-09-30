@@ -1,6 +1,8 @@
 package cc.balloonbros.balanceball.lib.task.system;
 
-abstract public class BaseTask {
+import cc.balloonbros.balanceball.lib.ResourceBase;
+
+abstract public class BaseTask extends ResourceBase {
     private BaseTask mPrev = null;
     private BaseTask mNext = null;
     private int mPriority = 0xffff;

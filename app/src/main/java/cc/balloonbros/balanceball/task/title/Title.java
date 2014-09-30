@@ -1,13 +1,13 @@
 package cc.balloonbros.balanceball.task.title;
 
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.Point;
 import android.view.MotionEvent;
 
 import cc.balloonbros.balanceball.R;
+import cc.balloonbros.balanceball.lib.graphic.DrawString;
+import cc.balloonbros.balanceball.lib.graphic.Style;
 import cc.balloonbros.balanceball.lib.graphic.Surface;
-import cc.balloonbros.balanceball.lib._;
 import cc.balloonbros.balanceball.lib.task.Drawable;
 import cc.balloonbros.balanceball.lib.task.basic.TouchTask;
 import cc.balloonbros.balanceball.lib.task.timer.TimerEventListener;
@@ -17,40 +17,21 @@ import cc.balloonbros.balanceball.scene.PlayScene;
  * タイトルタスク
  */
 public class Title extends TouchTask implements Drawable, TimerEventListener {
-    private Paint mTitlePaint = null;
-    private Paint mBasePaint = new Paint();
     private Point mTitlePosition = new Point();
-    private int mAlpha = 255;
-
-    private Paint createTitlePaint() {
-        Paint p = new Paint();
-        p.setColor(_.c(R.color.title_font_color));
-        p.setTextSize(66.0F);
-        p.setTextAlign(Paint.Align.CENTER);
-        p.setAntiAlias(true);
-        p.setTypeface(getFont(_.s(R.string.open_sans_bold)));
-
-        return p;
-    }
-
-    private Paint createBasePaint() {
-        Paint p = new Paint();
-        p.setColor(_.c(R.color.base_font_color));
-        p.setTextSize(20.0F);
-        p.setTextAlign(Paint.Align.CENTER);
-        p.setAntiAlias(true);
-        p.setTypeface(getFont(_.s(R.string.open_sans_light)));
-
-        return p;
-    }
+    private int mAlpha = 0xff;
+    private DrawString mTitle;
+    private DrawString mLabel;
 
     @Override
     public void onRegister() {
         super.onRegister();
-        setPriority(_.i(R.integer.priority_title));
+        setPriority(_i(R.integer.priority_title));
 
-        mTitlePaint = createTitlePaint();
-        mBasePaint  = createBasePaint();
+        Style titleStyle = new Style().color(_c(R.color.title_font_color)).size(_i(R.integer.title_font_size)).font(getFont(_s(R.string.open_sans_bold))).center();
+        mTitle = new DrawString(_s(R.string.app_name), titleStyle);
+
+        Style labelStyle = new Style().color(_c(R.color.base_font_color)).size(_i(R.integer.game_start_label_font_size)).font(getFont(_s(R.string.open_sans_light))).center();
+        mLabel = new DrawString(_s(R.string.game_start_label), labelStyle);
 
         Point displaySize = getDisplaySize();
         float x = displaySize.x / 2;
@@ -81,8 +62,8 @@ public class Title extends TouchTask implements Drawable, TimerEventListener {
 
     @Override
     public void onDraw(Canvas canvas, Surface surface) {
-        mBasePaint.setAlpha(mAlpha);
-        canvas.drawText(_.s(R.string.game_start_label), mTitlePosition.x, 300, mBasePaint);
-        canvas.drawText(_.s(R.string.app_name), mTitlePosition.x, mTitlePosition.y, mTitlePaint);
+        mLabel.setTemplate(mLabel.getTemplate().alpha(mAlpha));
+        surface.draw(mLabel, mTitlePosition.x, 300);
+        surface.draw(mTitle, mTitlePosition.x, mTitlePosition.y);
     }
 }
