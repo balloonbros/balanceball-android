@@ -1,5 +1,8 @@
 package cc.balloonbros.balanceball.lib.scene;
 
+import android.graphics.Bitmap;
+import android.graphics.Typeface;
+
 import cc.balloonbros.balanceball.lib.AssetManager;
 import cc.balloonbros.balanceball.lib.GameMain;
 import cc.balloonbros.balanceball.lib.ResourceBase;
@@ -58,6 +61,20 @@ public class AbstractScene extends ResourceBase {
      * @param fonts フォント名。複数指定可能
      */
     public void loadFonts(String... fonts) { mAssetManager.loadFonts(fonts); }
+
+    /**
+     * ロードされたリソースから画像を取得する
+     * @param assetId 画像ID
+     * @return 画像
+     */
+    public Bitmap getImage(int assetId) { return getAssetManager().getImage(assetId); }
+
+    /**
+     * フォントを取得する
+     * @param font フォント名
+     * @return フォント
+     */
+    public Typeface getFont(String font) { return getAssetManager().getFont(font); }
 
     /**
      * シーンを破棄する
