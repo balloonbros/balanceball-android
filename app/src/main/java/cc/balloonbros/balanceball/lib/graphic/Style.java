@@ -13,6 +13,54 @@ public class Style {
     private boolean mAntiAlias = true;
     private Paint.Align mAlign = Paint.Align.LEFT;
 
+    private static Typeface sFont = null;
+    private static float sSize = 0;
+    private static int sColor = Color.BLACK;
+    private static int sAlpha = 0xff;
+    private static boolean sAntiAlias = true;
+    private static Paint.Align sAlign = Paint.Align.LEFT;
+
+    public static void setDefaultFont(Typeface font) {
+        sFont = font;
+    }
+
+    public static void setDefaultSize(float size) {
+        sSize = size;
+    }
+
+    public static void setDefaultColor(int color) {
+        sColor = color;
+    }
+
+    public static void setDefaultAlpha(int alpha) {
+        sAlpha = alpha;
+    }
+
+    public static void setDefaultAntiAlias(boolean antiAlias) {
+        sAntiAlias = antiAlias;
+    }
+
+    public static void setDefaultAlign(Paint.Align align) {
+        sAlign = align;
+    }
+
+    public static Style getDefault() {
+        Style style = new Style();
+
+        if (sFont != null) {
+            style.font(sFont);
+        }
+        if (sSize != 0) {
+            style.size(sSize);
+        }
+        style.color(sColor);
+        style.alpha(sAlpha);
+        style.antiAlias(sAntiAlias);
+        style.align(sAlign);
+
+        return style;
+    }
+
     public Style font(Typeface font) {
         if (mFont == null || !mFont.equals(font)) {
             mHash = null;
