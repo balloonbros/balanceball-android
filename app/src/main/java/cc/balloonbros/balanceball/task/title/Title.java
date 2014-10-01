@@ -27,10 +27,9 @@ public class Title extends TouchTask implements Drawable, TimerEventListener {
         super.onRegister();
         setPriority(_i(R.integer.priority_title));
 
-        Style titleStyle = new Style().color(_c(R.color.title_font_color)).size(_i(R.integer.title_font_size)).font(getFont(_s(R.string.open_sans_bold))).center();
+        Style titleStyle = Style.getDefault().size(_i(R.integer.title_font_size)).color(_c(R.color.title_font_color));
+        Style labelStyle = Style.getDefault().size(_i(R.integer.game_start_label_font_size));
         mTitle = new DrawString(_s(R.string.app_name), titleStyle);
-
-        Style labelStyle = new Style().color(_c(R.color.base_font_color)).size(_i(R.integer.game_start_label_font_size)).font(getFont(_s(R.string.open_sans_light))).center();
         mLabel = new DrawString(_s(R.string.game_start_label), labelStyle);
 
         Point displaySize = getDisplaySize();
