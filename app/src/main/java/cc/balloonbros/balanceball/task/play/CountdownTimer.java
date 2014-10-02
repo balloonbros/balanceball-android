@@ -36,9 +36,10 @@ public class CountdownTimer extends PositionableTask {
         if (mRestTime == 0) {
             registerTask(new Result());
             kill();
-            find(_.i(R.integer.priority_orientation)).kill();
-            find(_.i(R.integer.priority_wind_out_breaker)).kill();
-            find(_.i(R.integer.priority_ball)).stop();
+            find(_i(R.integer.priority_orientation)).kill();
+            find(_i(R.integer.priority_wind_out_breaker)).kill();
+            find(_i(R.integer.priority_ball)).stop();
+            find(_i(R.integer.priority_judgement)).stop();
             for (AbstractTask task: findByTag("wind")) {
                 task.stop();
             }
