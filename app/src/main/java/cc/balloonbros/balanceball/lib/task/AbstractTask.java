@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Typeface;
+import android.view.MotionEvent;
+import android.view.View;
 
 import java.util.ArrayList;
 
@@ -207,7 +209,7 @@ abstract public class AbstractTask extends TimerTask implements TaskFunction {
     }
 
     /* ==============================================
-     *           オーバーライド専用メソッド
+     *             オーバー可能なメソッド
      * ============================================== */
 
     /**
@@ -218,7 +220,17 @@ abstract public class AbstractTask extends TimerTask implements TaskFunction {
      /**
      * タスクがタスクマネージャーに登録された時に呼ばれる
      */
-    protected void onRegister() { }
+    protected void onRegister() {
+        if (this instanceof Touchable) {
+            final Touchable task = (Touchable)this;
+            getGame().getView().setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    return task.onTouch(motionEvent);
+                }
+            });
+        }
+    }
 
     /**
      * ゲームループに入る時に呼ばれる
@@ -233,5 +245,9 @@ abstract public class AbstractTask extends TimerTask implements TaskFunction {
     /**
      * タスクが削除される時に呼ばれる
      */
-    protected void onKilled() { }
+    protected void onKilled() {
+        if (this instanceof Touchable) {
+            getGame().getView().setOnTouchListener(null);
+        }
+    }
 }

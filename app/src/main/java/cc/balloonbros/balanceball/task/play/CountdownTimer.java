@@ -22,7 +22,7 @@ public class CountdownTimer extends PositionableTask {
 
         Style t = new Style();
         t.color(_.c(R.color.countdown_color)).size(_.i(R.integer.countdown_font_size)).font(getFont(_.s(R.string.open_sans_light))).align(Paint.Align.CENTER);
-        mDisplayRestTime.setTemplate(t);
+        mDisplayRestTime.setStyle(t);
 
         mRestTime = _.i(R.integer.game_time) * (int)getFps();
 

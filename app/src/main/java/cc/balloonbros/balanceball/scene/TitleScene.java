@@ -8,6 +8,7 @@ import cc.balloonbros.balanceball.lib._;
 import cc.balloonbros.balanceball.lib.graphic.Style;
 import cc.balloonbros.balanceball.lib.scene.AbstractScene;
 import cc.balloonbros.balanceball.task.title.FadeIn;
+import cc.balloonbros.balanceball.task.title.Start;
 import cc.balloonbros.balanceball.task.title.Title;
 
 /**
@@ -17,13 +18,14 @@ public class TitleScene extends AbstractScene {
     @Override
     protected void onInitialize() {
         loadFonts(
-            _.s(R.string.open_sans_bold),
-            _.s(R.string.open_sans_light)
+            _s(R.string.open_sans_bold),
+            _s(R.string.open_sans_light)
         );
-        getTaskManager().register(new Title(), new FadeIn());
 
         Style.setDefaultFont(getFont(_s(R.string.open_sans_light)));
         Style.setDefaultAlign(Paint.Align.CENTER);
         Style.setDefaultColor(_c(R.color.base_font_color));
+
+        getTaskManager().register(new Title(), new Start(), new FadeIn());
     }
 }

@@ -25,19 +25,19 @@ public class DrawString {
 
     public DrawString(int size, Style template) {
         mChars = new char[size];
-        setTemplate(template);
+        setStyle(template);
     }
 
     public DrawString(String value, Style template) {
         append(value);
-        setTemplate(template);
+        setStyle(template);
     }
 
-    public void setTemplate(Style template) {
+    public void setStyle(Style template) {
         mTemplate = template;
     }
 
-    public Style getTemplate() {
+    public Style getStyle() {
         return mTemplate;
     }
 

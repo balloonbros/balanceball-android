@@ -7,8 +7,9 @@ import android.view.MotionEvent;
 
 import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.lib.graphic.Surface;
+import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.task.Drawable;
-import cc.balloonbros.balanceball.lib.task.basic.TouchTask;
+import cc.balloonbros.balanceball.lib.task.Touchable;
 import cc.balloonbros.balanceball.lib.task.timer.Timer;
 import cc.balloonbros.balanceball.lib.task.timer.TimerEventListener;
 import cc.balloonbros.balanceball.scene.TitleScene;
@@ -16,7 +17,7 @@ import cc.balloonbros.balanceball.scene.TitleScene;
 /**
  * ロゴ表示タスク
  */
-public class Logo extends TouchTask implements Drawable, TimerEventListener {
+public class Logo extends AbstractTask implements Drawable, Touchable, TimerEventListener {
     /** ロゴ画像の転送元矩形 */
     private Rect mSource = new Rect();
 

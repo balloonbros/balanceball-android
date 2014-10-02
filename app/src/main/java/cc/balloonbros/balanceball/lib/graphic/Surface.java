@@ -6,7 +6,6 @@ import android.graphics.Point;
 
 public class Surface {
     private Canvas mCanvas;
-    private PaintFactory mFactory = new PaintFactory();
     private Point mDefaultPosition = null;
 
     public void setCanvas(Canvas canvas) {
@@ -18,7 +17,7 @@ public class Surface {
     }
 
     public void draw(DrawString text, float x, float y) {
-        Paint paint = mFactory.createFromTemplate(text.getTemplate());
+        Paint paint = text.getStyle().generatePaint();
 
         if (text.needsConcatenate()) {
             mCanvas.drawText(text.getChars(), 0, text.getLength(), x, y, paint);
