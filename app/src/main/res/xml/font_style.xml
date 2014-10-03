@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <style id="title">
+        <item name="font">open-sans-bold</item>
+        <item name="color">#ff0000</item>
+        <item name="antialias">true</item>
+        <item name="align">center</item>
+        <item name="size">60</item>
+    </style>
+</root>
