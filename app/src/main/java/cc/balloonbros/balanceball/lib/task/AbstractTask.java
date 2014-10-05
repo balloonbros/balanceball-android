@@ -10,6 +10,7 @@ import android.view.View;
 import java.util.ArrayList;
 
 import cc.balloonbros.balanceball.lib.GameMain;
+import cc.balloonbros.balanceball.lib.graphic.Style;
 import cc.balloonbros.balanceball.lib.graphic.Surface;
 import cc.balloonbros.balanceball.lib.scene.AbstractScene;
 import cc.balloonbros.balanceball.lib.task.message.TaskMessageListener;
@@ -130,14 +131,21 @@ abstract public class AbstractTask extends TimerTask implements TaskFunction {
      * @param assetId 画像ID
      * @return 画像
      */
-    public Bitmap getImage(int assetId) { return getScene().getAssetManager().getImage(assetId); }
+    public Bitmap getImage(int assetId) { return getScene().getImage(assetId); }
 
     /**
      * フォントを取得する
      * @param font フォント名
      * @return フォント
      */
-    public Typeface getFont(String font) { return getScene().getAssetManager().getFont(font); }
+    public Typeface getFont(String font) { return getScene().getFont(font); }
+
+    /**
+     * スタイルを取得する
+     * @param tag スタイルID
+     * @return スタイル
+     */
+    public Style getStyle(String tag) { return getScene().getStyle(tag); }
 
     /**
      * デバイスのディスプレイサイズを取得する

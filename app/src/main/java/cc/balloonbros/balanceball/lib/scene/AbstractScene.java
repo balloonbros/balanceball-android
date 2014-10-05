@@ -1,11 +1,22 @@
 package cc.balloonbros.balanceball.lib.scene;
 
+import android.content.res.Resources;
+import android.content.res.XmlResourceParser;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Typeface;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
 
 import cc.balloonbros.balanceball.lib.AssetManager;
 import cc.balloonbros.balanceball.lib.GameMain;
 import cc.balloonbros.balanceball.lib.ResourceBase;
+import cc.balloonbros.balanceball.lib.graphic.Style;
+import cc.balloonbros.balanceball.lib.graphic.StyleTemplate;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.task.TaskManager;
 
@@ -13,8 +24,13 @@ import cc.balloonbros.balanceball.lib.task.TaskManager;
  * シーンの基底クラス。
  */
 public class AbstractScene extends ResourceBase {
+    /** シーンが属するゲーム */
     private GameMain mGame;
+    /** シーンで利用する素材 */
     private AssetManager mAssetManager;
+    /** シーンで利用するスタイル */
+    private StyleTemplate mStyleTemplate = new StyleTemplate();
+    /** シーンのタスクマネージャー */
     private TaskManager mTaskManager;
 
     public TaskManager getTaskManager() { return mTaskManager; }
@@ -63,6 +79,84 @@ public class AbstractScene extends ResourceBase {
     public void loadFonts(String... fonts) { mAssetManager.loadFonts(fonts); }
 
     /**
+     * スタイルを読み込む
+     * @param xmlId スタイルが定義されたXMLのID
+     */
+    public void loadStyle(int... xmlId) {
+        Resources r = mGame.getContext().getResources();
+        for (int id: xmlId) {
+            XmlResourceParser parser = r.getXml(id);
+            try {
+                Style style = new Style();
+                String styleId = null;
+
+                int eventType = parser.getEventType();
+                while (eventType != XmlPullParser.END_DOCUMENT) {
+                    String tag = parser.getName();
+
+                    switch (eventType) {
+                        case XmlPullParser.START_TAG: {
+                            if (tag.equals("style")) {
+                                styleId = parser.getAttributeValue(null, "id");
+                            } else if (tag.equals("item")) {
+                                String attribute = parser.getAttributeValue(null, "name");
+                                if (attribute.equals("font")) {
+                                    if (style != null) {
+                                        style.font(getFont(parser.nextText()));
+                                    } else {
+                                        Style.setDefaultFont(getFont(parser.nextText()));
+                                    }
+                                } else if (attribute.equals("color")) {
+                                    if (style != null) {
+                                        style.color(Color.parseColor(parser.nextText()));
+                                    } else {
+                                        Style.setDefaultColor(Color.parseColor(parser.nextText()));
+                                    }
+                                } else if (attribute.equals("antialias")) {
+                                    if (style != null) {
+                                        style.antiAlias(parser.nextText().equals("true"));
+                                    } else {
+                                        Style.setDefaultAntiAlias(parser.nextText().equals("true"));
+                                    }
+                                } else if (attribute.equals("align")) {
+                                    if (style != null) {
+                                        style.align(Paint.Align.valueOf(parser.nextText().toUpperCase()));
+                                    } else {
+                                        Style.setDefaultAlign(Paint.Align.valueOf(parser.nextText().toUpperCase()));
+                                    }
+                                } else if (attribute.equals("size")) {
+                                    if (style != null) {
+                                        style.size(Integer.parseInt(parser.nextText()));
+                                    } else {
+                                        Style.setDefaultSize(Integer.parseInt(parser.nextText()));
+                                    }
+                                }
+                            } else if (tag.equals("default")) {
+                                style = null;
+                            }
+                            break;
+                        }
+                        case XmlPullParser.END_TAG: {
+                            if (tag.equals("style")) {
+                                mStyleTemplate.add(styleId, style);
+                                style = new Style();
+                            } else if (tag.equals("default")) {
+                                style = new Style();
+                            }
+                            break;
+                        }
+                    }
+                    eventType = parser.next();
+                }
+            } catch (XmlPullParserException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
      * ロードされたリソースから画像を取得する
      * @param assetId 画像ID
      * @return 画像
@@ -75,6 +169,15 @@ public class AbstractScene extends ResourceBase {
      * @return フォント
      */
     public Typeface getFont(String font) { return getAssetManager().getFont(font); }
+
+    /**
+     * 登録されたスタイルテンプレートを取得する
+     * @param tag タグ名
+     * @return タグ名に紐づくスタイル
+     */
+    public Style getStyle(String tag) {
+        return mStyleTemplate.get(tag);
+    }
 
     /**
      * シーンを破棄する

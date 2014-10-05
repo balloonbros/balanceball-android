@@ -4,7 +4,6 @@ import android.content.Context;
 import android.hardware.SensorManager;
 
 import cc.balloonbros.balanceball.lib.GameMain;
-import cc.balloonbros.balanceball.scene.PlayScene;
 
 /**
  * BalanceBallゲーム本体。

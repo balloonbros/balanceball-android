@@ -21,8 +21,7 @@ public class Title extends PositionableTask implements Drawable {
         super.onRegister();
         setPriority(_i(R.integer.priority_title));
 
-        Style titleStyle = Style.getDefault().size(_i(R.integer.title_font_size)).color(_c(R.color.title_font_color)).font(getFont(_s(R.string.open_sans_bold)));
-        mTitle = new DrawString(_s(R.string.app_name), titleStyle);
+        mTitle = new DrawString(_s(R.string.app_name), getStyle("title"));
 
         Point displaySize = getDisplaySize();
         int x = displaySize.x / 2;

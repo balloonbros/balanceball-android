@@ -9,16 +9,14 @@ public class Style {
     private Paint mPaint = null;
     private Typeface mFont = null;
     private float mSize = 0;
-    private int mColor = Color.BLACK;
-    private int mAlpha = 0xff;
-    private boolean mAntiAlias = true;
-    private Paint.Align mAlign = Paint.Align.LEFT;
-    private boolean mIsDefault = false;
+    private Integer mColor = null;
+    private int mAlpha = -1;
+    private Boolean mAntiAlias = null;
+    private Paint.Align mAlign = null;
 
     private static Style sDefault = null;
-    private static Paint sPaint = new Paint();
     private static Typeface sFont = null;
-    private static float sSize = 0;
+    private static float sSize = 16;
     private static int sColor = Color.BLACK;
     private static int sAlpha = 0xff;
     private static boolean sAntiAlias = true;
@@ -26,8 +24,8 @@ public class Style {
 
     private static void resetDefault() {
         sDefault = null;
-        sPaint   = null;
     }
+
     public static void setDefaultFont(Typeface font) {
         sFont = font;
         resetDefault();
@@ -75,7 +73,6 @@ public class Style {
         style.alpha(sAlpha);
         style.antiAlias(sAntiAlias);
         style.align(sAlign);
-        style.mIsDefault = true;
 
         sDefault = style;
         return style;
@@ -123,7 +120,7 @@ public class Style {
             mModified = true;
             mFont = font;
         }
-        return cloneIfDefault();
+        return this;
     }
 
     public Style size(float size) {
@@ -131,15 +128,15 @@ public class Style {
             mModified = true;
             mSize = size;
         }
-        return cloneIfDefault();
+        return this;
     }
 
     public Style color(int color) {
-        if (mColor != color) {
+        if (mColor == null || mColor != color) {
             mModified = true;
             mColor = color;
         }
-        return cloneIfDefault();
+        return this;
     }
 
     public Style alpha(int alpha) {
@@ -147,15 +144,15 @@ public class Style {
             mModified = true;
             mAlpha = alpha;
         }
-        return cloneIfDefault();
+        return this;
     }
 
     public Style antiAlias(boolean antiAlias) {
-        if (mAntiAlias != antiAlias) {
+        if (mAntiAlias == null || mAntiAlias != antiAlias) {
             mModified = true;
             mAntiAlias = antiAlias;
         }
-        return cloneIfDefault();
+        return this;
     }
 
     public Style align(Paint.Align align) {
@@ -163,7 +160,7 @@ public class Style {
             mModified = true;
             mAlign = align;
         }
-        return cloneIfDefault();
+        return this;
     }
 
     public Style center() {
@@ -178,53 +175,52 @@ public class Style {
         return align(Paint.Align.RIGHT);
     }
 
-    private Style cloneIfDefault() {
-        if (mIsDefault) {
-            mIsDefault = false;
-            return Style.from(this);
-        }
-
-        return this;
-    }
-
     protected Paint generatePaint() {
-        if (mIsDefault && sPaint != null) {
-            return sPaint;
-        }
-
         if (!mModified && mPaint != null) {
             return mPaint;
         }
 
-        Paint paint;
-        if (mIsDefault) {
-            if (sPaint == null) {
-                sPaint = new Paint();
-            }
-            paint = sPaint;
-        } else {
-            if (mPaint == null) {
-                mPaint = new Paint();
-            }
-            paint = mPaint;
-        }
-
-        if (!mModified) {
-            return paint;
+        if (mPaint == null) {
+            mPaint = new Paint();
         }
 
         if (mFont != null) {
-            paint.setTypeface(mFont);
+            mPaint.setTypeface(mFont);
+        } else if (sFont != null) {
+            mPaint.setTypeface(sFont);
         }
+
         if (mSize > 0) {
-            paint.setTextSize(mSize);
+            mPaint.setTextSize(mSize);
+        } else {
+            mPaint.setTextSize(sSize);
         }
-        paint.setColor(mColor);
-        paint.setAlpha(mAlpha);
-        paint.setAntiAlias(mAntiAlias);
-        paint.setTextAlign(mAlign);
+
+        if (mColor != null) {
+            mPaint.setColor(mColor);
+        } else {
+            mPaint.setColor(sColor);
+        }
+
+        if (mAlpha > -1) {
+            mPaint.setAlpha(mAlpha);
+        } else {
+            mPaint.setAlpha(sAlpha);
+        }
+
+        if (mAntiAlias != null) {
+            mPaint.setAntiAlias(mAntiAlias);
+        } else {
+            mPaint.setAntiAlias(sAntiAlias);
+        }
+
+        if (mAlign != null) {
+            mPaint.setTextAlign(mAlign);
+        } else {
+            mPaint.setTextAlign(sAlign);
+        }
 
         mModified = false;
-        return paint;
+        return mPaint;
     }
 }

@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-    <style id="title">
-        <item name="font">open-sans-bold</item>
-        <item name="color">#ff0000</item>
+    <default>
+        <item name="font">open-sans-light.ttf</item>
         <item name="antialias">true</item>
         <item name="align">center</item>
+        <item name="color">#ff777777</item>
+    </default>
+
+    <style id="title">
+        <item name="font">open-sans-bold.ttf</item>
+        <item name="color">#fffc5041</item>
         <item name="size">60</item>
+    </style>
+
+    <style id="touch_to_start">
+        <item name="size">20</item>
     </style>
 </root>

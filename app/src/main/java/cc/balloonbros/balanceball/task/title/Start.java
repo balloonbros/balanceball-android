@@ -20,8 +20,7 @@ public class Start extends PositionableTask implements Touchable, TimerEventList
     public void onRegister() {
         super.onRegister();
 
-        Style labelStyle = Style.getDefault().size(_i(R.integer.game_start_label_font_size));
-        mLabel = new DrawString(_s(R.string.game_start_label), labelStyle);
+        mLabel = new DrawString(_s(R.string.game_start_label), getStyle("touch_to_start"));
 
         position(getDisplaySize().x / 2, 300);
     }
