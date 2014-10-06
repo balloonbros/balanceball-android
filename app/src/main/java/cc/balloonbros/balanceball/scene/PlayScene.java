@@ -22,6 +22,7 @@ public class PlayScene extends AbstractScene {
                 R.drawable.wind3
         );
         loadFonts(_.s(R.string.open_sans_light));
+        loadStyle(R.xml.play_scene_font_style);
 
         registerTasks(
                 new Ball(),

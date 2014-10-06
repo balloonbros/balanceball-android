@@ -88,7 +88,9 @@ public class AbstractScene extends ResourceBase {
             XmlResourceParser parser = r.getXml(id);
             try {
                 Style style = new Style();
+                Style defaultStyle = null;
                 String styleId = null;
+                boolean isDefaultTag = false;
 
                 int eventType = parser.getEventType();
                 while (eventType != XmlPullParser.END_DOCUMENT) {
@@ -101,47 +103,55 @@ public class AbstractScene extends ResourceBase {
                             } else if (tag.equals("item")) {
                                 String attribute = parser.getAttributeValue(null, "name");
                                 if (attribute.equals("font")) {
-                                    if (style != null) {
-                                        style.font(getFont(parser.nextText()));
+                                    if (isDefaultTag && defaultStyle != null) {
+                                        defaultStyle.font(getFont(parser.nextText()));
                                     } else {
-                                        Style.setDefaultFont(getFont(parser.nextText()));
+                                        style.font(getFont(parser.nextText()));
                                     }
                                 } else if (attribute.equals("color")) {
-                                    if (style != null) {
-                                        style.color(Color.parseColor(parser.nextText()));
+                                    if (isDefaultTag && defaultStyle != null) {
+                                        defaultStyle.color(Color.parseColor(parser.nextText()));
                                     } else {
-                                        Style.setDefaultColor(Color.parseColor(parser.nextText()));
+                                        style.color(Color.parseColor(parser.nextText()));
                                     }
                                 } else if (attribute.equals("antialias")) {
-                                    if (style != null) {
-                                        style.antiAlias(parser.nextText().equals("true"));
+                                    if (isDefaultTag && defaultStyle != null) {
+                                        defaultStyle.antiAlias(parser.nextText().equals("true"));
                                     } else {
-                                        Style.setDefaultAntiAlias(parser.nextText().equals("true"));
+                                        style.antiAlias(parser.nextText().equals("true"));
                                     }
                                 } else if (attribute.equals("align")) {
-                                    if (style != null) {
-                                        style.align(Paint.Align.valueOf(parser.nextText().toUpperCase()));
+                                    if (isDefaultTag && defaultStyle != null) {
+                                        defaultStyle.align(Paint.Align.valueOf(parser.nextText().toUpperCase()));
                                     } else {
-                                        Style.setDefaultAlign(Paint.Align.valueOf(parser.nextText().toUpperCase()));
+                                        style.align(Paint.Align.valueOf(parser.nextText().toUpperCase()));
                                     }
                                 } else if (attribute.equals("size")) {
-                                    if (style != null) {
-                                        style.size(Integer.parseInt(parser.nextText()));
+                                    if (isDefaultTag && defaultStyle != null) {
+                                        defaultStyle.size(Integer.parseInt(parser.nextText()));
                                     } else {
-                                        Style.setDefaultSize(Integer.parseInt(parser.nextText()));
+                                        style.size(Integer.parseInt(parser.nextText()));
                                     }
                                 }
                             } else if (tag.equals("default")) {
-                                style = null;
+                                defaultStyle = new Style();
+                                isDefaultTag = true;
                             }
                             break;
                         }
                         case XmlPullParser.END_TAG: {
                             if (tag.equals("style")) {
                                 mStyleTemplate.add(styleId, style);
-                                style = new Style();
                             } else if (tag.equals("default")) {
-                                style = new Style();
+                                isDefaultTag = false;
+                            }
+
+                            if (tag.equals("style") || tag.equals("default")) {
+                                if (defaultStyle == null) {
+                                    style = new Style();
+                                } else {
+                                    style = Style.from(defaultStyle);
+                                }
                             }
                             break;
                         }
@@ -185,6 +195,7 @@ public class AbstractScene extends ResourceBase {
     public void dispose() {
         mTaskManager.dispose();
         mAssetManager.dispose();
+        mStyleTemplate.dispose();
     }
 
     /* ==============================================

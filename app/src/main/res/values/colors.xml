@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="title_font_color">#fc5041</color>
-    <color name="score_color">#e54073</color>
-    <color name="countdown_color">#e54073</color>
-    <color name="base_font_color">#777777</color>
+    <color name="title_font_color">#fffc5041</color>
+    <color name="score_color">#ffe54073</color>
+    <color name="countdown_color">#ffe54073</color>
+    <color name="base_font_color">#ff777777</color>
+    <color name="result_color">#ffffffff</color>
 </resources>

@@ -19,12 +19,11 @@ public class CountdownTimer extends PositionableTask {
     @Override
     public void onRegister() {
         super.onRegister();
+        setPriority(_i(R.integer.priority_countdown_timer));
 
-        Style t = new Style();
-        t.color(_.c(R.color.countdown_color)).size(_.i(R.integer.countdown_font_size)).font(getFont(_.s(R.string.open_sans_light))).align(Paint.Align.CENTER);
-        mDisplayRestTime.setStyle(t);
+        mDisplayRestTime.setStyle(getStyle("countdown_timer"));
 
-        mRestTime = _.i(R.integer.game_time) * (int)getFps();
+        mRestTime = _i(R.integer.game_time) * (int)getFps();
 
         Point p = getDisplaySize();
         position(p.x / 2, p.y / 2 + 100);

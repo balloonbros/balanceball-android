@@ -16,7 +16,7 @@ public class TitleScene extends AbstractScene {
             _s(R.string.open_sans_bold),
             _s(R.string.open_sans_light)
         );
-        loadStyle(R.xml.font_style);
+        loadStyle(R.xml.title_scene_font_style);
 
         getTaskManager().register(new Title(), new Start(), new FadeIn());
     }

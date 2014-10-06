@@ -100,7 +100,11 @@ public class Style {
     }
 
     public int color() {
-        return mColor;
+        if (mColor == null) {
+            return sColor;
+        } else {
+            return mColor;
+        }
     }
 
     public int alpha() {
@@ -108,7 +112,11 @@ public class Style {
     }
 
     public boolean antiAlias() {
-        return mAntiAlias;
+        if (mAntiAlias == null) {
+            return sAntiAlias;
+        } else {
+            return mAntiAlias;
+        }
     }
 
     public Paint.Align align() {
@@ -173,6 +181,10 @@ public class Style {
 
     public Style left() {
         return align(Paint.Align.RIGHT);
+    }
+
+    public void dispose() {
+        mPaint = null;
     }
 
     protected Paint generatePaint() {

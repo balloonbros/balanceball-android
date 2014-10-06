@@ -17,7 +17,13 @@ public class Surface {
     }
 
     public void draw(DrawString text, float x, float y) {
-        Paint paint = text.getStyle().generatePaint();
+        Style style = text.getStyle();
+        Paint paint;
+        if (style != null) {
+            paint = style.generatePaint();
+        } else {
+            paint = Style.getDefault().generatePaint();
+        }
 
         if (text.needsConcatenate()) {
             mCanvas.drawText(text.getChars(), 0, text.getLength(), x, y, paint);
