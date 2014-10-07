@@ -7,6 +7,7 @@ import android.graphics.Point;
  * ゲームループ中で文字列するとStringオブジェクトがnewされてしまい
  * すぐにGCが起動してパフォーマンスが悪くなってしまうので
  * なるべく新しい文字列オブジェクトをnewさせないようにしたクラス。
+ * Stringの操作は新しいStringを作ることを意味するので絶対にしない。
  *
  * 内部的に文字列をcharの配列で管理しておりsetやappendで文字列を追加可能。
  * charの配列のサイズが足りなくなれば自動的に拡張される。
@@ -99,6 +100,18 @@ public class DrawString {
     }
 
     /**
+     * 文字列の描画位置をセットする
+     * @param x x座標
+     * @param y y座標
+     */
+    public void setPosition(int x, int y) {
+        if (mPosition == null) {
+            mPosition = new Point();
+        }
+        mPosition.set(x, y);
+    }
+
+    /**
      * 文字列の描画位置を取得する
      * @return 文字列の描画位置
      */
@@ -151,12 +164,12 @@ public class DrawString {
             }
 
             if (c == '%') {
-                boolean zeroFormat = false;
+                boolean zeroPadding = false;
                 placeholder = true;
                 c = format.charAt(++i);
                 switch (c) {
                     case '0': {
-                        zeroFormat = true;
+                        zeroPadding = true;
                         c = format.charAt(++i);
                     }
                     case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9': {
@@ -172,7 +185,7 @@ public class DrawString {
 
                         int paramLength = String.valueOf(params[index]).length();
                         for (int loop = 0; loop < paddingCount - paramLength; loop++) {
-                            if (zeroFormat) {
+                            if (zeroPadding) {
                                 append('0');
                             } else {
                                 append(' ');

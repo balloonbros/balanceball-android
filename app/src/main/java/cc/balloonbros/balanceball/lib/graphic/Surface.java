@@ -22,14 +22,6 @@ public class Surface {
         mCanvas = canvas;
     }
 
-    /**
-     * 描画先のデフォルト位置をセットする
-     * @param defaultPosition 描画先のデフォルト位置
-     */
-    public void setDefaultDrawingPosition(Point defaultPosition) {
-        mDefaultPosition = defaultPosition;
-    }
-
     public void draw(DrawString text, float x, float y) {
         Style style = text.getStyle();
         Paint paint;
@@ -49,9 +41,11 @@ public class Surface {
     public void draw(DrawString text) {
         int x = 0;
         int y = 0;
-        if (mDefaultPosition != null) {
-            x = mDefaultPosition.x;
-            y = mDefaultPosition.y;
+
+        Point p = text.getPosition();
+        if (p != null) {
+            x = p.x;
+            y = p.y;
         }
 
         draw(text, x, y);

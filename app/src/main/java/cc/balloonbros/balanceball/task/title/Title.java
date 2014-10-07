@@ -5,15 +5,14 @@ import android.graphics.Point;
 
 import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.lib.graphic.DrawString;
-import cc.balloonbros.balanceball.lib.graphic.Style;
 import cc.balloonbros.balanceball.lib.graphic.Surface;
+import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.task.Drawable;
-import cc.balloonbros.balanceball.lib.task.basic.PositionableTask;
 
 /**
  * タイトルタスク
  */
-public class Title extends PositionableTask implements Drawable {
+public class Title extends AbstractTask implements Drawable {
     private DrawString mTitle;
 
     @Override
@@ -21,12 +20,12 @@ public class Title extends PositionableTask implements Drawable {
         super.onRegister();
         setPriority(_i(R.integer.priority_title));
 
-        mTitle = new DrawString(_s(R.string.app_name), getStyle("title"));
-
         Point displaySize = getDisplaySize();
         int x = displaySize.x / 2;
         int y = displaySize.y / 3;
-        position(x, y);
+
+        mTitle = new DrawString(_s(R.string.app_name), getStyle("title"));
+        mTitle.setPosition(x, y);
     }
 
     @Override

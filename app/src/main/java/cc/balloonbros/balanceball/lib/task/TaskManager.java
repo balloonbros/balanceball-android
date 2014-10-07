@@ -97,11 +97,6 @@ public class TaskManager {
         // タスクリストに登録されているタスクの更新処理と描画処理を全て呼び出してフレームを進める
         AbstractTask task = (AbstractTask)mTaskList.getFirst();
         while (task != null) {
-            if (task instanceof PositionableTask) {
-                surface.setDefaultDrawingPosition(((PositionableTask) task).getPosition());
-            } else {
-                surface.setDefaultDrawingPosition(null);
-            }
             task.execute(canvas, surface);
             task = (AbstractTask)task.getNext();
         }
