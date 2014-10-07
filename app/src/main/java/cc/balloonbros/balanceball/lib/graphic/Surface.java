@@ -4,14 +4,28 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
 
+/**
+ * ゲームの描画面
+ */
 public class Surface {
+    /** 描画先のキャンバス */
     private Canvas mCanvas;
+
+    /** 描画先のデフォルト位置 */
     private Point mDefaultPosition = null;
 
+    /**
+     * 描画先のキャンバスをセットする
+     * @param canvas 描画先のキャンバス
+     */
     public void setCanvas(Canvas canvas) {
         mCanvas = canvas;
     }
 
+    /**
+     * 描画先のデフォルト位置をセットする
+     * @param defaultPosition 描画先のデフォルト位置
+     */
     public void setDefaultDrawingPosition(Point defaultPosition) {
         mDefaultPosition = defaultPosition;
     }

@@ -47,15 +47,7 @@ public class CountdownTimer extends PositionableTask {
 
     @Override
     public void onDraw(Canvas canvas, Surface surface) {
-        int integerPart = mRestTime / (int)getFps();
-        int decimalPart = mRestTime % (int)getFps();
-
-        mDisplayRestTime.set(integerPart).append('.');
-        if (decimalPart < 10) {
-            mDisplayRestTime.append('0');
-        }
-        mDisplayRestTime.append(decimalPart);
-
+        mDisplayRestTime.format("%d.%02d", mRestTime / (int)getFps(), mRestTime % (int)getFps());
         surface.draw(mDisplayRestTime);
     }
 }
