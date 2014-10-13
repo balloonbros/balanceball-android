@@ -1,18 +1,15 @@
 package cc.balloonbros.balanceball.task.play;
 
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.Point;
 
 import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.lib.graphic.DrawString;
-import cc.balloonbros.balanceball.lib.graphic.Style;
 import cc.balloonbros.balanceball.lib.graphic.Surface;
-import cc.balloonbros.balanceball.lib._;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
-import cc.balloonbros.balanceball.lib.task.basic.PositionableTask;
+import cc.balloonbros.balanceball.lib.task.Drawable;
 
-public class CountdownTimer extends PositionableTask {
+public class CountdownTimer extends AbstractTask implements Drawable {
     private int mRestTime = 0;
     private DrawString mDisplayRestTime = new DrawString(5);
 
@@ -21,12 +18,10 @@ public class CountdownTimer extends PositionableTask {
         super.onRegister();
         setPriority(_i(R.integer.priority_countdown_timer));
 
-        mDisplayRestTime.setStyle(getStyle("countdown_timer"));
+        Point p = getDisplaySize();
+        mDisplayRestTime.setPosition(p.x / 2, p.y / 2 + 100).setStyle(getFontStyle("countdown_timer"));
 
         mRestTime = _i(R.integer.game_time) * (int)getFps();
-
-        Point p = getDisplaySize();
-        position(p.x / 2, p.y / 2 + 100);
     }
 
     @Override

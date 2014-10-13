@@ -24,7 +24,7 @@ public class Title extends AbstractTask implements Drawable {
         int x = displaySize.x / 2;
         int y = displaySize.y / 3;
 
-        mTitle = new DrawString(_s(R.string.app_name), getStyle("title"));
+        mTitle = new DrawString(_s(R.string.app_name), getFontStyle("title"));
         mTitle.setPosition(x, y);
     }
 

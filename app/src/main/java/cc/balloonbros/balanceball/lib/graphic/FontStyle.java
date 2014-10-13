@@ -4,7 +4,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 
-public class Style {
+public class FontStyle {
     private boolean mModified = false;
     private Paint mPaint = null;
     private Typeface mFont = null;
@@ -14,7 +14,7 @@ public class Style {
     private Boolean mAntiAlias = null;
     private Paint.Align mAlign = null;
 
-    private static Style sDefault = null;
+    private static FontStyle sDefault = null;
     private static Typeface sFont = null;
     private static float sSize = 16;
     private static int sColor = Color.BLACK;
@@ -56,12 +56,12 @@ public class Style {
         resetDefault();
     }
 
-    public static Style getDefault() {
+    public static FontStyle getDefault() {
         if (sDefault != null) {
             return sDefault;
         }
 
-        Style style = new Style();
+        FontStyle style = new FontStyle();
 
         if (sFont != null) {
             style.font(sFont);
@@ -78,8 +78,8 @@ public class Style {
         return style;
     }
 
-    public static Style from(Style template) {
-        Style style = new Style();
+    public static FontStyle from(FontStyle template) {
+        FontStyle style = new FontStyle();
 
         style.font(template.font());
         style.size(template.size());
@@ -123,7 +123,7 @@ public class Style {
         return mAlign;
     }
 
-    public Style font(Typeface font) {
+    public FontStyle font(Typeface font) {
         if (font != null && (mFont == null || mFont != font)) {
             mModified = true;
             mFont = font;
@@ -131,7 +131,7 @@ public class Style {
         return this;
     }
 
-    public Style size(float size) {
+    public FontStyle size(float size) {
         if (mSize != size) {
             mModified = true;
             mSize = size;
@@ -139,7 +139,7 @@ public class Style {
         return this;
     }
 
-    public Style color(int color) {
+    public FontStyle color(int color) {
         if (mColor == null || mColor != color) {
             mModified = true;
             mColor = color;
@@ -147,7 +147,7 @@ public class Style {
         return this;
     }
 
-    public Style alpha(int alpha) {
+    public FontStyle alpha(int alpha) {
         if (mAlpha != alpha) {
             mModified = true;
             mAlpha = alpha;
@@ -155,7 +155,7 @@ public class Style {
         return this;
     }
 
-    public Style antiAlias(boolean antiAlias) {
+    public FontStyle antiAlias(boolean antiAlias) {
         if (mAntiAlias == null || mAntiAlias != antiAlias) {
             mModified = true;
             mAntiAlias = antiAlias;
@@ -163,7 +163,7 @@ public class Style {
         return this;
     }
 
-    public Style align(Paint.Align align) {
+    public FontStyle align(Paint.Align align) {
         if (mAlign != align) {
             mModified = true;
             mAlign = align;
@@ -171,15 +171,15 @@ public class Style {
         return this;
     }
 
-    public Style center() {
+    public FontStyle center() {
         return align(Paint.Align.CENTER);
     }
 
-    public Style right() {
+    public FontStyle right() {
         return align(Paint.Align.RIGHT);
     }
 
-    public Style left() {
+    public FontStyle left() {
         return align(Paint.Align.RIGHT);
     }
 

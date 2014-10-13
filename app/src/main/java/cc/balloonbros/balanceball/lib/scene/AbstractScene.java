@@ -15,7 +15,7 @@ import java.io.IOException;
 import cc.balloonbros.balanceball.lib.AssetManager;
 import cc.balloonbros.balanceball.lib.GameMain;
 import cc.balloonbros.balanceball.lib.ResourceBase;
-import cc.balloonbros.balanceball.lib.graphic.Style;
+import cc.balloonbros.balanceball.lib.graphic.FontStyle;
 import cc.balloonbros.balanceball.lib.graphic.StyleTemplate;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.task.TaskManager;
@@ -87,8 +87,8 @@ public class AbstractScene extends ResourceBase {
         for (int id: xmlId) {
             XmlResourceParser parser = r.getXml(id);
             try {
-                Style style = new Style();
-                Style defaultStyle = null;
+                FontStyle style = new FontStyle();
+                FontStyle defaultStyle = null;
                 String styleId = null;
                 boolean isDefaultTag = false;
 
@@ -134,7 +134,7 @@ public class AbstractScene extends ResourceBase {
                                     }
                                 }
                             } else if (tag.equals("default")) {
-                                defaultStyle = new Style();
+                                defaultStyle = new FontStyle();
                                 isDefaultTag = true;
                             }
                             break;
@@ -148,9 +148,9 @@ public class AbstractScene extends ResourceBase {
 
                             if (tag.equals("style") || tag.equals("default")) {
                                 if (defaultStyle == null) {
-                                    style = new Style();
+                                    style = new FontStyle();
                                 } else {
-                                    style = Style.from(defaultStyle);
+                                    style = FontStyle.from(defaultStyle);
                                 }
                             }
                             break;
@@ -185,7 +185,7 @@ public class AbstractScene extends ResourceBase {
      * @param tag タグ名
      * @return タグ名に紐づくスタイル
      */
-    public Style getStyle(String tag) {
+    public FontStyle getStyle(String tag) {
         return mStyleTemplate.get(tag);
     }
 

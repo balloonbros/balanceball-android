@@ -11,9 +11,6 @@ public class Surface {
     /** 描画先のキャンバス */
     private Canvas mCanvas;
 
-    /** 描画先のデフォルト位置 */
-    private Point mDefaultPosition = null;
-
     /**
      * 描画先のキャンバスをセットする
      * @param canvas 描画先のキャンバス
@@ -22,32 +19,42 @@ public class Surface {
         mCanvas = canvas;
     }
 
-    public void draw(DrawString text, float x, float y) {
-        Style style = text.getStyle();
+    /**
+     * 文字列を描画する
+     * @param text 描画する文字列
+     */
+    public void draw(DrawString text) {
         Paint paint;
+        Point position = text.getPosition();
+        FontStyle style = text.getStyle();
+
         if (style != null) {
             paint = style.generatePaint();
         } else {
-            paint = Style.getDefault().generatePaint();
+            paint = FontStyle.getDefault().generatePaint();
         }
 
         if (text.needsConcatenate()) {
-            mCanvas.drawText(text.getChars(), 0, text.getLength(), x, y, paint);
+            mCanvas.drawText(text.getChars(), 0, text.getLength(), position.x, position.y, paint);
         } else {
-            mCanvas.drawText(text.getFirstString(), x, y, paint);
+            mCanvas.drawText(text.getFirstString(), position.x, position.y, paint);
         }
     }
 
-    public void draw(DrawString text) {
-        int x = 0;
-        int y = 0;
+    /**
+     * シェイプを描画する
+     * @param shape 描画するシェイプ
+     */
+    public void draw(Shape shape) {
+        shape.drawToCanvas(mCanvas);
+    }
 
-        Point p = text.getPosition();
-        if (p != null) {
-            x = p.x;
-            y = p.y;
-        }
-
-        draw(text, x, y);
+    /**
+     * スプライトを描画する
+     * @param sprite 描画するスプライト
+     */
+    public void draw(Sprite sprite) {
+        Point position = sprite.getPosition();
+        mCanvas.drawBitmap(sprite.getBitmap(), position.x, position.y, null);
     }
 }

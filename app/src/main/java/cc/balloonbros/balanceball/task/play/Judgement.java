@@ -23,16 +23,16 @@ public class Judgement extends AbstractTask {
     @Override
     public void onRegister() {
         super.onRegister();
-        setPriority(_.i(R.integer.priority_judgement));
+        setPriority(_i(R.integer.priority_judgement));
 
-        mCenterCircle = (CenterCircle)find(_.i(R.integer.priority_center_circle));
-        mBall         = (Ball)        find(_.i(R.integer.priority_ball));
-        mScore        = (Score)       find(_.i(R.integer.priority_score));
+        mCenterCircle = (CenterCircle)find(_i(R.integer.priority_center_circle));
+        mBall         = (Ball)        find(_i(R.integer.priority_ball));
+        mScore        = (Score)       find(_i(R.integer.priority_score));
     }
 
     @Override
     public void update() {
-        Point bp = mBall.getPosition();
+        Point bp = mBall.drawable().getPosition();
         Point cp = mCenterCircle.getPosition();
         int dx = bp.x - cp.x;
         int dy = bp.y - cp.y;

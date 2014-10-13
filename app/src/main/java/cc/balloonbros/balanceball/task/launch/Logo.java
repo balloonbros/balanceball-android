@@ -9,7 +9,7 @@ import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.lib.graphic.Surface;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.task.Drawable;
-import cc.balloonbros.balanceball.lib.task.Touchable;
+import cc.balloonbros.balanceball.lib.task.extender.Touchable;
 import cc.balloonbros.balanceball.lib.task.timer.Timer;
 import cc.balloonbros.balanceball.lib.task.timer.TimerEventListener;
 import cc.balloonbros.balanceball.scene.TitleScene;

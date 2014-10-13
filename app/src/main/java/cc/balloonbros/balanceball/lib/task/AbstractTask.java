@@ -4,13 +4,13 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Typeface;
-import android.view.MotionEvent;
-import android.view.View;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cc.balloonbros.balanceball.lib.GameMain;
-import cc.balloonbros.balanceball.lib.graphic.Style;
+import cc.balloonbros.balanceball.lib.graphic.DrawableObject;
+import cc.balloonbros.balanceball.lib.graphic.FontStyle;
 import cc.balloonbros.balanceball.lib.graphic.Surface;
 import cc.balloonbros.balanceball.lib.scene.AbstractScene;
 import cc.balloonbros.balanceball.lib.task.message.TaskMessageListener;
@@ -22,11 +22,10 @@ import cc.balloonbros.balanceball.lib.task.system.TimerTask;
  * タスクはすべてこのクラスを継承する。
  */
 abstract public class AbstractTask extends TimerTask implements TaskFunction {
-    /** タスクが属しているシーン */
-    private AbstractScene mScene = null;
-
     /** タスク処理関数 */
     private TaskFunction mCurrentFunction = this;
+    /** タスクが属しているシーン */
+    private AbstractScene mScene = null;
 
     /** このタスクの子タスクと親タスク */
     private ArrayList<AbstractTask> mChildren = new ArrayList<AbstractTask>();
@@ -41,11 +40,11 @@ abstract public class AbstractTask extends TimerTask implements TaskFunction {
     /** タスク検索に利用するタグ */
     private String mTag = "";
 
+    /** タスクに登録されているプラグイン一覧 */
+    private List<PluggableTask> mPlugins = new ArrayList<PluggableTask>();
+
     public AbstractTask getParent() { return mParent; }
     private void setParent(AbstractTask parentTask) { mParent = parentTask; }
-    public void belongsTo(AbstractScene scene) { mScene = scene; }
-    public AbstractScene getScene() { return mScene; }
-    public GameMain getGame() { return mScene.getGame(); }
     public TaskManager getTaskManager() { return getScene().getTaskManager(); }
     public long getFrameCount() { return getGame().getFrameCount(); }
     public long getFps() { return getGame().getFps(); }
@@ -70,6 +69,30 @@ abstract public class AbstractTask extends TimerTask implements TaskFunction {
     }
 
     /**
+     * タスクが属するシーンをセットする
+     * @param scene タスクが属するシーン
+     */
+    public void belongsTo(AbstractScene scene) {
+        mScene = scene;
+    }
+
+    /**
+     * タスクが属するシーンを取得する
+     * @return タスクが属するシーン
+     */
+    public AbstractScene getScene() {
+        return mScene;
+    }
+
+    /**
+     * タスクが属するゲームを取得する
+     * @return タスクが属するゲーム
+     */
+    public GameMain getGame() {
+        return mScene.getGame();
+    }
+
+    /**
      * タスクのゲームループを実行する
      * @param canvas キャンバス
      */
@@ -86,10 +109,13 @@ abstract public class AbstractTask extends TimerTask implements TaskFunction {
                 mCurrentFunction.update();
             }
             executeTimer();
+            for (PluggableTask plugin: mPlugins) {
+                plugin.onExecute();
+            }
         }
 
         if (this instanceof Drawable) {
-            ((Drawable)this).onDraw(canvas, surface);
+            ((Drawable) this).onDraw(canvas, surface);
         }
 
         mFrameCountInExecution = getFrameCount();
@@ -141,11 +167,11 @@ abstract public class AbstractTask extends TimerTask implements TaskFunction {
     public Typeface getFont(String font) { return getScene().getFont(font); }
 
     /**
-     * スタイルを取得する
+     * フォントスタイルを取得する
      * @param tag スタイルID
      * @return スタイル
      */
-    public Style getStyle(String tag) { return getScene().getStyle(tag); }
+    public FontStyle getFontStyle(String tag) { return getScene().getStyle(tag); }
 
     /**
      * デバイスのディスプレイサイズを取得する
@@ -216,6 +242,22 @@ abstract public class AbstractTask extends TimerTask implements TaskFunction {
         getGame().changeScene(scene);
     }
 
+    /**
+     * タスクで利用するプラグインを登録する
+     * @param plugin プラグイン
+     */
+    public AbstractTask with(PluggableTask plugin) {
+        mPlugins.add(plugin);
+        return this;
+    }
+
+    public DrawableObject drawable() {
+        if (this instanceof DrawableAttachment) {
+            return ((DrawableAttachment) this).getDrawableObject();
+        }
+        return null;
+    }
+
     /* ==============================================
      *             オーバー可能なメソッド
      * ============================================== */
@@ -229,33 +271,35 @@ abstract public class AbstractTask extends TimerTask implements TaskFunction {
      * タスクがタスクマネージャーに登録された時に呼ばれる
      */
     protected void onRegister() {
-        if (this instanceof Touchable) {
-            final Touchable task = (Touchable)this;
-            getGame().getView().setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View view, MotionEvent motionEvent) {
-                    return task.onTouch(motionEvent);
-                }
-            });
+        for (PluggableTask plugin: mPlugins) {
+            plugin.onRegister();
         }
     }
 
     /**
      * ゲームループに入る時に呼ばれる
      */
-    protected void onEnterLoop() { }
+    protected void onEnterLoop() {
+        for (PluggableTask plugin: mPlugins) {
+            plugin.onEnterLoop();
+        }
+    }
 
     /**
      * ゲームループから抜けた時に呼ばれる
      */
-    protected void onLeaveLoop() { }
+    protected void onLeaveLoop() {
+        for (PluggableTask plugin: mPlugins) {
+            plugin.onLeaveLoop();
+        }
+    }
 
     /**
      * タスクが削除される時に呼ばれる
      */
     protected void onKilled() {
-        if (this instanceof Touchable) {
-            getGame().getView().setOnTouchListener(null);
+        for (PluggableTask plugin: mPlugins) {
+            plugin.onKilled();
         }
     }
 }

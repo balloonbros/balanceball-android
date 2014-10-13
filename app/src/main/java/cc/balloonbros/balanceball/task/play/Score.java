@@ -6,13 +6,12 @@ import android.graphics.Point;
 import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.lib.graphic.DrawString;
 import cc.balloonbros.balanceball.lib.graphic.Surface;
-import cc.balloonbros.balanceball.lib._;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
-import cc.balloonbros.balanceball.lib.task.basic.PositionableTask;
+import cc.balloonbros.balanceball.lib.task.Drawable;
 import cc.balloonbros.balanceball.lib.task.message.TaskMessageListener;
 import cc.balloonbros.balanceball.lib.task.message.TaskMessage;
 
-public class Score extends PositionableTask implements TaskMessageListener {
+public class Score extends AbstractTask implements Drawable, TaskMessageListener {
     /** ボールがサークルの中にとどまっていたフレーム数 */
     private int mFrameCountInCircle = 0;
 
@@ -22,17 +21,17 @@ public class Score extends PositionableTask implements TaskMessageListener {
     @Override
     public void onRegister() {
         super.onRegister();
-        setPriority(_.i(R.integer.priority_score));
+        setPriority(_i(R.integer.priority_score));
 
         Point displaySize = getDisplaySize();
         int x = displaySize.x / 2;
         int y = displaySize.y / 2 + 150;
-        position(x, y);
+        mScore.setPosition(x, y).setStyle(getFontStyle("score"));
     }
 
     @Override
     public void onDraw(Canvas canvas, Surface surface) {
-        mScore.set("keep ").append(String.valueOf(getScore())).append(" sec");
+        mScore.format("keep %d sec", getScore());
         surface.draw(mScore);
     }
 

@@ -15,4 +15,14 @@
         <item name="color">#fffc5041</item>
         <item name="size">26</item>
     </style>
+
+    <style id="result">
+        <item name="color">#ffffffff</item>
+        <item name="size">50</item>
+    </style>
+
+    <style id="share">
+        <item name="color">#ffffffff</item>
+        <item name="size">30</item>
+    </style>
 </root>

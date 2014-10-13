@@ -1,7 +1,5 @@
 package cc.balloonbros.balanceball.lib.graphic;
 
-import android.graphics.Point;
-
 /**
  * 描画専用の文字列。
  * ゲームループ中で文字列するとStringオブジェクトがnewされてしまい
@@ -16,7 +14,7 @@ import android.graphics.Point;
  *
  * また描画位置やテキストのスタイルを指定できる。
  */
-public class DrawString {
+public class DrawString extends DrawableObject {
     /** 文字列初期サイズ */
     private final static int INITIAL_CHAR_SIZE = 32;
 
@@ -34,9 +32,7 @@ public class DrawString {
     private String mFirstString = null;
 
     /** 文字の描画時のスタイル */
-    private Style mStyle = null;
-    /** 文字の描画位置 */
-    private Point mPosition = null;
+    private FontStyle mStyle = null;
 
     /**
      * 初期サイズで描画専用文字列オブジェクトを生成する
@@ -62,7 +58,7 @@ public class DrawString {
     /**
      * 文字列長とスタイルを指定して描画専用文字列オブジェクトを生成する
      */
-    public DrawString(int size, Style template) {
+    public DrawString(int size, FontStyle template) {
         mChars = new char[size];
         setStyle(template);
     }
@@ -70,7 +66,7 @@ public class DrawString {
     /**
      * 文字列とスタイルを指定して描画専用文字列オブジェクトを生成する
      */
-    public DrawString(String value, Style template) {
+    public DrawString(String value, FontStyle template) {
         append(value);
         setStyle(template);
     }
@@ -79,44 +75,17 @@ public class DrawString {
      * スタイルをセットする
      * @param style スタイル
      */
-    public void setStyle(Style style) {
+    public DrawString setStyle(FontStyle style) {
         mStyle = style;
+        return this;
     }
 
     /**
      * 設定されているスタイルを取得する
      * @return スタイル
      */
-    public Style getStyle() {
+    public FontStyle getStyle() {
         return mStyle;
-    }
-
-    /**
-     * 文字列の描画位置をセットする
-     * @param position 文字列の描画位置
-     */
-    public void setPosition(Point position) {
-        mPosition = position;
-    }
-
-    /**
-     * 文字列の描画位置をセットする
-     * @param x x座標
-     * @param y y座標
-     */
-    public void setPosition(int x, int y) {
-        if (mPosition == null) {
-            mPosition = new Point();
-        }
-        mPosition.set(x, y);
-    }
-
-    /**
-     * 文字列の描画位置を取得する
-     * @return 文字列の描画位置
-     */
-    public Point getPosition() {
-        return mPosition;
     }
 
     /**
@@ -361,5 +330,15 @@ public class DrawString {
      */
     String getFirstString() {
         return mFirstString;
+    }
+
+    @Override
+    public int getWidth() {
+        return 0;
+    }
+
+    @Override
+    public int getHeight() {
+        return 0;
     }
 }

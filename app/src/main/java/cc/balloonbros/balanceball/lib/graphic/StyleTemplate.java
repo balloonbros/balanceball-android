@@ -5,19 +5,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class StyleTemplate {
-    private Map<String, Style> mStyles = new HashMap<String, Style>();
+    private Map<String, FontStyle> mStyles = new HashMap<String, FontStyle>();
 
-    public void add(String tag, Style style) {
+    public void add(String tag, FontStyle style) {
         mStyles.put(tag, style);
     }
 
-    public Style get(String tag) {
+    public FontStyle get(String tag) {
         return mStyles.get(tag);
     }
 
     public void dispose() {
-        Collection<Style> styles = mStyles.values();
-        for (Style style: styles) {
+        Collection<FontStyle> styles = mStyles.values();
+        for (FontStyle style: styles) {
             style.dispose();
         }
 
