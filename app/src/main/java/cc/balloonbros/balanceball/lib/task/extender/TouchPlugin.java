@@ -3,9 +3,9 @@ package cc.balloonbros.balanceball.lib.task.extender;
 import android.view.MotionEvent;
 import android.view.View;
 
-import cc.balloonbros.balanceball.lib.task.PluggableTask;
+import cc.balloonbros.balanceball.lib.task.TaskPlugin;
 
-public class TouchableTask extends PluggableTask implements View.OnTouchListener {
+public class TouchPlugin extends TaskPlugin implements View.OnTouchListener {
     @Override
     protected void onRegister() {
         getTask().getGame().getView().setOnTouchListener(this);

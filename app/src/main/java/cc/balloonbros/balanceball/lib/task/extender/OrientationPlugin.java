@@ -8,9 +8,9 @@ import android.hardware.SensorManager;
 
 import java.util.List;
 
-import cc.balloonbros.balanceball.lib.task.PluggableTask;
+import cc.balloonbros.balanceball.lib.task.TaskPlugin;
 
-public class OrientationableTask extends PluggableTask implements SensorEventListener {
+public class OrientationPlugin extends TaskPlugin implements SensorEventListener {
     /** 端末の傾きの計算をするために必要な変数 */
     private float[] mMagneticFieldValues = null;
     private float[] mAccelerometerValues = null;
@@ -19,6 +19,7 @@ public class OrientationableTask extends PluggableTask implements SensorEventLis
     private float[] I = new float[16];
     private float[] mOrientationValues = new float[3];
 
+    @Override
     protected void onEnterLoop() {
         SensorManager sensorManager = (SensorManager) getTask().getGame().getContext().getSystemService(Context.SENSOR_SERVICE);
         List<Sensor> sensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
@@ -29,11 +30,13 @@ public class OrientationableTask extends PluggableTask implements SensorEventLis
         }
     }
 
+    @Override
     protected void onLeaveLoop() {
         SensorManager sensorManager = (SensorManager) getTask().getGame().getContext().getSystemService(Context.SENSOR_SERVICE);
         sensorManager.unregisterListener(this);
     }
 
+    @Override
     protected void onKilled() {
         onLeaveLoop();
     }

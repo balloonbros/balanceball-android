@@ -1,6 +1,5 @@
 package cc.balloonbros.balanceball.task.play;
 
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
@@ -29,7 +28,7 @@ public class DebugOutput extends AbstractTask implements Drawable, TaskMessageLi
     }
 
     @Override
-    public void onDraw(Canvas canvas, Surface surface) {
+    public void onDraw(Surface surface) {
         /*
         canvas.drawText("TaskCount: " + getTaskManager().getTaskCount(), 10, 10, mPaint);
         canvas.drawText("FrameCount: " + getGame().getFrameCount(), 10, 20, mPaint);

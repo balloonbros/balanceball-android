@@ -1,4 +1,4 @@
-package cc.balloonbros.balanceball.lib.graphic;
+package cc.balloonbros.balanceball.lib.graphic.style;
 
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -187,7 +187,7 @@ public class FontStyle {
         mPaint = null;
     }
 
-    protected Paint generatePaint() {
+    public Paint generatePaint() {
         if (!mModified && mPaint != null) {
             return mPaint;
         }

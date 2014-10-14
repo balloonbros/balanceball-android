@@ -9,19 +9,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cc.balloonbros.balanceball.lib.GameMain;
-import cc.balloonbros.balanceball.lib.graphic.DrawableObject;
-import cc.balloonbros.balanceball.lib.graphic.FontStyle;
+import cc.balloonbros.balanceball.lib.graphic.style.FontStyle;
 import cc.balloonbros.balanceball.lib.graphic.Surface;
 import cc.balloonbros.balanceball.lib.scene.AbstractScene;
 import cc.balloonbros.balanceball.lib.task.message.TaskMessageListener;
 import cc.balloonbros.balanceball.lib.task.message.TaskMessage;
-import cc.balloonbros.balanceball.lib.task.system.TimerTask;
+import cc.balloonbros.balanceball.lib.task.system.BaseTask;
 
 /**
  * ゲーム内のタスクの基底クラス。
  * タスクはすべてこのクラスを継承する。
  */
-abstract public class AbstractTask extends TimerTask implements TaskFunction {
+abstract public class AbstractTask extends BaseTask implements TaskFunction {
     /** タスク処理関数 */
     private TaskFunction mCurrentFunction = this;
     /** タスクが属しているシーン */
@@ -41,7 +40,7 @@ abstract public class AbstractTask extends TimerTask implements TaskFunction {
     private String mTag = "";
 
     /** タスクに登録されているプラグイン一覧 */
-    private List<PluggableTask> mPlugins = new ArrayList<PluggableTask>();
+    private List<TaskPlugin> mPlugins = new ArrayList<TaskPlugin>();
 
     public AbstractTask getParent() { return mParent; }
     private void setParent(AbstractTask parentTask) { mParent = parentTask; }
@@ -108,14 +107,13 @@ abstract public class AbstractTask extends TimerTask implements TaskFunction {
             if (mCurrentFunction != null) {
                 mCurrentFunction.update();
             }
-            executeTimer();
-            for (PluggableTask plugin: mPlugins) {
+            for (TaskPlugin plugin: mPlugins) {
                 plugin.onExecute();
             }
         }
 
         if (this instanceof Drawable) {
-            ((Drawable) this).onDraw(canvas, surface);
+            ((Drawable) this).onDraw(surface);
         }
 
         mFrameCountInExecution = getFrameCount();
@@ -183,7 +181,6 @@ abstract public class AbstractTask extends TimerTask implements TaskFunction {
      * 自分自身をタスクリストから削除する
      */
     public void kill() {
-        resetTimers();
         mCurrentFunction = null;
         getScene().getTaskManager().remove(this);
         onKilled();
@@ -246,14 +243,23 @@ abstract public class AbstractTask extends TimerTask implements TaskFunction {
      * タスクで利用するプラグインを登録する
      * @param plugin プラグイン
      */
-    public AbstractTask with(PluggableTask plugin) {
+    public AbstractTask with(TaskPlugin plugin) {
+        plugin.setTask(this);
         mPlugins.add(plugin);
         return this;
     }
 
-    public DrawableObject drawable() {
-        if (this instanceof DrawableAttachment) {
-            return ((DrawableAttachment) this).getDrawableObject();
+    /**
+     * 組み込まれているプラグインを取得する
+     * @param clazz 取得するプラグイン
+     * @param <T>
+     * @return プラグイン
+     */
+    public <T extends TaskPlugin> T plugin(Class<T> clazz) {
+        for (TaskPlugin plugin: mPlugins) {
+            if (clazz.isAssignableFrom(plugin.getClass())) {
+                return clazz.cast(plugin);
+            }
         }
         return null;
     }
@@ -271,7 +277,7 @@ abstract public class AbstractTask extends TimerTask implements TaskFunction {
      * タスクがタスクマネージャーに登録された時に呼ばれる
      */
     protected void onRegister() {
-        for (PluggableTask plugin: mPlugins) {
+        for (TaskPlugin plugin: mPlugins) {
             plugin.onRegister();
         }
     }
@@ -280,7 +286,7 @@ abstract public class AbstractTask extends TimerTask implements TaskFunction {
      * ゲームループに入る時に呼ばれる
      */
     protected void onEnterLoop() {
-        for (PluggableTask plugin: mPlugins) {
+        for (TaskPlugin plugin: mPlugins) {
             plugin.onEnterLoop();
         }
     }
@@ -289,7 +295,7 @@ abstract public class AbstractTask extends TimerTask implements TaskFunction {
      * ゲームループから抜けた時に呼ばれる
      */
     protected void onLeaveLoop() {
-        for (PluggableTask plugin: mPlugins) {
+        for (TaskPlugin plugin: mPlugins) {
             plugin.onLeaveLoop();
         }
     }
@@ -298,7 +304,7 @@ abstract public class AbstractTask extends TimerTask implements TaskFunction {
      * タスクが削除される時に呼ばれる
      */
     protected void onKilled() {
-        for (PluggableTask plugin: mPlugins) {
+        for (TaskPlugin plugin: mPlugins) {
             plugin.onKilled();
         }
     }

@@ -1,8 +1,10 @@
-package cc.balloonbros.balanceball.lib.graphic;
+package cc.balloonbros.balanceball.lib.graphic.style;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
+import cc.balloonbros.balanceball.lib.graphic.style.FontStyle;
 
 public class StyleTemplate {
     private Map<String, FontStyle> mStyles = new HashMap<String, FontStyle>();

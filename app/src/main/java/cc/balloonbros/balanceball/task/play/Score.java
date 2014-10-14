@@ -1,6 +1,5 @@
 package cc.balloonbros.balanceball.task.play;
 
-import android.graphics.Canvas;
 import android.graphics.Point;
 
 import cc.balloonbros.balanceball.R;
@@ -26,11 +25,11 @@ public class Score extends AbstractTask implements Drawable, TaskMessageListener
         Point displaySize = getDisplaySize();
         int x = displaySize.x / 2;
         int y = displaySize.y / 2 + 150;
-        mScore.setPosition(x, y).setStyle(getFontStyle("score"));
+        mScore.setStyle(getFontStyle("score")).setPosition(x, y);
     }
 
     @Override
-    public void onDraw(Canvas canvas, Surface surface) {
+    public void onDraw(Surface surface) {
         mScore.format("keep %d sec", getScore());
         surface.draw(mScore);
     }

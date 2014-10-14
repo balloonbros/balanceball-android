@@ -1,5 +1,7 @@
 package cc.balloonbros.balanceball.lib.graphic;
 
+import cc.balloonbros.balanceball.lib.graphic.style.FontStyle;
+
 /**
  * 描画専用の文字列。
  * ゲームループ中で文字列するとStringオブジェクトがnewされてしまい
@@ -14,7 +16,7 @@ package cc.balloonbros.balanceball.lib.graphic;
  *
  * また描画位置やテキストのスタイルを指定できる。
  */
-public class DrawString extends DrawableObject {
+public class DrawString extends DrawObject {
     /** 文字列初期サイズ */
     private final static int INITIAL_CHAR_SIZE = 32;
 

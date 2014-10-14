@@ -1,17 +1,16 @@
 package cc.balloonbros.balanceball.task.play;
 
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Point;
 
 import cc.balloonbros.balanceball.R;
+import cc.balloonbros.balanceball.lib.graphic.Sprite;
 import cc.balloonbros.balanceball.lib.graphic.Surface;
-import cc.balloonbros.balanceball.lib._;
+import cc.balloonbros.balanceball.lib.task.Drawable;
 import cc.balloonbros.balanceball.lib.task.basic.PositionableTask;
 
-public class CenterCircle extends PositionableTask {
+public class CenterCircle extends PositionableTask implements Drawable {
     /** 中央円の画像 */
-    private Bitmap mCircle = null;
+    private Sprite mCircle = null;
 
     /**
      * 中央円の半径を取得する
@@ -24,18 +23,18 @@ public class CenterCircle extends PositionableTask {
     @Override
     public void onRegister() {
         super.onRegister();
-        mCircle = getImage(R.drawable.area3);
-        setPriority(_.i(R.integer.priority_center_circle));
+        mCircle = Sprite.from(getImage(R.drawable.area3));
+        setPriority(_i(R.integer.priority_center_circle));
+        relate(mCircle);
 
         Point displaySize = getDisplaySize();
         int x = (displaySize.x / 2) - (mCircle.getWidth()  / 2);
         int y = (displaySize.y / 2) - (mCircle.getHeight() / 2);
-        position(x, y);
+        mCircle.moveTo(x, y);
     }
 
     @Override
-    public void onDraw(Canvas canvas, Surface surface) {
-        Point p = getPosition();
-        canvas.drawBitmap(mCircle, p.x, p.y, null);
+    public void onDraw(Surface surface) {
+        surface.draw(mCircle);
     }
 }

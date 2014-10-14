@@ -1,7 +1,6 @@
 package cc.balloonbros.balanceball.task.launch;
 
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
@@ -9,6 +8,7 @@ import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.lib.graphic.Surface;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.task.Drawable;
+import cc.balloonbros.balanceball.lib.task.extender.TimerPlugin;
 import cc.balloonbros.balanceball.lib.task.extender.Touchable;
 import cc.balloonbros.balanceball.lib.task.timer.Timer;
 import cc.balloonbros.balanceball.lib.task.timer.TimerEventListener;
@@ -37,12 +37,12 @@ public class Logo extends AbstractTask implements Drawable, Touchable, TimerEven
         mLogo = getImage(R.drawable.launch_logo);
         mSource.set(0, 0, mLogo.getWidth(), mLogo.getHeight());
         mDestination.set(0, 0, getDisplaySize().x, getDisplaySize().y);
-        mTimer = setTimer(_i(R.integer.display_time_for_logo), this);
+        mTimer = plugin(TimerPlugin.class).setTimer(_i(R.integer.display_time_for_logo), this);
     }
 
     @Override
-    public void onDraw(Canvas canvas, Surface surface) {
-        canvas.drawBitmap(mLogo, mSource, mDestination, null);
+    public void onDraw(Surface surface) {
+        surface.getCanvas().drawBitmap(mLogo, mSource, mDestination, null);
     }
 
     @Override

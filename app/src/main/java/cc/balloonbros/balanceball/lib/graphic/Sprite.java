@@ -2,7 +2,7 @@ package cc.balloonbros.balanceball.lib.graphic;
 
 import android.graphics.Bitmap;
 
-public class Sprite extends DrawableObject {
+public class Sprite extends DrawObject {
     private Bitmap mBitmap = null;
 
     public static Sprite from(Bitmap bitmap) {

@@ -22,7 +22,7 @@ public class Orientation extends AbstractTask implements Orientationable {
 
     @Override
     public void onRegister() {
-        setPriority(_.i(R.integer.priority_orientation));
+        setPriority(_i(R.integer.priority_orientation));
         mOrientationMessage = new OrientationMessage();
         mSpeedMessage = new IntegerMessage("speed");
     }
@@ -30,7 +30,7 @@ public class Orientation extends AbstractTask implements Orientationable {
     @Override
     public void update() {
         // 傾きに合わせてボールを動かす
-        Ball ball = (Ball)find(_.i(R.integer.priority_ball));
+        Ball ball = (Ball)find(_i(R.integer.priority_ball));
 
         if (ball.isBorderLeftEdge() || ball.isBorderRightEdge()) {
             mSpeeds[0] = 0;
@@ -48,7 +48,7 @@ public class Orientation extends AbstractTask implements Orientationable {
         ball.move(dx, dy);
 
         // デバッグ用に現在の傾きを画面に表示する
-        DebugOutput debug = (DebugOutput)find(_.i(R.integer.priority_debug));
+        DebugOutput debug = (DebugOutput)find(_i(R.integer.priority_debug));
         mOrientationMessage.setOrientation(mOrientationValues);
         mSpeedMessage.setMessage(mSpeeds[0]);
         sendMessage(debug, mOrientationMessage);

@@ -1,11 +1,9 @@
 package cc.balloonbros.balanceball.task.title;
 
-import android.graphics.Canvas;
 import android.graphics.Color;
 
 import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.lib.graphic.Surface;
-import cc.balloonbros.balanceball.lib._;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.task.Drawable;
 
@@ -27,7 +25,7 @@ public class FadeIn extends AbstractTask implements Drawable {
     }
 
     @Override
-    public void onDraw(Canvas canvas, Surface surface) {
-        canvas.drawColor(Color.BLACK & mAlpha << 24);
+    public void onDraw(Surface surface) {
+        surface.fill(Color.BLACK & mAlpha << 24);
     }
 }

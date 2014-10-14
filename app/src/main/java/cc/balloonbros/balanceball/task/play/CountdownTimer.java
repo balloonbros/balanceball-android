@@ -1,6 +1,5 @@
 package cc.balloonbros.balanceball.task.play;
 
-import android.graphics.Canvas;
 import android.graphics.Point;
 
 import cc.balloonbros.balanceball.R;
@@ -19,7 +18,7 @@ public class CountdownTimer extends AbstractTask implements Drawable {
         setPriority(_i(R.integer.priority_countdown_timer));
 
         Point p = getDisplaySize();
-        mDisplayRestTime.setPosition(p.x / 2, p.y / 2 + 100).setStyle(getFontStyle("countdown_timer"));
+        mDisplayRestTime.setStyle(getFontStyle("countdown_timer")).setPosition(p.x / 2, p.y / 2 + 100);
 
         mRestTime = _i(R.integer.game_time) * (int)getFps();
     }
@@ -41,7 +40,7 @@ public class CountdownTimer extends AbstractTask implements Drawable {
     }
 
     @Override
-    public void onDraw(Canvas canvas, Surface surface) {
+    public void onDraw(Surface surface) {
         mDisplayRestTime.format("%d.%02d", mRestTime / (int)getFps(), mRestTime % (int)getFps());
         surface.draw(mDisplayRestTime);
     }

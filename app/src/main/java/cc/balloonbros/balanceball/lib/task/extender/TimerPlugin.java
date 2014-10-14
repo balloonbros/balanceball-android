@@ -1,13 +1,14 @@
-package cc.balloonbros.balanceball.lib.task.system;
+package cc.balloonbros.balanceball.lib.task.extender;
 
 import java.util.ArrayList;
 
+import cc.balloonbros.balanceball.lib.task.TaskPlugin;
 import cc.balloonbros.balanceball.lib.task.timer.BasicTimer;
 import cc.balloonbros.balanceball.lib.task.timer.FrameTimer;
 import cc.balloonbros.balanceball.lib.task.timer.Timer;
 import cc.balloonbros.balanceball.lib.task.timer.TimerEventListener;
 
-abstract public class TimerTask extends BaseTask {
+public class TimerPlugin extends TaskPlugin {
     /**
      * フレームタイマーのキュー
      */
@@ -19,7 +20,8 @@ abstract public class TimerTask extends BaseTask {
      * 現在のキューに登録されているタイマーを全て捜査して
      * 起動状態になっていればコールバックを呼び出す
      */
-    protected void executeTimer() {
+    @Override
+    protected void onExecute() {
         for (int i = 0; i < mTimerReserveQueue.size(); i++) {
             mTimerQueue.add(mTimerReserveQueue.get(i));
         }
@@ -39,7 +41,8 @@ abstract public class TimerTask extends BaseTask {
     /**
      * 登録されているタイマーを全てリセットする
      */
-    public void resetTimers() {
+    @Override
+    protected void onKilled() {
         mTimerReserveQueue.clear();
         mTimerQueue.clear();
     }
@@ -76,7 +79,7 @@ abstract public class TimerTask extends BaseTask {
      * @param time ここに指定した秒数経過後にコールバックを起動する
      * @param listener コールバックを受け取るリスナー
      */
-    public Timer setTimerInterval(int time, TimerEventListener listener) {
+    public Timer setInterval(int time, TimerEventListener listener) {
         return setBasicTimerQueue().start(time, listener, true);
     }
 

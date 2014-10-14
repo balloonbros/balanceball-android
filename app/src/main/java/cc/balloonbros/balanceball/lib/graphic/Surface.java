@@ -4,6 +4,8 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
 
+import cc.balloonbros.balanceball.lib.graphic.style.FontStyle;
+
 /**
  * ゲームの描画面
  */
@@ -17,6 +19,22 @@ public class Surface {
      */
     public void setCanvas(Canvas canvas) {
         mCanvas = canvas;
+    }
+
+    /**
+     * 描画先のキャンバスを取得する
+     * @return 描画先のキャンバス
+     */
+    public Canvas getCanvas() {
+        return mCanvas;
+    }
+
+    /**
+     * 画面全体を指定した色で塗りつぶす
+     * @param color
+     */
+    public void fill(int color) {
+        mCanvas.drawColor(color);
     }
 
     /**

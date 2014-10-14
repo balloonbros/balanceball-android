@@ -1,8 +1,8 @@
 package cc.balloonbros.balanceball.scene;
 
 import cc.balloonbros.balanceball.R;
-import cc.balloonbros.balanceball.lib.GameMain;
 import cc.balloonbros.balanceball.lib.scene.AbstractScene;
+import cc.balloonbros.balanceball.lib.task.extender.TouchPlugin;
 import cc.balloonbros.balanceball.task.launch.Logo;
 
 /**
@@ -12,6 +12,6 @@ public class LaunchScene extends AbstractScene {
     @Override
     protected void onInitialize() {
         loadBitmaps(R.drawable.launch_logo);
-        registerTasks(new Logo());
+        registerTasks(new Logo().with(new TouchPlugin()));
     }
 }

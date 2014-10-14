@@ -4,7 +4,9 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
 
-abstract public class Shape extends DrawableObject {
+import cc.balloonbros.balanceball.lib.graphic.style.ShapeStyle;
+
+abstract public class Shape extends DrawObject {
     private ShapeStyle mStyle = null;
 
     public Shape setStyle(ShapeStyle style) {

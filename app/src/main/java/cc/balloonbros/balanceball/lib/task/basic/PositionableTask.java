@@ -1,34 +1,146 @@
 package cc.balloonbros.balanceball.lib.task.basic;
 
 import android.graphics.Point;
+import android.graphics.Rect;
 
+import cc.balloonbros.balanceball.lib.graphic.DrawObject;
+import cc.balloonbros.balanceball.lib.graphic.Positionable;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
-import cc.balloonbros.balanceball.lib.task.Drawable;
 
-abstract public class PositionableTask extends AbstractTask implements Drawable {
-    /** オブジェクトの座標 */
-    Point mCoordinate = new Point();
+abstract public class PositionableTask extends AbstractTask implements Positionable {
+    private DrawObject mDrawObject;
 
-    @Override
-    public void onRegister() {
-        super.onRegister();
-        mCoordinate.set(0, 0);
+    /**
+     * タスクにDrawObjectを関連付ける
+     * @return 関連付けるDrawObject
+     */
+    public void relate(DrawObject drawObject) {
+        mDrawObject = drawObject;
     }
 
     /**
-     * オブジェクトを指定した座標に設置する
+     * オブジェクトの描画位置をセットする
+     * @param position 文字列の描画位置
+     */
+    @Override
+    public Positionable setPosition(Point position) {
+        return mDrawObject.setPosition(position);
+    }
+
+    /**
+     * 文字列の描画位置をセットする
      * @param x x座標
      * @param y y座標
      */
-    public void position(int x, int y) {
-        mCoordinate.set(x, y);
+    @Override
+    public DrawObject setPosition(int x, int y) {
+        return mDrawObject.setPosition(x, y);
     }
 
     /**
-     * 現在の座標を取得する
-     * @return 現在の座標
+     * 文字列の描画位置を取得する
+     * @return 文字列の描画位置
      */
+    @Override
     public Point getPosition() {
-        return mCoordinate;
+        return mDrawObject.getPosition();
+    }
+
+    /**
+     * オブジェクトの移動可能範囲をセットする
+     * @param area 移動可能範囲
+     */
+    @Override
+    public void setMovableArea(Rect area) {
+        mDrawObject.setMovableArea(area);
+    }
+
+    /**
+     * オブジェクトの移動可能範囲をセットする
+     * @param x x座標
+     * @param y y座標
+     * @param width 幅
+     * @param height 高さ
+     */
+    @Override
+    public void setMovableArea(int x, int y, int width, int height) {
+        mDrawObject.setMovableArea(x, y, width, height);
+    }
+
+    /**
+     * 指定した座標に移動する。setPositionのエイリアス
+     * @see #setPosition(int, int)
+     * @param x x座標
+     * @param y y座標
+     */
+    public void moveTo(int x, int y) {
+        mDrawObject.moveTo(x, y);
+    }
+
+    /**
+     * 指定した距離だけ移動する
+     * @param dx x方向の移動量
+     * @param dy y方向の移動量
+     */
+    @Override
+    public void move(int dx, int dy) {
+        mDrawObject.move(dx, dy);
+    }
+
+    /**
+     * 指定した距離だけ移動する。
+     * 移動可能範囲からはみ出た場合は自動的に範囲内に位置が調整される
+     * @param dx x方向の移動量
+     * @param dy y方向の移動量
+     */
+    @Override
+    public void moveInArea(int dx, int dy) {
+        mDrawObject.moveInArea(dx, dy);
+    }
+
+    /**
+     * オブジェクトが左端に位置しているかどうかをチェックする
+     * @return 左端に位置していればtrue
+     */
+    @Override
+    public boolean isBorderLeftEdge() {
+        return mDrawObject.isBorderLeftEdge();
+    }
+
+    /**
+     * オブジェクトが右端に位置しているかどうかをチェックする
+     * @return 右端に位置していればtrue
+     */
+    @Override
+    public boolean isBorderRightEdge() {
+        return mDrawObject.isBorderRightEdge();
+    }
+
+    /**
+     * オブジェクトが上端に位置しているかどうかをチェックする
+     * @return 上端に位置していればtrue
+     */
+    @Override
+    public boolean isBorderTopEdge() {
+        return mDrawObject.isBorderTopEdge();
+    }
+
+    /**
+     * オブジェクトが下端に位置しているかどうかをチェックする
+     * @return 下端に位置していればtrue
+     */
+    @Override
+    public boolean isBorderBottomEdge() {
+        return mDrawObject.isBorderBottomEdge();
+    }
+
+    @Override
+    public int getWidth() {
+        return mDrawObject.getWidth();
+    }
+
+    @Override
+    public int getHeight() {
+        return mDrawObject.getHeight();
     }
 }

@@ -1,20 +1,19 @@
 package cc.balloonbros.balanceball.task.play;
 
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Point;
 
 import cc.balloonbros.balanceball.R;
+import cc.balloonbros.balanceball.lib.graphic.Sprite;
 import cc.balloonbros.balanceball.lib.graphic.Surface;
-import cc.balloonbros.balanceball.lib._;
-import cc.balloonbros.balanceball.lib.task.basic.MovableTask;
+import cc.balloonbros.balanceball.lib.task.AbstractTask;
+import cc.balloonbros.balanceball.lib.task.Drawable;
 
 /**
  * 風
  */
-public class Wind extends MovableTask {
+public class Wind extends AbstractTask implements Drawable {
     /** 風画像 */
-    private Bitmap mWind = null;
+    private Sprite mWind = null;
 
     /** 風の方向と移動距離 */
     private int mAngle = 0;
@@ -30,19 +29,33 @@ public class Wind extends MovableTask {
         mAngle = angle;
     }
 
+    /**
+     * 画面から見えなくなったかどうかをチェックする
+     * @return 画面から見えない状態であればtrue
+     */
+    public boolean isInvisible() {
+        Point position = mWind.getPosition();
+        Point displaySize = getDisplaySize();
+
+        return position.x + mWind.getWidth()  <= 0             ||
+               position.x                     >= displaySize.x ||
+               position.y + mWind.getHeight() <= 0             ||
+               position.y                     >= displaySize.y;
+    }
+
     @Override
     public void onRegister() {
         super.onRegister();
         setTag("wind");
-        setPriority(_.i(R.integer.priority_wind));
-        mWind = getImage(R.drawable.wind3);
+        setPriority(_i(R.integer.priority_wind));
+        mWind = Sprite.from(getImage(R.drawable.wind3));
     }
 
     @Override
     public void update() {
         // ボールに風の影響を与える
         // 風の方向と移動距離からボールの次の位置を計算して移動させる
-        Ball ball = (Ball)find(_.i(R.integer.priority_ball));
+        Ball ball = (Ball)find(_i(R.integer.priority_ball));
         if (mSpeed >= 0) {
             int distance = mSpeed / 10;
             int dx = (int)(Math.cos(Math.toRadians(mAngle)) * distance);
@@ -54,25 +67,14 @@ public class Wind extends MovableTask {
             }
         }
 
-        move(10, 0);
+        mWind.moveTo(10, 0);
         if (isInvisible()) {
             kill();
         }
     }
 
     @Override
-    public void onDraw(Canvas canvas, Surface surface) {
-        Point p = getPosition();
-        canvas.drawBitmap(mWind, p.x, p.y, null);
-    }
-
-    @Override
-    public int getWidth() {
-        return mWind.getWidth();
-    }
-
-    @Override
-    public int getHeight() {
-        return mWind.getHeight();
+    public void onDraw(Surface surface) {
+        surface.draw(mWind);
     }
 }

@@ -32,7 +32,7 @@ public class Judgement extends AbstractTask {
 
     @Override
     public void update() {
-        Point bp = mBall.drawable().getPosition();
+        Point bp = mBall.getPosition();
         Point cp = mCenterCircle.getPosition();
         int dx = bp.x - cp.x;
         int dy = bp.y - cp.y;

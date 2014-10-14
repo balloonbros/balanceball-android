@@ -1,6 +1,6 @@
 package cc.balloonbros.balanceball.lib.task;
 
-abstract public class PluggableTask {
+abstract public class TaskPlugin {
     private AbstractTask mTask;
 
     protected void setTask(AbstractTask task) {

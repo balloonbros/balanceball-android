@@ -1,13 +1,11 @@
 package cc.balloonbros.balanceball.task.play;
 
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 
 import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.lib.graphic.DrawString;
-import cc.balloonbros.balanceball.lib.graphic.Rectangle;
-import cc.balloonbros.balanceball.lib.graphic.ShapeStyle;
+import cc.balloonbros.balanceball.lib.graphic.shape.Rectangle;
+import cc.balloonbros.balanceball.lib.graphic.style.ShapeStyle;
 import cc.balloonbros.balanceball.lib.graphic.Surface;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.task.Drawable;
@@ -35,8 +33,9 @@ public class Result extends AbstractTask implements Drawable {
     }
 
     @Override
-    public void onDraw(Canvas canvas, Surface surface) {
+    public void onDraw(Surface surface) {
         surface.draw(mShadow);
+
         surface.draw(mResult);
         surface.draw(mShare);
         surface.draw(mResultShape);

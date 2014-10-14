@@ -3,7 +3,7 @@ package cc.balloonbros.balanceball.lib.graphic;
 import android.graphics.Point;
 import android.graphics.Rect;
 
-abstract public class DrawableObject {
+abstract public class DrawObject implements Positionable {
     /** 描画オブジェクトの位置 */
     private Point mPosition = null;
     /** オブジェクトが動き回れる範囲 */
@@ -13,7 +13,8 @@ abstract public class DrawableObject {
      * オブジェクトの描画位置をセットする
      * @param position 文字列の描画位置
      */
-    public DrawableObject setPosition(Point position) {
+    @Override
+    public DrawObject setPosition(Point position) {
         mPosition = position;
         return this;
     }
@@ -23,7 +24,8 @@ abstract public class DrawableObject {
      * @param x x座標
      * @param y y座標
      */
-    public DrawableObject setPosition(int x, int y) {
+    @Override
+    public DrawObject setPosition(int x, int y) {
         if (mPosition == null) {
             mPosition = new Point();
         }
@@ -35,6 +37,7 @@ abstract public class DrawableObject {
      * 文字列の描画位置を取得する
      * @return 文字列の描画位置
      */
+    @Override
     public Point getPosition() {
         if (mPosition == null) {
             setPosition(0, 0);
@@ -46,6 +49,7 @@ abstract public class DrawableObject {
      * オブジェクトの移動可能範囲をセットする
      * @param area 移動可能範囲
      */
+    @Override
     public void setMovableArea(Rect area) {
         mMovableArea = area;
     }
@@ -57,6 +61,7 @@ abstract public class DrawableObject {
      * @param width 幅
      * @param height 高さ
      */
+    @Override
     public void setMovableArea(int x, int y, int width, int height) {
         if (mMovableArea == null) {
             mMovableArea = new Rect();
@@ -79,6 +84,7 @@ abstract public class DrawableObject {
      * @param dx x方向の移動量
      * @param dy y方向の移動量
      */
+    @Override
     public void move(int dx, int dy) {
         mPosition.offset(dx, dy);
     }
@@ -89,6 +95,7 @@ abstract public class DrawableObject {
      * @param dx x方向の移動量
      * @param dy y方向の移動量
      */
+    @Override
     public void moveInArea(int dx, int dy) {
         move(dx, dy);
 
@@ -112,6 +119,7 @@ abstract public class DrawableObject {
      * オブジェクトが左端に位置しているかどうかをチェックする
      * @return 左端に位置していればtrue
      */
+    @Override
     public boolean isBorderLeftEdge() {
         return mMovableArea != null && mPosition.x <= mMovableArea.left;
     }
@@ -120,6 +128,7 @@ abstract public class DrawableObject {
      * オブジェクトが右端に位置しているかどうかをチェックする
      * @return 右端に位置していればtrue
      */
+    @Override
     public boolean isBorderRightEdge() {
         return mMovableArea != null && mPosition.x + getWidth() >= mMovableArea.right;
     }
@@ -128,6 +137,7 @@ abstract public class DrawableObject {
      * オブジェクトが上端に位置しているかどうかをチェックする
      * @return 上端に位置していればtrue
      */
+    @Override
     public boolean isBorderTopEdge() {
         return mMovableArea != null && mPosition.y <= mMovableArea.top;
     }
@@ -136,23 +146,8 @@ abstract public class DrawableObject {
      * オブジェクトが下端に位置しているかどうかをチェックする
      * @return 下端に位置していればtrue
      */
+    @Override
     public boolean isBorderBottomEdge() {
         return mMovableArea != null && mPosition.y + getHeight() >= mMovableArea.bottom;
     }
-
-    /* ==============================================
-     *           オーバーライド専用メソッド
-     * ============================================== */
-
-    /**
-     * このオブジェクトの幅を取得する。
-     * @return 幅
-     */
-    abstract public int getWidth();
-
-    /**
-     * このオブジェクトの高さを取得する
-     * @return 高さ
-     */
-    abstract public int getHeight();
 }

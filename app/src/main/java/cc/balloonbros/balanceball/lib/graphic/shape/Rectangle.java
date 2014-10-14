@@ -1,7 +1,9 @@
-package cc.balloonbros.balanceball.lib.graphic;
+package cc.balloonbros.balanceball.lib.graphic.shape;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+
+import cc.balloonbros.balanceball.lib.graphic.Shape;
 
 public class Rectangle extends Shape {
     private float mWidth;

@@ -15,8 +15,8 @@ import java.io.IOException;
 import cc.balloonbros.balanceball.lib.AssetManager;
 import cc.balloonbros.balanceball.lib.GameMain;
 import cc.balloonbros.balanceball.lib.ResourceBase;
-import cc.balloonbros.balanceball.lib.graphic.FontStyle;
-import cc.balloonbros.balanceball.lib.graphic.StyleTemplate;
+import cc.balloonbros.balanceball.lib.graphic.style.FontStyle;
+import cc.balloonbros.balanceball.lib.graphic.style.StyleTemplate;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.task.TaskManager;
 

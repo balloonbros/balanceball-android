@@ -4,6 +4,7 @@ import java.util.Random;
 
 import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.lib._;
+import cc.balloonbros.balanceball.lib.task.extender.TimerPlugin;
 import cc.balloonbros.balanceball.lib.task.timer.TimerEventListener;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
 
@@ -16,7 +17,7 @@ public class WindOutBreaker extends AbstractTask implements TimerEventListener {
     @Override
     public void onRegister() {
         super.onRegister();
-        setPriority(_.i(R.integer.priority_wind_out_breaker));
+        setPriority(_i(R.integer.priority_wind_out_breaker));
         //setTimer(4000 * (mRandom.nextInt(2) + 1), this);
     }
 
@@ -24,6 +25,6 @@ public class WindOutBreaker extends AbstractTask implements TimerEventListener {
     public void onTimer() {
         Wind wind = new Wind(mRandom.nextInt(360));
         registerChild(wind);
-        setTimer(4000 * (mRandom.nextInt(2) + 1), this);
+        plugin(TimerPlugin.class).setTimer(4000 * (mRandom.nextInt(2) + 1), this);
     }
 }

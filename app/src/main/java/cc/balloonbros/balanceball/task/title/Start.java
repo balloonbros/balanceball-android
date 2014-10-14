@@ -1,6 +1,5 @@
 package cc.balloonbros.balanceball.task.title;
 
-import android.graphics.Canvas;
 import android.view.MotionEvent;
 
 import cc.balloonbros.balanceball.R;
@@ -8,6 +7,7 @@ import cc.balloonbros.balanceball.lib.graphic.DrawString;
 import cc.balloonbros.balanceball.lib.graphic.Surface;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.task.Drawable;
+import cc.balloonbros.balanceball.lib.task.extender.TimerPlugin;
 import cc.balloonbros.balanceball.lib.task.extender.Touchable;
 import cc.balloonbros.balanceball.lib.task.timer.TimerEventListener;
 import cc.balloonbros.balanceball.scene.PlayScene;
@@ -30,12 +30,12 @@ public class Start extends AbstractTask implements Drawable, Touchable, TimerEve
         if (mAlpha < 0) {
             mAlpha = 0xff;
             changeTask(null);
-            setTimer(500, this);
+            plugin(TimerPlugin.class).setTimer(500, this);
         }
     }
 
     @Override
-    public void onDraw(Canvas canvas, Surface surface) {
+    public void onDraw(Surface surface) {
         mLabel.getStyle().alpha(mAlpha);
         surface.draw(mLabel);
     }

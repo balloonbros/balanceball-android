@@ -1,6 +1,5 @@
 package cc.balloonbros.balanceball.task.title;
 
-import android.graphics.Canvas;
 import android.graphics.Point;
 
 import cc.balloonbros.balanceball.R;
@@ -29,7 +28,7 @@ public class Title extends AbstractTask implements Drawable {
     }
 
     @Override
-    public void onDraw(Canvas canvas, Surface surface) {
+    public void onDraw(Surface surface) {
         surface.draw(mTitle);
     }
 }
