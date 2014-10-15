@@ -131,6 +131,8 @@ public class Orientation extends AbstractTask implements Orientationable {
 
     @Override
     public void onOriented(float zAxis, float xAxis, float yAxis) {
-
+        mOrientationValues[0] = zAxis;
+        mOrientationValues[1] = xAxis;
+        mOrientationValues[2] = yAxis;
     }
 }

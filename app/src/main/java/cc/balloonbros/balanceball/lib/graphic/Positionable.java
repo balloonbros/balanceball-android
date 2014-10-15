@@ -55,8 +55,9 @@ public interface Positionable {
 
     /**
      * 画面中央に位置をセットする
+     * @param area このエリアの中央位置にセットする
      */
-    public void moveToCenter();
+    public void moveToCenter(Rect area);
 
     /**
      * オブジェクトが左端に位置しているかどうかをチェックする

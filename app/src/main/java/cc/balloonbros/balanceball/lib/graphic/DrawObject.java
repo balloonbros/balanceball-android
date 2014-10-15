@@ -90,6 +90,16 @@ abstract public class DrawObject implements Positionable {
     }
 
     /**
+     * 画面中央に位置をセットする
+     * @param area このエリアの中央位置にセットする
+     */
+    public void moveToCenter(Rect area) {
+        int x = area.left + ((area.right  - area.left) / 2) - (getWidth()  / 2);
+        int y = area.top  + ((area.bottom - area.top)  / 2) - (getHeight() / 2);
+        setPosition(x, y);
+    }
+
+    /**
      * 指定した距離だけ移動する。
      * 移動可能範囲からはみ出た場合は自動的に範囲内に位置が調整される
      * @param dx x方向の移動量

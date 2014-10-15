@@ -99,6 +99,14 @@ abstract public class PositionableTask extends AbstractTask implements Positiona
     }
 
     /**
+     * 画面中央に位置をセットする
+     * @param area このエリアの中央位置にセットする
+     */
+    public void moveToCenter(Rect area) {
+        mDrawObject.moveToCenter(area);
+    }
+
+    /**
      * オブジェクトが左端に位置しているかどうかをチェックする
      * @return 左端に位置していればtrue
      */

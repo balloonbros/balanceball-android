@@ -31,11 +31,7 @@ public class Ball extends PositionableTask implements Drawable {
         relate(mBall);
 
         // 最初は真ん中に配置
-        Point displaySize = getDisplaySize();
-        int x = (displaySize.x / 2) - (mBall.getWidth()  / 2);
-        int y = (displaySize.y / 2) - (mBall.getHeight() / 2);
-        //mBall.moveTo(x, y);
-        mBall.moveToCenter();
+        mBall.moveToCenter(getGameDisplay().getDisplayRect());
     }
 
     @Override

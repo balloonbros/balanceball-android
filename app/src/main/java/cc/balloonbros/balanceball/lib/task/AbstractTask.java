@@ -8,6 +8,7 @@ import android.graphics.Typeface;
 import java.util.ArrayList;
 import java.util.List;
 
+import cc.balloonbros.balanceball.lib.GameDisplay;
 import cc.balloonbros.balanceball.lib.GameMain;
 import cc.balloonbros.balanceball.lib.graphic.style.FontStyle;
 import cc.balloonbros.balanceball.lib.graphic.Surface;
@@ -48,6 +49,7 @@ abstract public class AbstractTask extends BaseTask implements TaskFunction {
     public long getFrameCount() { return getGame().getFrameCount(); }
     public long getFps() { return getGame().getFps(); }
     public String getTag() { return mTag; }
+    public GameDisplay getGameDisplay() { return getGame().getGameDisplay(); }
 
     /**
      * コンストラクタ。
