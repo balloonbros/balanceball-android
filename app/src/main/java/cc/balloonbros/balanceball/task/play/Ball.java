@@ -1,7 +1,5 @@
 package cc.balloonbros.balanceball.task.play;
 
-import android.graphics.Point;
-
 import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.lib.graphic.Sprite;
 import cc.balloonbros.balanceball.lib.graphic.Surface;
@@ -31,7 +29,7 @@ public class Ball extends PositionableTask implements Drawable {
         relate(mBall);
 
         // 最初は真ん中に配置
-        mBall.moveToCenter(getGameDisplay().getDisplayRect());
+        mBall.moveToCenter();
     }
 
     @Override

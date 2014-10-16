@@ -1,17 +1,35 @@
 package cc.balloonbros.balanceball.lib;
 
-import android.content.Context;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.view.WindowManager;
 
+/**
+ * ゲームのディスプレイに関する情報を扱うクラス。
+ * シングルトン。
+ */
 public class GameDisplay {
-    private Point mDisplaySize = new Point();
-    private Rect mDisplayRect = new Rect();
-    private GameMain mGame;
+    /** シングルトン用インスタンス */
+    private static GameDisplay sInstance = new GameDisplay();
 
-    public GameDisplay(GameMain game) {
-        mGame = game;
+    /** ディスプレイサイズ(Point) */
+    private Point mDisplaySize = new Point();
+    /** ディスプレイサイズ(Rect) */
+    private Rect mDisplayRect = new Rect();
+
+    /** ディスプレイサイズを計算するためのWindowManager */
+    private WindowManager mWindowManager;
+
+    public static GameDisplay getInstance() {
+        return sInstance;
+    }
+
+    /**
+     * ディスプレイサイズ計算のためにWindowManagerをセットする
+     * @param windowManager WindowManager
+     */
+    protected void setWindowManager(WindowManager windowManager) {
+        mWindowManager = windowManager;
         updateDisplaySize();
     }
 
@@ -20,8 +38,7 @@ public class GameDisplay {
     }
 
     protected void updateDisplaySize() {
-        WindowManager wm = (WindowManager)mGame.getContext().getSystemService(Context.WINDOW_SERVICE);
-        wm.getDefaultDisplay().getSize(mDisplaySize);
+        mWindowManager.getDefaultDisplay().getSize(mDisplaySize);
         mDisplayRect.set(0, 0, mDisplaySize.x, mDisplaySize.y);
     }
 

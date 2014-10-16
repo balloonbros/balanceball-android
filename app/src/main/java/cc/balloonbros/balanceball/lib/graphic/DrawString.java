@@ -4,7 +4,7 @@ import cc.balloonbros.balanceball.lib.graphic.style.FontStyle;
 
 /**
  * 描画専用の文字列。
- * ゲームループ中で文字列するとStringオブジェクトがnewされてしまい
+ * ゲームループ中で文字列連結するとStringオブジェクトがnewされてしまい
  * すぐにGCが起動してパフォーマンスが悪くなってしまうので
  * なるべく新しい文字列オブジェクトをnewさせないようにしたクラス。
  * Stringの操作は新しいStringを作ることを意味するので絶対にしない。
@@ -14,7 +14,7 @@ import cc.balloonbros.balanceball.lib.graphic.style.FontStyle;
  * なるべく配列の拡張が起こらないように初期サイズを計算して
  * DrawStringのコンストラクタで指定する。
  *
- * また描画位置やテキストのスタイルを指定できる。
+ * またテキストのスタイルも指定できる。
  */
 public class DrawString extends DrawObject {
     /** 文字列初期サイズ */

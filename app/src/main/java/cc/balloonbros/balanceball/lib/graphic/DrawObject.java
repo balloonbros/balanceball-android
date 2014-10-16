@@ -3,6 +3,8 @@ package cc.balloonbros.balanceball.lib.graphic;
 import android.graphics.Point;
 import android.graphics.Rect;
 
+import cc.balloonbros.balanceball.lib.GameDisplay;
+
 abstract public class DrawObject implements Positionable {
     /** 描画オブジェクトの位置 */
     private Point mPosition = null;
@@ -90,13 +92,20 @@ abstract public class DrawObject implements Positionable {
     }
 
     /**
-     * 画面中央に位置をセットする
+     * エリア中央に位置をセットする
      * @param area このエリアの中央位置にセットする
      */
     public void moveToCenter(Rect area) {
         int x = area.left + ((area.right  - area.left) / 2) - (getWidth()  / 2);
         int y = area.top  + ((area.bottom - area.top)  / 2) - (getHeight() / 2);
         setPosition(x, y);
+    }
+
+    /**
+     * 画面中央に位置をセットする
+     */
+    public void moveToCenter() {
+        moveToCenter(GameDisplay.getInstance().getDisplayRect());
     }
 
     /**
