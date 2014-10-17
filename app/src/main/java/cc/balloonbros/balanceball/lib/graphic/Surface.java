@@ -3,7 +3,9 @@ package cc.balloonbros.balanceball.lib.graphic;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.Rect;
 
+import cc.balloonbros.balanceball.lib.GameDisplay;
 import cc.balloonbros.balanceball.lib.graphic.style.FontStyle;
 
 /**
@@ -12,6 +14,8 @@ import cc.balloonbros.balanceball.lib.graphic.style.FontStyle;
 public class Surface {
     /** 描画先のキャンバス */
     private Canvas mCanvas;
+    /** 描画矩形で利用する */
+    private Rect mSourceRect = new Rect();
 
     /**
      * 描画先のキャンバスをセットする
@@ -74,5 +78,35 @@ public class Surface {
     public void draw(Sprite sprite) {
         Point position = sprite.getPosition();
         mCanvas.drawBitmap(sprite.getBitmap(), position.x, position.y, null);
+    }
+
+    /**
+     * スプライトを画面全体に伸縮して描画する
+     * @param sprite 描画するスプライト
+     */
+    public void drawStrech(Sprite sprite) {
+        sprite.setPosition(0, 0);
+        mSourceRect.set(0, 0, sprite.getWidth(), sprite.getHeight());
+        mCanvas.drawBitmap(sprite.getBitmap(), mSourceRect, GameDisplay.getInstance().getDisplayRect(), null);
+    }
+
+    /**
+     * スプライトを指定された矩形に伸縮して描画する
+     * @param sprite 描画するスプライト
+     * @param destination 描画する先の矩形
+     */
+    public void drawStrech(Sprite sprite, Rect destination) {
+        mSourceRect.set(0, 0, sprite.getWidth(), sprite.getHeight());
+        mCanvas.drawBitmap(sprite.getBitmap(), mSourceRect, destination, null);
+    }
+
+    /**
+     * スプライトの指定された矩形部分を描画先キャンバスの指定された矩形に伸縮して描画する
+     * @param sprite 描画するスプライト
+     * @param source 描画する元の矩形
+     * @param destination 描画する先の矩形
+     */
+    public void drawStrech(Sprite sprite, Rect source, Rect destination) {
+        mCanvas.drawBitmap(sprite.getBitmap(), source, destination, null);
     }
 }

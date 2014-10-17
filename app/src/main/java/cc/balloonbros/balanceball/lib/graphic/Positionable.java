@@ -5,6 +5,12 @@ import android.graphics.Rect;
 
 public interface Positionable {
     /**
+     * オブジェクトの矩形を取得する
+     * @return 矩形
+     */
+    public Rect getRect();
+
+    /**
      * オブジェクトの描画位置をセットする
      * @param position 文字列の描画位置
      */
@@ -24,10 +30,15 @@ public interface Positionable {
     public Point getPosition();
 
     /**
+     * オブジェクトの移動可能範囲をリセットする
+     */
+    public Positionable resetMovableArea();
+
+    /**
      * オブジェクトの移動可能範囲をセットする
      * @param area 移動可能範囲
      */
-    public void setMovableArea(Rect area);
+    public Positionable setMovableArea(Rect area);
 
     /**
      * オブジェクトの移動可能範囲をセットする
@@ -36,7 +47,7 @@ public interface Positionable {
      * @param width 幅
      * @param height 高さ
      */
-    public void setMovableArea(int x, int y, int width, int height);
+    public Positionable setMovableArea(int x, int y, int width, int height);
 
     /**
      * 指定した距離だけ移動する

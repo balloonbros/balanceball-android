@@ -7,18 +7,36 @@ import cc.balloonbros.balanceball.lib.GameDisplay;
 
 abstract public class DrawObject implements Positionable {
     /** 描画オブジェクトの位置 */
-    private Point mPosition = null;
+    private Point mPosition;
+    /** オブジェクトの矩形 */
+    private Rect mRect;
     /** オブジェクトが動き回れる範囲 */
     private Rect mMovableArea = null;
+
+    /**
+     * コンストラクタ
+     */
+    public DrawObject() {
+        mPosition = new Point(0, 0);
+        mRect     = new Rect();
+    }
+
+    /**
+     * オブジェクトの矩形を取得する
+     * @return 矩形
+     */
+    public Rect getRect() {
+        mRect.set(mPosition.x, mPosition.y, mPosition.x + getWidth(), mPosition.y + getHeight());
+        return mRect;
+    }
 
     /**
      * オブジェクトの描画位置をセットする
      * @param position 文字列の描画位置
      */
     @Override
-    public DrawObject setPosition(Point position) {
-        mPosition = position;
-        return this;
+    public Positionable setPosition(Point position) {
+        return setPosition(position.x, position.y);
     }
 
     /**
@@ -27,11 +45,9 @@ abstract public class DrawObject implements Positionable {
      * @param y y座標
      */
     @Override
-    public DrawObject setPosition(int x, int y) {
-        if (mPosition == null) {
-            mPosition = new Point();
-        }
+    public Positionable setPosition(int x, int y) {
         mPosition.set(x, y);
+        mRect.set(x, y, x + getWidth(), y + getHeight());
         return this;
     }
 
@@ -41,10 +57,16 @@ abstract public class DrawObject implements Positionable {
      */
     @Override
     public Point getPosition() {
-        if (mPosition == null) {
-            setPosition(0, 0);
-        }
         return mPosition;
+    }
+
+    /**
+     * オブジェクトの移動可能範囲をリセットする
+     */
+    @Override
+    public Positionable resetMovableArea() {
+        mMovableArea = null;
+        return this;
     }
 
     /**
@@ -52,8 +74,8 @@ abstract public class DrawObject implements Positionable {
      * @param area 移動可能範囲
      */
     @Override
-    public void setMovableArea(Rect area) {
-        mMovableArea = area;
+    public Positionable setMovableArea(Rect area) {
+        return setMovableArea(area.left, area.top, area.right - area.left, area.bottom - area.top);
     }
 
     /**
@@ -64,11 +86,12 @@ abstract public class DrawObject implements Positionable {
      * @param height 高さ
      */
     @Override
-    public void setMovableArea(int x, int y, int width, int height) {
+    public Positionable setMovableArea(int x, int y, int width, int height) {
         if (mMovableArea == null) {
             mMovableArea = new Rect();
         }
         mMovableArea.set(x, y, x + width, y + height);
+        return this;
     }
 
     /**
@@ -89,6 +112,7 @@ abstract public class DrawObject implements Positionable {
     @Override
     public void move(int dx, int dy) {
         mPosition.offset(dx, dy);
+        mRect.set(mPosition.x, mPosition.y, mPosition.x + getWidth(), mPosition.y + getHeight());
     }
 
     /**
@@ -119,17 +143,24 @@ abstract public class DrawObject implements Positionable {
         move(dx, dy);
 
         if (mMovableArea != null) {
+            int x = mPosition.x;
+            int y = mPosition.y;
+
             // ボールが移動可能範囲外にはみ出してたら位置を調整する
             if (isBorderLeftEdge()) {
-                mPosition.x = mMovableArea.left;
+                x = mMovableArea.left;
             } else if (isBorderRightEdge()) {
-                mPosition.x = mMovableArea.right - getWidth();
+                x = mMovableArea.right - getWidth();
             }
 
             if (isBorderTopEdge()) {
-                mPosition.y = mMovableArea.top;
+                y = mMovableArea.top;
             } else if (isBorderBottomEdge()) {
-                mPosition.y = mMovableArea.bottom - getHeight();
+                y = mMovableArea.bottom - getHeight();
+            }
+
+            if (x != mPosition.x || y != mPosition.y) {
+                setPosition(x, y);
             }
         }
     }

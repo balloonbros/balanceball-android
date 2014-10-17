@@ -19,6 +19,14 @@ abstract public class PositionableTask extends AbstractTask implements Positiona
     }
 
     /**
+     * オブジェクトの矩形を取得する
+     * @return 矩形
+     */
+    public Rect getRect() {
+        return mDrawObject.getRect();
+    }
+
+    /**
      * オブジェクトの描画位置をセットする
      * @param position 文字列の描画位置
      */
@@ -33,7 +41,7 @@ abstract public class PositionableTask extends AbstractTask implements Positiona
      * @param y y座標
      */
     @Override
-    public DrawObject setPosition(int x, int y) {
+    public Positionable setPosition(int x, int y) {
         return mDrawObject.setPosition(x, y);
     }
 
@@ -47,12 +55,20 @@ abstract public class PositionableTask extends AbstractTask implements Positiona
     }
 
     /**
+     * オブジェクトの移動可能範囲をリセットする
+     */
+    @Override
+    public Positionable resetMovableArea() {
+        return mDrawObject.resetMovableArea();
+    }
+
+    /**
      * オブジェクトの移動可能範囲をセットする
      * @param area 移動可能範囲
      */
     @Override
-    public void setMovableArea(Rect area) {
-        mDrawObject.setMovableArea(area);
+    public Positionable setMovableArea(Rect area) {
+        return mDrawObject.setMovableArea(area);
     }
 
     /**
@@ -63,8 +79,8 @@ abstract public class PositionableTask extends AbstractTask implements Positiona
      * @param height 高さ
      */
     @Override
-    public void setMovableArea(int x, int y, int width, int height) {
-        mDrawObject.setMovableArea(x, y, width, height);
+    public Positionable setMovableArea(int x, int y, int width, int height) {
+        return mDrawObject.setMovableArea(x, y, width, height);
     }
 
     /**
