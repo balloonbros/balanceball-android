@@ -32,7 +32,7 @@ public class Logo extends AbstractTask implements Drawable, Touchable, TimerEven
 
     @Override
     public void onDraw(Surface surface) {
-        surface.drawStrech(mLogo);
+        surface.drawStretch(mLogo);
     }
 
     @Override

@@ -254,7 +254,7 @@ abstract public class AbstractTask extends BaseTask implements TaskFunction {
     /**
      * 組み込まれているプラグインを取得する
      * @param clazz 取得するプラグイン
-     * @param <T>
+     * @param <T> TaskPlugin
      * @return プラグイン
      */
     public <T extends TaskPlugin> T plugin(Class<T> clazz) {
@@ -264,6 +264,16 @@ abstract public class AbstractTask extends BaseTask implements TaskFunction {
             }
         }
         return null;
+    }
+
+    /**
+     * このタスクが指定されたプラグインを組み込んでいるかどうかを取得する
+     * @param clazz プラグイン
+     * @param <T> TaskPlugin
+     * @return プラグインが組み込まれていればtrue
+     */
+    public <T extends TaskPlugin> boolean hasPlugin(Class<T> clazz) {
+        return plugin(clazz) != null;
     }
 
     /* ==============================================

@@ -76,18 +76,15 @@ public class Surface {
      * @param sprite 描画するスプライト
      */
     public void draw(Sprite sprite) {
-        Point position = sprite.getPosition();
-        mCanvas.drawBitmap(sprite.getBitmap(), position.x, position.y, null);
+        mCanvas.drawBitmap(sprite.getBitmap(), sprite.getSource(), sprite.getRect(), null);
     }
 
     /**
      * スプライトを画面全体に伸縮して描画する
      * @param sprite 描画するスプライト
      */
-    public void drawStrech(Sprite sprite) {
-        sprite.setPosition(0, 0);
-        mSourceRect.set(0, 0, sprite.getWidth(), sprite.getHeight());
-        mCanvas.drawBitmap(sprite.getBitmap(), mSourceRect, GameDisplay.getInstance().getDisplayRect(), null);
+    public void drawStretch(Sprite sprite) {
+        drawStretch(sprite, GameDisplay.getInstance().getDisplayRect());
     }
 
     /**
@@ -95,18 +92,15 @@ public class Surface {
      * @param sprite 描画するスプライト
      * @param destination 描画する先の矩形
      */
-    public void drawStrech(Sprite sprite, Rect destination) {
-        mSourceRect.set(0, 0, sprite.getWidth(), sprite.getHeight());
-        mCanvas.drawBitmap(sprite.getBitmap(), mSourceRect, destination, null);
+    public void drawStretch(Sprite sprite, Rect destination) {
+        mCanvas.drawBitmap(sprite.getBitmap(), sprite.getSource(), destination, null);
     }
 
     /**
-     * スプライトの指定された矩形部分を描画先キャンバスの指定された矩形に伸縮して描画する
-     * @param sprite 描画するスプライト
-     * @param source 描画する元の矩形
-     * @param destination 描画する先の矩形
+     * アニメーションを描画する
+     * @param animation 描画するアニメーション
      */
-    public void drawStrech(Sprite sprite, Rect source, Rect destination) {
-        mCanvas.drawBitmap(sprite.getBitmap(), source, destination, null);
+    public void draw(Animation animation) {
+        draw(animation.getCurrentSprite());
     }
 }

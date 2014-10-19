@@ -5,6 +5,7 @@ import cc.balloonbros.balanceball.lib.scene.AbstractScene;
 import cc.balloonbros.balanceball.lib.task.extender.TimerPlugin;
 import cc.balloonbros.balanceball.lib.task.extender.TouchPlugin;
 import cc.balloonbros.balanceball.task.title.FadeIn;
+import cc.balloonbros.balanceball.task.title.SampleCharacter;
 import cc.balloonbros.balanceball.task.title.Start;
 import cc.balloonbros.balanceball.task.title.Title;
 
@@ -19,11 +20,13 @@ public class TitleScene extends AbstractScene {
             _s(R.string.open_sans_light)
         );
         loadStyle(R.xml.title_scene_font_style);
+        loadBitmaps(R.drawable.character);
 
         getTaskManager().register(
             new Title(),
             new Start().with(new TouchPlugin()).with(new TimerPlugin()),
-            new FadeIn().with(new TimerPlugin())
+            new FadeIn().with(new TimerPlugin()),
+            new SampleCharacter()
         );
     }
 }

@@ -7,27 +7,39 @@ import cc.balloonbros.balanceball.lib.GameDisplay;
 
 abstract public class DrawObject implements Positionable {
     /** 描画オブジェクトの位置 */
-    private Point mPosition;
+    private Point mPosition = new Point(0, 0);
     /** オブジェクトの矩形 */
-    private Rect mRect;
+    private Rect mRect = null;
     /** オブジェクトが動き回れる範囲 */
     private Rect mMovableArea = null;
 
     /**
-     * コンストラクタ
+     * オブジェクト矩形を更新してその矩形を返す
+     * @return 更新した矩形
      */
-    public DrawObject() {
-        mPosition = new Point(0, 0);
-        mRect     = new Rect();
+    protected Rect updateRect() {
+        if (mRect == null) {
+            mRect = new Rect();
+        }
+        mRect.set(mPosition.x, mPosition.y, mPosition.x + getWidth(), mPosition.y + getHeight());
+        return mRect;
     }
 
     /**
      * オブジェクトの矩形を取得する
      * @return 矩形
      */
+    @Override
     public Rect getRect() {
-        mRect.set(mPosition.x, mPosition.y, mPosition.x + getWidth(), mPosition.y + getHeight());
-        return mRect;
+        return updateRect();
+    }
+
+    /**
+     * オブジェクトが移動した時に呼び出されるコールバック
+     * @param position 移動後の位置
+     */
+    protected void onMove(Point position) {
+        updateRect();
     }
 
     /**
@@ -47,7 +59,7 @@ abstract public class DrawObject implements Positionable {
     @Override
     public Positionable setPosition(int x, int y) {
         mPosition.set(x, y);
-        mRect.set(x, y, x + getWidth(), y + getHeight());
+        onMove(mPosition);
         return this;
     }
 
@@ -112,7 +124,7 @@ abstract public class DrawObject implements Positionable {
     @Override
     public void move(int dx, int dy) {
         mPosition.offset(dx, dy);
-        mRect.set(mPosition.x, mPosition.y, mPosition.x + getWidth(), mPosition.y + getHeight());
+        onMove(mPosition);
     }
 
     /**
