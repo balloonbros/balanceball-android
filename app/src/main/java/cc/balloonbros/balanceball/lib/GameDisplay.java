@@ -2,6 +2,8 @@ package cc.balloonbros.balanceball.lib;
 
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.os.Build;
+import android.view.Display;
 import android.view.WindowManager;
 
 /**
@@ -38,7 +40,12 @@ public class GameDisplay {
     }
 
     protected void updateDisplaySize() {
-        mWindowManager.getDefaultDisplay().getSize(mDisplaySize);
+        Display display = mWindowManager.getDefaultDisplay();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            display.getSize(mDisplaySize);
+        } else {
+            mDisplaySize.set(display.getWidth(), display.getHeight());
+        }
         mDisplayRect.set(0, 0, mDisplaySize.x, mDisplaySize.y);
     }
 
