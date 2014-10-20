@@ -101,6 +101,9 @@ public class Surface {
      * @param animation 描画するアニメーション
      */
     public void draw(Animation animation) {
-        draw(animation.getCurrentSprite());
+        Sprite sprite = animation.getCurrentSprite();
+        if (sprite != null) {
+            draw(sprite);
+        }
     }
 }

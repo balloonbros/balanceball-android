@@ -26,7 +26,7 @@ public class Logo extends AbstractTask implements Drawable, Touchable, TimerEven
     public void onRegister() {
         super.onRegister();
 
-        mLogo = Sprite.from(getImage(R.drawable.launch_logo));
+        mLogo = new Sprite(getImage(R.drawable.launch_logo));
         mTimer = plugin(TimerPlugin.class).setTimer(_i(R.integer.display_time_for_logo), this);
     }
 

@@ -32,8 +32,8 @@ public class SlicedSprite {
         }
     }
 
-    public Animation toAnimation(AbstractTask task, int span) {
-        return new Animation(task, span, this);
+    public Animation toAnimation(AbstractTask task, int interval) {
+        return new Animation(task, interval, this);
     }
 
     public Sprite getSprite() {
@@ -44,7 +44,7 @@ public class SlicedSprite {
         return mRects.length;
     }
 
-    public Rect getRectAt(int index) {
+    public Rect getSourceRectAt(int index) {
         return mRects[index];
     }
 

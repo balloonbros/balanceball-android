@@ -258,7 +258,8 @@ abstract public class AbstractTask extends BaseTask implements TaskFunction {
      * @return プラグイン
      */
     public <T extends TaskPlugin> T plugin(Class<T> clazz) {
-        for (TaskPlugin plugin: mPlugins) {
+        for (int i = 0; i < mPlugins.size(); i++) {
+            TaskPlugin plugin = mPlugins.get(i);
             if (clazz.isAssignableFrom(plugin.getClass())) {
                 return clazz.cast(plugin);
             }

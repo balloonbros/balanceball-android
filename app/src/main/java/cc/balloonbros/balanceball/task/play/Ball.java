@@ -25,7 +25,7 @@ public class Ball extends PositionableTask implements Drawable {
     public void onRegister() {
         super.onRegister();
         setPriority(_i(R.integer.priority_ball));
-        mBall = Sprite.from(getImage(R.drawable.ball3));
+        mBall = new Sprite(getImage(R.drawable.ball3));
         relate(mBall);
 
         // 最初は真ん中に配置

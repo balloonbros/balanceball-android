@@ -48,7 +48,7 @@ public class Wind extends AbstractTask implements Drawable {
         super.onRegister();
         setTag("wind");
         setPriority(_i(R.integer.priority_wind));
-        mWind = Sprite.from(getImage(R.drawable.wind3));
+        mWind = new Sprite(getImage(R.drawable.wind3));
     }
 
     @Override

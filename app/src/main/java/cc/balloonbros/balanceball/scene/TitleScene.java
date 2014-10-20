@@ -20,7 +20,10 @@ public class TitleScene extends AbstractScene {
             _s(R.string.open_sans_light)
         );
         loadStyle(R.xml.title_scene_font_style);
-        loadBitmaps(R.drawable.character);
+        loadBitmaps(
+            R.drawable.character,
+            R.drawable.ball3
+        );
 
         getTaskManager().register(
             new Title(),

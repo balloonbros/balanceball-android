@@ -23,7 +23,7 @@ public class CenterCircle extends PositionableTask implements Drawable {
     @Override
     public void onRegister() {
         super.onRegister();
-        mCircle = Sprite.from(getImage(R.drawable.area3));
+        mCircle = new Sprite(getImage(R.drawable.area3));
         setPriority(_i(R.integer.priority_center_circle));
         relate(mCircle);
 

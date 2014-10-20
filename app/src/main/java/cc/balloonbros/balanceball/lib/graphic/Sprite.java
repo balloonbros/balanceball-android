@@ -15,14 +15,10 @@ public class Sprite extends DrawObject {
     /**
      * ビットマップからスプライトを生成する
      * @param bitmap ビットマップ
-     * @return スプライト
      */
-    public static Sprite from(Bitmap bitmap) {
-        Sprite sprite = new Sprite();
-        sprite.mBitmap = bitmap;
-        sprite.setSource(0, 0, bitmap.getWidth(), bitmap.getHeight());
-
-        return sprite;
+    public Sprite(Bitmap bitmap) {
+        mBitmap = bitmap;
+        setSource(0, 0, bitmap.getWidth(), bitmap.getHeight());
     }
 
     /**
