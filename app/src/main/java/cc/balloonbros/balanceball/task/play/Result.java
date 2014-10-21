@@ -1,6 +1,9 @@
 package cc.balloonbros.balanceball.task.play;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 
 import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.lib.graphic.DrawString;
@@ -15,6 +18,7 @@ public class Result extends AbstractTask implements Drawable {
     private DrawString mShare = new DrawString("スコアをシェアする");
     private Rectangle mResultShape = new Rectangle(400, 100);
     private Rectangle mShadow = new Rectangle();
+    private Bitmap mShape;
 
     @Override
     public void onRegister() {
@@ -30,14 +34,23 @@ public class Result extends AbstractTask implements Drawable {
         mShadow.setStyle(black);
 
         mShadow.changeSize(getDisplaySize().x, getDisplaySize().y);
+
+        GradientDrawable shape = (GradientDrawable) getGame().getResources().getDrawable(R.drawable.shape1);
+        mShape = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(mShape);
+        shape.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        shape.draw(canvas);
     }
 
     @Override
     public void onDraw(Surface surface) {
         surface.draw(mShadow);
 
+        surface.getCanvas().drawBitmap(mShape, 0, 0, null);
+        /*
         surface.draw(mResult);
         surface.draw(mShare);
         surface.draw(mResultShape);
+        */
     }
 }

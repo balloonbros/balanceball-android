@@ -12,11 +12,8 @@ public class SampleCharacter extends PositionableTask implements Drawable {
 
     @Override
     public void onRegister() {
-        //mAnimation = Sprite.from(getImage(R.drawable.character)).slice(48, 48).toAnimation(this, 1000);
-        mAnimation = new Animation(this, 500);
-        mAnimation.addSprite(new Sprite(getImage(R.drawable.character)));
-        mAnimation.addSprite(new Sprite(getImage(R.drawable.ball3)));
-        //mAnimation.useUnits(0, 4, 8, 12);
+        mAnimation = new Sprite(getImage(R.drawable.character)).slice(48, 48).toAnimation(this, 1000);
+        mAnimation.useUnits(0, 4, 8, 12);
         mAnimation.moveToCenter();
     }
 
