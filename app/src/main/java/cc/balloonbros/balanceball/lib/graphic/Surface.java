@@ -68,7 +68,8 @@ public class Surface {
      * @param shape 描画するシェイプ
      */
     public void draw(Shape shape) {
-        shape.drawToCanvas(mCanvas);
+        Point position = shape.getPosition();
+        mCanvas.drawBitmap(shape.getBitmap(), position.x, position.y, null);
     }
 
     /**
