@@ -18,7 +18,7 @@ public class CountdownTimer extends AbstractTask implements Drawable {
         setPriority(_i(R.integer.priority_countdown_timer));
 
         Point p = getDisplaySize();
-        mDisplayRestTime.setStyle(getFontStyle("countdown_timer")).setPosition(p.x / 2, p.y / 2 + 100);
+        mDisplayRestTime.setStyle(getStyle("countdown_timer")).setPosition(p.x / 2, p.y / 2 + 100);
 
         mRestTime = _i(R.integer.game_time) * (int)getFps();
     }

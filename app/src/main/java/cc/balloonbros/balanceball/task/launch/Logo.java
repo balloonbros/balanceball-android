@@ -9,25 +9,22 @@ import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.task.Drawable;
 import cc.balloonbros.balanceball.lib.task.extender.TimerPlugin;
 import cc.balloonbros.balanceball.lib.task.extender.Touchable;
-import cc.balloonbros.balanceball.lib.task.timer.Timer;
 import cc.balloonbros.balanceball.lib.task.timer.TimerEventListener;
 import cc.balloonbros.balanceball.scene.TitleScene;
 
 /**
- * ロゴ表示タスク
+ * Balloonbrosのロゴを画面いっぱいに表示する。
+ * 画面タッチまたは3秒経過でタイトルシーンに遷移する。
  */
 public class Logo extends AbstractTask implements Drawable, Touchable, TimerEventListener {
-    /** ロゴ画像 */
     private Sprite mLogo = null;
-    /** タイマー */
-    private Timer mTimer = null;
 
     @Override
     public void onRegister() {
         super.onRegister();
 
-        mLogo = new Sprite(getImage(R.drawable.launch_logo));
-        mTimer = plugin(TimerPlugin.class).setTimer(_i(R.integer.display_time_for_logo), this);
+        mLogo = new Sprite(R.drawable.launch_logo);
+        plugin(TimerPlugin.class).setTimer(_i(R.integer.display_time_for_logo), this);
     }
 
     @Override
@@ -37,13 +34,16 @@ public class Logo extends AbstractTask implements Drawable, Touchable, TimerEven
 
     @Override
     public void onTimer() {
-        changeScene(new TitleScene());
+        changeTitleScene();
     }
 
     @Override
     public boolean onTouch(MotionEvent event) {
-        mTimer.stop();
-        onTimer();
+        changeTitleScene();
         return false;
+    }
+
+    private void changeTitleScene() {
+        changeScene(new TitleScene());
     }
 }

@@ -19,8 +19,8 @@ public class Result extends AbstractTask implements Drawable {
         super.onRegister();
         setPriority(_i(R.integer.priority_result));
 
-        mResult.setStyle(getFontStyle("result")).setPosition(getDisplaySize().x / 2, 100);
-        mShare .setStyle(getFontStyle("share")) .setPosition(400, 250);
+        mResult.setStyle("result").setPosition(getDisplaySize().x / 2, 100);
+        mShare .setStyle("share") .setPosition(400, 250);
     }
 
     @Override

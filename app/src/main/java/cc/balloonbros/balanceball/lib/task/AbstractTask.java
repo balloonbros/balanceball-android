@@ -10,7 +10,7 @@ import java.util.List;
 
 import cc.balloonbros.balanceball.lib.GameDisplay;
 import cc.balloonbros.balanceball.lib.GameMain;
-import cc.balloonbros.balanceball.lib.graphic.style.FontStyle;
+import cc.balloonbros.balanceball.lib.graphic.style.Style;
 import cc.balloonbros.balanceball.lib.graphic.Surface;
 import cc.balloonbros.balanceball.lib.scene.AbstractScene;
 import cc.balloonbros.balanceball.lib.task.message.TaskMessageListener;
@@ -168,10 +168,10 @@ abstract public class AbstractTask extends BaseTask implements TaskFunction {
 
     /**
      * フォントスタイルを取得する
-     * @param tag スタイルID
+     * @param id スタイルID
      * @return スタイル
      */
-    public FontStyle getFontStyle(String tag) { return getScene().getStyle(tag); }
+    public Style getStyle(String id) { return getScene().getStyle(id); }
 
     /**
      * デバイスのディスプレイサイズを取得する

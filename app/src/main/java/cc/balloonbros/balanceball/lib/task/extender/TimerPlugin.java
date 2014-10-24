@@ -43,6 +43,12 @@ public class TimerPlugin extends TaskPlugin {
      */
     @Override
     protected void onKilled() {
+        // 全てのタイマーをストップ
+        for (int i = 0; i < mTimerQueue.size(); i++) {
+            mTimerQueue.get(i).stop();
+        }
+
+        // リストをクリアする
         mTimerReserveQueue.clear();
         mTimerQueue.clear();
     }

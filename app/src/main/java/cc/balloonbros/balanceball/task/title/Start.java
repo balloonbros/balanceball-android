@@ -20,7 +20,7 @@ public class Start extends AbstractTask implements Drawable, Touchable, TimerEve
     public void onRegister() {
         super.onRegister();
 
-        mLabel = new DrawString(_s(R.string.game_start_label), getFontStyle("touch_to_start"));
+        mLabel = new DrawString(_s(R.string.game_start_label), getStyle("touch_to_start"));
         mLabel.setPosition(getDisplaySize().x / 2, 300);
     }
 

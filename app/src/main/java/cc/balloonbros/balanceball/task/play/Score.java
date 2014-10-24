@@ -25,7 +25,7 @@ public class Score extends AbstractTask implements Drawable, TaskMessageListener
         Point displaySize = getDisplaySize();
         int x = displaySize.x / 2;
         int y = displaySize.y / 2 + 150;
-        mScore.setStyle(getFontStyle("score")).setPosition(x, y);
+        mScore.setStyle(getStyle("score")).setPosition(x, y);
     }
 
     @Override

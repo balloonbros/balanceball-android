@@ -1,6 +1,7 @@
 package cc.balloonbros.balanceball.lib.graphic;
 
-import cc.balloonbros.balanceball.lib.graphic.style.FontStyle;
+import cc.balloonbros.balanceball.lib.CurrentGame;
+import cc.balloonbros.balanceball.lib.graphic.style.Style;
 
 /**
  * 描画専用の文字列。
@@ -34,7 +35,7 @@ public class DrawString extends DrawObject {
     private String mFirstString = null;
 
     /** 文字の描画時のスタイル */
-    private FontStyle mStyle = null;
+    private Style mStyle = null;
 
     /**
      * 初期サイズで描画専用文字列オブジェクトを生成する
@@ -60,7 +61,7 @@ public class DrawString extends DrawObject {
     /**
      * 文字列長とスタイルを指定して描画専用文字列オブジェクトを生成する
      */
-    public DrawString(int size, FontStyle template) {
+    public DrawString(int size, Style template) {
         mChars = new char[size];
         setStyle(template);
     }
@@ -68,7 +69,7 @@ public class DrawString extends DrawObject {
     /**
      * 文字列とスタイルを指定して描画専用文字列オブジェクトを生成する
      */
-    public DrawString(String value, FontStyle template) {
+    public DrawString(String value, Style template) {
         append(value);
         setStyle(template);
     }
@@ -77,8 +78,17 @@ public class DrawString extends DrawObject {
      * スタイルをセットする
      * @param style スタイル
      */
-    public DrawString setStyle(FontStyle style) {
+    public DrawString setStyle(Style style) {
         mStyle = style;
+        return this;
+    }
+
+    /**
+     * スタイルをセットする
+     * @param id スタイルID
+     */
+    public DrawString setStyle(String id) {
+        mStyle = CurrentGame.get().getCurrentScene().getStyle(id);
         return this;
     }
 
@@ -86,7 +96,7 @@ public class DrawString extends DrawObject {
      * 設定されているスタイルを取得する
      * @return スタイル
      */
-    public FontStyle getStyle() {
+    public Style getStyle() {
         return mStyle;
     }
 

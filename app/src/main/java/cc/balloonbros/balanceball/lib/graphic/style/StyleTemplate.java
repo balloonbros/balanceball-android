@@ -4,22 +4,20 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import cc.balloonbros.balanceball.lib.graphic.style.FontStyle;
-
 public class StyleTemplate {
-    private Map<String, FontStyle> mStyles = new HashMap<String, FontStyle>();
+    private Map<String, Style> mStyles = new HashMap<String, Style>();
 
-    public void add(String tag, FontStyle style) {
+    public void add(String tag, Style style) {
         mStyles.put(tag, style);
     }
 
-    public FontStyle get(String tag) {
+    public Style get(String tag) {
         return mStyles.get(tag);
     }
 
     public void dispose() {
-        Collection<FontStyle> styles = mStyles.values();
-        for (FontStyle style: styles) {
+        Collection<Style> styles = mStyles.values();
+        for (Style style: styles) {
             style.dispose();
         }
 

@@ -3,6 +3,8 @@ package cc.balloonbros.balanceball.lib.graphic;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 
+import cc.balloonbros.balanceball.lib.CurrentGame;
+
 /**
  * スプライトクラス
  */
@@ -19,6 +21,14 @@ public class Sprite extends DrawObject {
     public Sprite(Bitmap bitmap) {
         mBitmap = bitmap;
         setSource(0, 0, bitmap.getWidth(), bitmap.getHeight());
+    }
+
+    /**
+     * リソースIDからスプライトを生成する
+     * @param resourceId リソースID
+     */
+    public Sprite(int resourceId) {
+        this(CurrentGame.get().getCurrentScene().getImage(resourceId));
     }
 
     /**

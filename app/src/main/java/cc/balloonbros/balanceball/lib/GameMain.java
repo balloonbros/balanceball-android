@@ -43,9 +43,6 @@ abstract public class GameMain {
      * 必要であれば継承先でオーバーライドする
      */
     public void onInitialize() {
-        mView     = new GameSurfaceView(mContext);
-        mGameLoop = new GameLoop(this);
-
         Activity activity = (Activity)mContext;
 
         // 画面の明るさをキープしたまま暗くならないようにする
@@ -66,6 +63,12 @@ abstract public class GameMain {
      */
     public void start(AbstractScene startScene, long fps) {
         onInitialize();
+
+        mView     = new GameSurfaceView(mContext);
+        mGameLoop = new GameLoop(this);
+
+        CurrentGame.set(this);
+
         if (fps > 0) {
             mGameLoop.changeFps(fps);
         }
@@ -88,13 +91,17 @@ abstract public class GameMain {
      * 実際には現在実行中のフレームが終了してから切り替わる
      * @param scene 切り替える先のシーン
      */
-    public void changeScene(AbstractScene scene) { mReservedScene = scene; }
+    public void changeScene(AbstractScene scene) {
+        mReservedScene = scene;
+    }
 
     /**
      * ゲームシーンの切り替え予定があるかどうかをチェックする
      * @return 切り替え予定があればtrue
      */
-    boolean hasReservedScene() { return mReservedScene != null; }
+    boolean hasReservedScene() {
+        return mReservedScene != null;
+    }
 
     /**
      * ゲームのシーン切り替えを実行する

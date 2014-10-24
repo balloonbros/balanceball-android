@@ -6,7 +6,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 
 import cc.balloonbros.balanceball.lib.GameDisplay;
-import cc.balloonbros.balanceball.lib.graphic.style.FontStyle;
+import cc.balloonbros.balanceball.lib.graphic.style.Style;
 
 /**
  * ゲームの描画面
@@ -48,12 +48,12 @@ public class Surface {
     public void draw(DrawString text) {
         Paint paint;
         Point position = text.getPosition();
-        FontStyle style = text.getStyle();
+        Style style = text.getStyle();
 
         if (style != null) {
             paint = style.generatePaint();
         } else {
-            paint = FontStyle.getDefault().generatePaint();
+            paint = Style.getDefault().generatePaint();
         }
 
         if (text.needsConcatenate()) {
