@@ -99,8 +99,8 @@ abstract public class PositionableTask extends AbstractTask implements Positiona
      * @param dy y方向の移動量
      */
     @Override
-    public void move(int dx, int dy) {
-        mDrawObject.move(dx, dy);
+    public Positionable move(int dx, int dy) {
+        return mDrawObject.move(dx, dy);
     }
 
     /**
@@ -110,16 +110,23 @@ abstract public class PositionableTask extends AbstractTask implements Positiona
      * @param dy y方向の移動量
      */
     @Override
-    public void moveInArea(int dx, int dy) {
-        mDrawObject.moveInArea(dx, dy);
+    public Positionable moveInArea(int dx, int dy) {
+        return mDrawObject.moveInArea(dx, dy);
+    }
+
+    /**
+     * エリア中央に位置をセットする
+     * @param area このエリアの中央位置にセットする
+     */
+    public Positionable moveToCenter(Rect area) {
+        return mDrawObject.moveToCenter(area);
     }
 
     /**
      * 画面中央に位置をセットする
-     * @param area このエリアの中央位置にセットする
      */
-    public void moveToCenter(Rect area) {
-        mDrawObject.moveToCenter(area);
+    public Positionable moveToCenter() {
+        return mDrawObject.moveToCenter();
     }
 
     /**

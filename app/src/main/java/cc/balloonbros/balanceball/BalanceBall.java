@@ -14,6 +14,6 @@ public class BalanceBall extends GameMain {
      * @param context ゲームを配置するActivity
      */
     public BalanceBall(Context context) {
-        super(context);
+        super(context, 1920, 1080);
     }
 }

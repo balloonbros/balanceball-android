@@ -39,6 +39,22 @@ abstract public class GameMain {
     }
 
     /**
+     * コンストラクタ。
+     * ゲーム画面の幅と高さも同時に指定して
+     * 各端末の解像度に合わせて自動的に伸縮する。
+     * @param context ゲームを配置するActivity
+     * @param width ゲーム画面の幅
+     * @param height ゲーム画面の高さ
+     */
+    public GameMain(Context context, int width, int height) {
+        mContext     = context;
+        mGameDisplay = GameDisplay.getInstance();
+        mGameDisplay.setContext(mContext);
+        mGameDisplay.setGameDisplaySize(width, height);
+        _.set(context.getResources());
+    }
+
+    /**
      * ゲーム初期化処理。
      * 必要であれば継承先でオーバーライドする
      */
@@ -46,8 +62,8 @@ abstract public class GameMain {
         Activity activity = (Activity)mContext;
 
         // 画面の明るさをキープしたまま暗くならないようにする
-        activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        // アプリのタイトルを非表示にする
+        activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        // アプリのタイトルとステータスバーを非表示にする
         activity.requestWindowFeature(Window.FEATURE_NO_TITLE);
     }
 
@@ -75,6 +91,7 @@ abstract public class GameMain {
         changeScene(startScene);
         executeChangingScene();
 
+        mGameDisplay.updateDisplaySize();
         ((Activity)mContext).setContentView(mView);
     }
 

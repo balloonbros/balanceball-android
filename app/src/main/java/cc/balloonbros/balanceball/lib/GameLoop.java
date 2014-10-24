@@ -1,7 +1,10 @@
 package cc.balloonbros.balanceball.lib;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.view.SurfaceHolder;
 
 import cc.balloonbros.balanceball.lib.graphic.Surface;
@@ -75,6 +78,12 @@ public class GameLoop implements Runnable, SurfaceHolder.Callback {
         TaskManager taskManager = mGame.getCurrentScene().getTaskManager();
         taskManager.enterLoop();
 
+        Point size = mGame.getGameDisplay().getDisplaySize();
+        Rect source = mGame.getGameDisplay().getDisplayRect();
+        Rect destination = mGame.getGameDisplay().getScaledRect();
+        Bitmap bitmap = Bitmap.createBitmap(size.x, size.y, Bitmap.Config.ARGB_8888);
+        Canvas originalCanvas = new Canvas(bitmap);
+
         while (mGameLoopThread != null) {
             long startTime = System.currentTimeMillis();
             mFrameCount++;
@@ -84,13 +93,15 @@ public class GameLoop implements Runnable, SurfaceHolder.Callback {
             if (canvas == null) {
                 break;
             }
-            canvas.drawColor(Color.WHITE);
+            canvas.drawColor(Color.BLACK);
 
             // 全てのタスクを実行する
-            mSurface.setCanvas(canvas);
+            originalCanvas.drawColor(Color.WHITE);
+            mSurface.setCanvas(originalCanvas);
             taskManager.execute(mSurface);
 
             // バッファ入れ替え。表側に描画する
+            canvas.drawBitmap(bitmap, source, destination, null);
             mHolder.unlockCanvasAndPost(canvas);
 
             // シーンの切り替えフラグが立っていたら一度ループを抜ける
