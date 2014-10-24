@@ -88,7 +88,7 @@ public class GameLoop implements Runnable, SurfaceHolder.Callback {
 
             // 全てのタスクを実行する
             mSurface.setCanvas(canvas);
-            taskManager.execute(canvas, mSurface);
+            taskManager.execute(mSurface);
 
             // バッファ入れ替え。表側に描画する
             mHolder.unlockCanvasAndPost(canvas);

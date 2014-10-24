@@ -34,7 +34,7 @@ abstract public class GameMain {
     public GameMain(Context context) {
         mContext     = context;
         mGameDisplay = GameDisplay.getInstance();
-        mGameDisplay.setWindowManager((WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE));
+        mGameDisplay.setContext(mContext);
         _.set(context.getResources());
     }
 

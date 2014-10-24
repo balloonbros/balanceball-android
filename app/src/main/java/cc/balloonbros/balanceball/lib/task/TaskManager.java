@@ -89,15 +89,15 @@ public class TaskManager {
 
     /**
      * タスクループを実行する
-     * @param canvas 描画対象のキャンバス
+     * @param surface 描画対象のキャンバス
      */
-    public void execute(Canvas canvas, Surface surface) {
+    public void execute(Surface surface) {
         mWhileExecute = true;
 
         // タスクリストに登録されているタスクの更新処理と描画処理を全て呼び出してフレームを進める
         AbstractTask task = (AbstractTask)mTaskList.getFirst();
         while (task != null) {
-            task.execute(canvas, surface);
+            task.execute(surface);
             task = (AbstractTask)task.getNext();
         }
 

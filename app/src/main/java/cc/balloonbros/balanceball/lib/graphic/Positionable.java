@@ -54,7 +54,7 @@ public interface Positionable {
      * @param dx x方向の移動量
      * @param dy y方向の移動量
      */
-    public void move(int dx, int dy);
+    public Positionable move(int dx, int dy);
 
     /**
      * 指定した距離だけ移動する。
@@ -62,13 +62,18 @@ public interface Positionable {
      * @param dx x方向の移動量
      * @param dy y方向の移動量
      */
-    public void moveInArea(int dx, int dy);
+    public Positionable moveInArea(int dx, int dy);
+
+    /**
+     * エリア中央に位置をセットする
+     * @param area このエリアの中央位置にセットする
+     */
+    public Positionable moveToCenter(Rect area);
 
     /**
      * 画面中央に位置をセットする
-     * @param area このエリアの中央位置にセットする
      */
-    public void moveToCenter(Rect area);
+    public Positionable moveToCenter();
 
     /**
      * オブジェクトが左端に位置しているかどうかをチェックする

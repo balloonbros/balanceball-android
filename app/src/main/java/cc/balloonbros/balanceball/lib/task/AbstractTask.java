@@ -95,9 +95,9 @@ abstract public class AbstractTask extends BaseTask implements TaskFunction {
 
     /**
      * タスクのゲームループを実行する
-     * @param canvas キャンバス
+     * @param surface キャンバス
      */
-    public void execute(Canvas canvas, Surface surface) {
+    public void execute(Surface surface) {
         // タスクの優先度が後ろに下がった場合、既に実行済みのタスクがもう一度実行される可能性があるため
         // タスクの実行が終わったらその時のフレームカウントを保存しておき
         // 同じフレーム内でのタスク実行はスキップする

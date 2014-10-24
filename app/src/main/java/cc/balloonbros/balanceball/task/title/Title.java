@@ -12,7 +12,7 @@ import cc.balloonbros.balanceball.lib.task.Drawable;
  * タイトルタスク
  */
 public class Title extends AbstractTask implements Drawable {
-    private DrawString mTitle;
+    private DrawString mTitle = new DrawString(_s(R.string.app_name));
 
     @Override
     public void onRegister() {
@@ -23,8 +23,7 @@ public class Title extends AbstractTask implements Drawable {
         int x = displaySize.x / 2;
         int y = displaySize.y / 3;
 
-        mTitle = new DrawString(_s(R.string.app_name), getStyle("title"));
-        mTitle.setPosition(x, y);
+        mTitle.setStyle("title").setPosition(x, y);
     }
 
     @Override

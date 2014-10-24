@@ -112,8 +112,8 @@ abstract public class DrawObject implements Positionable {
      * @param x x座標
      * @param y y座標
      */
-    public void moveTo(int x, int y) {
-        setPosition(x, y);
+    public Positionable moveTo(int x, int y) {
+        return setPosition(x, y);
     }
 
     /**
@@ -122,26 +122,29 @@ abstract public class DrawObject implements Positionable {
      * @param dy y方向の移動量
      */
     @Override
-    public void move(int dx, int dy) {
+    public Positionable move(int dx, int dy) {
         mPosition.offset(dx, dy);
         onMove(mPosition);
+        return this;
     }
 
     /**
      * エリア中央に位置をセットする
      * @param area このエリアの中央位置にセットする
      */
-    public void moveToCenter(Rect area) {
+    @Override
+    public Positionable moveToCenter(Rect area) {
         int x = area.left + ((area.right  - area.left) / 2) - (getWidth()  / 2);
         int y = area.top  + ((area.bottom - area.top)  / 2) - (getHeight() / 2);
-        setPosition(x, y);
+        return setPosition(x, y);
     }
 
     /**
      * 画面中央に位置をセットする
      */
-    public void moveToCenter() {
-        moveToCenter(GameDisplay.getInstance().getDisplayRect());
+    @Override
+    public Positionable moveToCenter() {
+        return moveToCenter(GameDisplay.getInstance().getDisplayRect());
     }
 
     /**
@@ -151,7 +154,7 @@ abstract public class DrawObject implements Positionable {
      * @param dy y方向の移動量
      */
     @Override
-    public void moveInArea(int dx, int dy) {
+    public Positionable moveInArea(int dx, int dy) {
         move(dx, dy);
 
         if (mMovableArea != null) {
@@ -175,6 +178,8 @@ abstract public class DrawObject implements Positionable {
                 setPosition(x, y);
             }
         }
+
+        return this;
     }
 
     /**
