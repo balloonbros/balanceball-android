@@ -4,6 +4,7 @@ import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.lib.scene.AbstractScene;
 import cc.balloonbros.balanceball.lib.task.extender.TimerPlugin;
 import cc.balloonbros.balanceball.lib.task.extender.TouchPlugin;
+import cc.balloonbros.balanceball.task.Background;
 import cc.balloonbros.balanceball.task.title.FadeIn;
 import cc.balloonbros.balanceball.task.title.SampleCharacter;
 import cc.balloonbros.balanceball.task.title.Start;
@@ -26,6 +27,7 @@ public class TitleScene extends AbstractScene {
         );
 
         getTaskManager().register(
+            new Background(),
             new Title(),
             new Start().with(new TouchPlugin()).with(new TimerPlugin()),
             new FadeIn().with(new TimerPlugin())

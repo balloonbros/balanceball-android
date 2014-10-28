@@ -35,7 +35,7 @@ public class Surface {
     public Surface() {
         mGameDisplay = GameDisplay.getInstance();
 
-        if (mGameDisplay.isFit()) {
+        if (!mGameDisplay.isFit()) {
             Point size = mGameDisplay.getDisplaySize();
             mGameBitmap = Bitmap.createBitmap(size.x, size.y, Bitmap.Config.ARGB_8888);
             mTargetCanvas = new Canvas(mGameBitmap);

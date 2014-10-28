@@ -5,6 +5,7 @@ import cc.balloonbros.balanceball.lib.GameMain;
 import cc.balloonbros.balanceball.lib._;
 import cc.balloonbros.balanceball.lib.scene.AbstractScene;
 import cc.balloonbros.balanceball.lib.task.extender.OrientationPlugin;
+import cc.balloonbros.balanceball.task.Background;
 import cc.balloonbros.balanceball.task.play.Ball;
 import cc.balloonbros.balanceball.task.play.CenterCircle;
 import cc.balloonbros.balanceball.task.play.CountdownTimer;
@@ -26,6 +27,7 @@ public class PlayScene extends AbstractScene {
         loadStyle(R.xml.play_scene_font_style);
 
         registerTasks(
+            new Background(),
             new Ball(),
             new Orientation().with(new OrientationPlugin()),
             new WindOutBreaker(),

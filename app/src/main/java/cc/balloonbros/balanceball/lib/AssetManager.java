@@ -22,9 +22,6 @@ public class AssetManager {
     /** 読み込んだフォント */
     private HashMap<String, Typeface> mFonts = new HashMap<String, Typeface>();
 
-    /** 読み込んだペイント */
-    private SparseArray<Paint> mPaints = new SparseArray<Paint>();
-
     /**
      * コンストラクタ
      * @param resources リソース

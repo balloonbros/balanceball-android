@@ -3,6 +3,8 @@
     <integer name="priority_maximum">0x0000</integer>
     <integer name="priority_minimum">0xffff</integer>
 
+    <integer name="priority_background">0x0001</integer>
+
     <!-- In TitleScene -->
     <integer name="priority_title">0x0010</integer>
     <integer name="priority_fade_in">0xf000</integer>
