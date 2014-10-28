@@ -1,28 +1,71 @@
 package cc.balloonbros.balanceball.lib.graphic;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.view.SurfaceView;
 
 import cc.balloonbros.balanceball.lib.GameDisplay;
 import cc.balloonbros.balanceball.lib.graphic.style.Style;
 
 /**
- * ゲームの描画面
+ * ゲームの描画サーフェイス。
+ * android.graphics.Canvasの薄いラッパー。
  */
 public class Surface {
+    /**
+     * ゲーム用キャンバスのビットマップ。
+     * ゲーム画面サイズと端末画面サイズが違う場合、まずこっちのキャンバスに描画した後に
+     * 適切なサイズに伸縮してから描画先のキャンバスに転送する。
+     */
+    private Bitmap mGameBitmap;
+
+    /** SurfaceViewのキャンバス */
+    private Canvas mSurfaceCanvas;
     /** 描画先のキャンバス */
-    private Canvas mCanvas;
-    /** 描画矩形で利用する */
-    private Rect mSourceRect = new Rect();
+    private Canvas mTargetCanvas;
+    /** ゲームディスプレイ */
+    private GameDisplay mGameDisplay;
+
+    /**
+     * コンストラクタ
+     */
+    public Surface() {
+        mGameDisplay = GameDisplay.getInstance();
+
+        if (mGameDisplay.isFit()) {
+            Point size = mGameDisplay.getDisplaySize();
+            mGameBitmap = Bitmap.createBitmap(size.x, size.y, Bitmap.Config.ARGB_8888);
+            mTargetCanvas = new Canvas(mGameBitmap);
+        }
+    }
+
+    /**
+     * ゲームキャンバスのビットマップを伸縮させてメインのキャンバスに転送する
+     * @return メインキャンバス
+     */
+    public Canvas forwardBitmap() {
+        if (!mGameDisplay.isFit()) {
+            Rect source      = mGameDisplay.getDisplayRect();
+            Rect destination = mGameDisplay.getScaledRect();
+            mSurfaceCanvas.drawBitmap(mGameBitmap, source, destination, null);
+        }
+
+        return mSurfaceCanvas;
+    }
 
     /**
      * 描画先のキャンバスをセットする
      * @param canvas 描画先のキャンバス
      */
     public void setCanvas(Canvas canvas) {
-        mCanvas = canvas;
+        mSurfaceCanvas = canvas;
+
+        if (mTargetCanvas == null) {
+            mTargetCanvas = mSurfaceCanvas;
+        }
     }
 
     /**
@@ -30,7 +73,7 @@ public class Surface {
      * @return 描画先のキャンバス
      */
     public Canvas getCanvas() {
-        return mCanvas;
+        return mTargetCanvas;
     }
 
     /**
@@ -38,7 +81,7 @@ public class Surface {
      * @param color
      */
     public void fill(int color) {
-        mCanvas.drawColor(color);
+        mTargetCanvas.drawColor(color);
     }
 
     /**
@@ -57,9 +100,9 @@ public class Surface {
         }
 
         if (text.needsConcatenate()) {
-            mCanvas.drawText(text.getChars(), 0, text.getLength(), position.x, position.y, paint);
+            mTargetCanvas.drawText(text.getChars(), 0, text.getLength(), position.x, position.y, paint);
         } else {
-            mCanvas.drawText(text.getFirstString(), position.x, position.y, paint);
+            mTargetCanvas.drawText(text.getFirstString(), position.x, position.y, paint);
         }
     }
 
@@ -69,7 +112,7 @@ public class Surface {
      */
     public void draw(Shape shape) {
         Point position = shape.getPosition();
-        mCanvas.drawBitmap(shape.getBitmap(), position.x, position.y, null);
+        mTargetCanvas.drawBitmap(shape.getBitmap(), position.x, position.y, null);
     }
 
     /**
@@ -77,7 +120,7 @@ public class Surface {
      * @param sprite 描画するスプライト
      */
     public void draw(Sprite sprite) {
-        mCanvas.drawBitmap(sprite.getBitmap(), sprite.getSource(), sprite.getRect(), null);
+        mTargetCanvas.drawBitmap(sprite.getBitmap(), sprite.getSource(), sprite.getRect(), null);
     }
 
     /**
@@ -94,7 +137,7 @@ public class Surface {
      * @param destination 描画する先の矩形
      */
     public void drawStretch(Sprite sprite, Rect destination) {
-        mCanvas.drawBitmap(sprite.getBitmap(), sprite.getSource(), destination, null);
+        mTargetCanvas.drawBitmap(sprite.getBitmap(), sprite.getSource(), destination, null);
     }
 
     /**

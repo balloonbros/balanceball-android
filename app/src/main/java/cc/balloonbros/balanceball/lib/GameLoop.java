@@ -1,10 +1,7 @@
 package cc.balloonbros.balanceball.lib;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Point;
-import android.graphics.Rect;
 import android.view.SurfaceHolder;
 
 import cc.balloonbros.balanceball.lib.graphic.Surface;
@@ -18,7 +15,6 @@ public class GameLoop implements Runnable, SurfaceHolder.Callback {
     private GameMain      mGame           = null;
     private Thread        mGameLoopThread = null;
     private SurfaceHolder mHolder         = null;
-    private Surface mSurface        = new Surface();
 
     /**
      * FPSと1フレームの秒数
@@ -75,14 +71,9 @@ public class GameLoop implements Runnable, SurfaceHolder.Callback {
      */
     @Override
     public void run() {
+        Surface surface = new Surface();
         TaskManager taskManager = mGame.getCurrentScene().getTaskManager();
         taskManager.enterLoop();
-
-        Point size = mGame.getGameDisplay().getDisplaySize();
-        Rect source = mGame.getGameDisplay().getDisplayRect();
-        Rect destination = mGame.getGameDisplay().getScaledRect();
-        Bitmap bitmap = Bitmap.createBitmap(size.x, size.y, Bitmap.Config.ARGB_8888);
-        Canvas originalCanvas = new Canvas(bitmap);
 
         while (mGameLoopThread != null) {
             long startTime = System.currentTimeMillis();
@@ -96,13 +87,11 @@ public class GameLoop implements Runnable, SurfaceHolder.Callback {
             canvas.drawColor(Color.BLACK);
 
             // 全てのタスクを実行する
-            originalCanvas.drawColor(Color.WHITE);
-            mSurface.setCanvas(originalCanvas);
-            taskManager.execute(mSurface);
+            surface.setCanvas(canvas);
+            taskManager.execute(surface);
 
             // バッファ入れ替え。表側に描画する
-            canvas.drawBitmap(bitmap, source, destination, null);
-            mHolder.unlockCanvasAndPost(canvas);
+            mHolder.unlockCanvasAndPost(surface.forwardBitmap());
 
             // シーンの切り替えフラグが立っていたら一度ループを抜ける
             if (mGame.hasReservedScene()) {

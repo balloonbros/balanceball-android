@@ -25,22 +25,21 @@ public class DebugOutput extends AbstractTask implements Drawable, TaskMessageLi
     public void onRegister() {
         setPriority(_.i(R.integer.priority_debug));
         mPaint.setColor(Color.BLACK);
+        mPaint.setTextSize(30);
     }
 
     @Override
     public void onDraw(Surface surface) {
-        /*
-        canvas.drawText("TaskCount: " + getTaskManager().getTaskCount(), 10, 10, mPaint);
-        canvas.drawText("FrameCount: " + getGame().getFrameCount(), 10, 20, mPaint);
-        canvas.drawText("RealFPS: " + getGame().getRealFps(), 10, 30, mPaint);
-        canvas.drawText("FPS: " + getGame().getFps(), 10, 40, mPaint);
+        surface.getCanvas().drawText("TaskCount: " + getTaskManager().getTaskCount(), 10, 10, mPaint);
+        surface.getCanvas().drawText("FrameCount: " + getGame().getFrameCount(), 10, 40, mPaint);
+        surface.getCanvas().drawText("RealFPS: " + getGame().getRealFps(), 10, 70, mPaint);
+        surface.getCanvas().drawText("FPS: " + getGame().getFps(), 10, 100, mPaint);
         if (mOrientationValues != null) {
-            canvas.drawText("z-axis: " + Math.floor(Math.toDegrees(mOrientationValues[0])), 10, 50, mPaint);
-            canvas.drawText("x-axis: " + Math.floor(Math.toDegrees(mOrientationValues[1])), 10, 60, mPaint);
-            canvas.drawText("y-axis: " + Math.floor(Math.toDegrees(mOrientationValues[2])), 10, 70, mPaint);
+            surface.getCanvas().drawText("z-axis: " + Math.floor(Math.toDegrees(mOrientationValues[0])), 10, 130, mPaint);
+            surface.getCanvas().drawText("x-axis: " + Math.floor(Math.toDegrees(mOrientationValues[1])), 10, 160, mPaint);
+            surface.getCanvas().drawText("y-axis: " + Math.floor(Math.toDegrees(mOrientationValues[2])), 10, 190, mPaint);
         }
-        canvas.drawText("Speed :" + mSpeed, 10, 80, mPaint);
-        */
+        surface.getCanvas().drawText("Speed :" + mSpeed, 10, 220, mPaint);
     }
 
     @Override

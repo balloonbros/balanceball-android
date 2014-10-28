@@ -10,7 +10,7 @@
     <style id="title">
         <item name="font">open-sans-bold.ttf</item>
         <item name="color">#fffc5041</item>
-        <item name="size">60</item>
+        <item name="size">120</item>
     </style>
 
     <style id="touch_to_start">

@@ -28,8 +28,7 @@ public class TitleScene extends AbstractScene {
         getTaskManager().register(
             new Title(),
             new Start().with(new TouchPlugin()).with(new TimerPlugin()),
-            new FadeIn().with(new TimerPlugin()),
-            new SampleCharacter()
+            new FadeIn().with(new TimerPlugin())
         );
     }
 }

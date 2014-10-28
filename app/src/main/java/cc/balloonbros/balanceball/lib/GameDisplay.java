@@ -90,12 +90,25 @@ public class GameDisplay {
         return scaleX > scaleY ? scaleY : scaleX;
     }
 
+    /**
+     * 伸縮後の画面矩形を取得する
+     * @return 画面矩形
+     */
     public Rect getScaledRect() {
         if (mScaledDisplayRect == null) {
             return mDisplayRect;
         }
 
         return mScaledDisplayRect;
+    }
+
+    /**
+     * ゲーム画面サイズが端末画面サイズと同じかどうか
+     * つまり伸縮が必要かどうかをチェックする
+     * @return 伸縮されていればtrue
+     */
+    public boolean isFit() {
+        return mGameDisplaySize == null || mGameDisplaySize.equals(mDisplaySize);
     }
 
     /**

@@ -1,5 +1,6 @@
 package cc.balloonbros.balanceball.task.title;
 
+import android.graphics.Point;
 import android.view.MotionEvent;
 
 import cc.balloonbros.balanceball.R;
@@ -12,16 +13,23 @@ import cc.balloonbros.balanceball.lib.task.extender.Touchable;
 import cc.balloonbros.balanceball.lib.task.timer.TimerEventListener;
 import cc.balloonbros.balanceball.scene.PlayScene;
 
+/**
+ * スタートボタン
+ * 点滅アニメーションする
+ */
 public class Start extends AbstractTask implements Drawable, Touchable, TimerEventListener {
     private int mAlpha = 0xff;
-    private DrawString mLabel;
+    private DrawString mLabel = new DrawString(_s(R.string.game_start_label));
 
     @Override
     public void onRegister() {
         super.onRegister();
 
-        mLabel = new DrawString(_s(R.string.game_start_label), getStyle("touch_to_start"));
-        mLabel.setPosition(getDisplaySize().x / 2, 300);
+        Point displaySize = getDisplaySize();
+        int x = displaySize.x / 2;
+        int y = displaySize.y - (displaySize.y / 3);
+
+        mLabel.setStyle("touch_to_start").setPosition(x, y);
     }
 
     @Override

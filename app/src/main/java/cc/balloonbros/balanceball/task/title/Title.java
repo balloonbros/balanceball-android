@@ -9,7 +9,7 @@ import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.task.Drawable;
 
 /**
- * タイトルタスク
+ * タイトルを描画する
  */
 public class Title extends AbstractTask implements Drawable {
     private DrawString mTitle = new DrawString(_s(R.string.app_name));
