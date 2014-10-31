@@ -1,7 +1,6 @@
 package cc.balloonbros.balanceball.scene;
 
 import cc.balloonbros.balanceball.R;
-import cc.balloonbros.balanceball.lib.GameMain;
 import cc.balloonbros.balanceball.lib._;
 import cc.balloonbros.balanceball.lib.scene.AbstractScene;
 import cc.balloonbros.balanceball.lib.task.extender.OrientationPlugin;

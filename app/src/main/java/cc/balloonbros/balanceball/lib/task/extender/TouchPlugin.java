@@ -1,23 +1,27 @@
 package cc.balloonbros.balanceball.lib.task.extender;
 
-import android.view.MotionEvent;
-import android.view.View;
-
+import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.task.TaskPlugin;
 
-public class TouchPlugin extends TaskPlugin implements View.OnTouchListener {
+public class TouchPlugin extends TaskPlugin {
     @Override
     protected void onRegister() {
-        getTask().getGame().getView().setOnTouchListener(this);
+        AbstractTask task = getTask();
+        if (task instanceof Touchable) {
+            task.getGame().getView().addTouchable((Touchable) task);
+        }
     }
 
     @Override
     protected void onKilled() {
-        getTask().getGame().getView().setOnTouchListener(null);
+        AbstractTask task = getTask();
+        if (task instanceof Touchable) {
+            task.getGame().getView().removeTouchable((Touchable) task);
+        }
     }
 
     @Override
-    public boolean onTouch(View view, MotionEvent motionEvent) {
-        return ((Touchable) getTask()).onTouch(motionEvent);
+    protected void onRemoved() {
+        onKilled();
     }
 }

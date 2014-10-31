@@ -8,6 +8,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import cc.balloonbros.balanceball.lib.scene.AbstractScene;
+import cc.balloonbros.balanceball.lib.scene.SceneChanger;
 
 abstract public class GameMain {
     private GameLoop mGameLoop = null;
@@ -16,6 +17,8 @@ abstract public class GameMain {
     private GameDisplay mGameDisplay = null;
     private AbstractScene mCurrentScene = null;
     private AbstractScene mReservedScene = null;
+    private AbstractScene mOldScene;
+    private SceneChanger mSceneChanger;
 
     public Context getContext() { return mContext; }
     public GameSurfaceView getView() { return mView; }
@@ -88,8 +91,8 @@ abstract public class GameMain {
         if (fps > 0) {
             mGameLoop.changeFps(fps);
         }
-        changeScene(startScene);
-        executeChangingScene();
+        mCurrentScene = startScene;
+        mCurrentScene.belongsTo(this);
 
         mGameDisplay.updateDisplaySize();
         ((Activity)mContext).setContentView(mView);
@@ -108,8 +111,31 @@ abstract public class GameMain {
      * 実際には現在実行中のフレームが終了してから切り替わる
      * @param scene 切り替える先のシーン
      */
-    public void changeScene(AbstractScene scene) {
+    public SceneChanger changeScene(AbstractScene scene) {
+        mOldScene      = mCurrentScene;
         mReservedScene = scene;
+        mSceneChanger  = new SceneChanger(mCurrentScene, mReservedScene);
+        return mSceneChanger;
+    }
+
+    /**
+     * シーン切り替え中かどうかを確認する
+     * @return シーン切り替え中であればtrue
+     */
+    public boolean whileChangingScene() {
+        if (mSceneChanger == null) {
+            return false;
+        }
+
+        boolean finished = mSceneChanger.finishedSceneChange();
+        if (finished) {
+            mSceneChanger = null;
+        }
+        return !finished;
+    }
+
+    public SceneChanger getSceneChanger() {
+        return mSceneChanger;
     }
 
     /**
@@ -120,13 +146,7 @@ abstract public class GameMain {
         return mReservedScene != null;
     }
 
-    /**
-     * ゲームのシーン切り替えを実行する
-     */
-    void executeChangingScene() {
-        if (mCurrentScene != null) {
-            mCurrentScene.dispose();
-        }
+    void updateCurrentScene() {
         mCurrentScene = mReservedScene;
         mCurrentScene.belongsTo(this);
         mReservedScene = null;

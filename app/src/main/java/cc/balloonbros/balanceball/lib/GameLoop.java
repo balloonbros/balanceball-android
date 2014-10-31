@@ -1,11 +1,8 @@
 package cc.balloonbros.balanceball.lib;
 
-import android.graphics.Canvas;
-import android.graphics.Color;
 import android.view.SurfaceHolder;
 
 import cc.balloonbros.balanceball.lib.graphic.Surface;
-import cc.balloonbros.balanceball.lib.task.TaskManager;
 
 /**
  * ゲームループを処理します。
@@ -58,7 +55,6 @@ public class GameLoop implements Runnable, SurfaceHolder.Callback {
 
     /**
      * FPSを変更する
-     *
      * @param fps FPS
      */
     public void changeFps(long fps) {
@@ -72,30 +68,19 @@ public class GameLoop implements Runnable, SurfaceHolder.Callback {
     @Override
     public void run() {
         Surface surface = new Surface();
-        TaskManager taskManager = mGame.getCurrentScene().getTaskManager();
-        taskManager.enterLoop();
 
         while (mGameLoopThread != null) {
             long startTime = System.currentTimeMillis();
             mFrameCount++;
 
-            // ダブルバッファリング開始
-            Canvas canvas = mHolder.lockCanvas();
-            if (canvas == null) {
-                break;
+            if (mGame.whileChangingScene()) {
+                mGame.getSceneChanger().execute(mHolder, surface);
+            } else {
+                mGame.getCurrentScene().execute(mHolder, surface);
             }
-            canvas.drawColor(Color.BLACK);
 
-            // 全てのタスクを実行する
-            surface.setCanvas(canvas);
-            taskManager.execute(surface);
-
-            // バッファ入れ替え。表側に描画する
-            mHolder.unlockCanvasAndPost(surface.forwardBitmap());
-
-            // シーンの切り替えフラグが立っていたら一度ループを抜ける
             if (mGame.hasReservedScene()) {
-                break;
+                mGame.updateCurrentScene();
             }
 
             // FPSを保つために処理が早く終わり過ぎたら1フレーム単位秒待つ
@@ -109,15 +94,6 @@ public class GameLoop implements Runnable, SurfaceHolder.Callback {
             }
 
             mLoopTime = System.currentTimeMillis() - startTime;
-        }
-
-        taskManager.leaveLoop();
-
-        // シーン切り替えフラグが立っていればシーン切り替えてもう一度スレッドを実行する
-        if (mGame.hasReservedScene()) {
-            mGame.executeChangingScene();
-            mGameLoopThread = new Thread(this);
-            mGameLoopThread.start();
         }
     }
 

@@ -12,6 +12,16 @@ abstract public class TaskPlugin {
     }
 
     /**
+     * プラグインがタスクに登録された時に呼ばれる
+     */
+    protected void onInitialize() { }
+
+    /**
+     * プラグインがタスクから削除された時に呼ばれる
+     */
+    protected void onRemoved() { }
+
+    /**
      * タスク関数が実行される時に呼ばれる
      */
     protected void onExecute() { }

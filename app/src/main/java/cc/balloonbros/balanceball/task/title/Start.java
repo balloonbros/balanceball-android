@@ -17,7 +17,7 @@ import cc.balloonbros.balanceball.scene.PlayScene;
  * スタートボタン
  * 点滅アニメーションする
  */
-public class Start extends AbstractTask implements Drawable, Touchable, TimerEventListener {
+public class Start extends AbstractTask implements Drawable, Touchable {
     private int mAlpha = 0xff;
     private DrawString mLabel = new DrawString(_s(R.string.game_start_label));
 
@@ -37,8 +37,7 @@ public class Start extends AbstractTask implements Drawable, Touchable, TimerEve
         mAlpha -= 5;
         if (mAlpha < 0) {
             mAlpha = 0xff;
-            changeTask(null);
-            plugin(TimerPlugin.class).setTimer(500, this);
+            wait(500);
         }
     }
 
@@ -46,11 +45,6 @@ public class Start extends AbstractTask implements Drawable, Touchable, TimerEve
     public void onDraw(Surface surface) {
         mLabel.getStyle().alpha(mAlpha);
         surface.draw(mLabel);
-    }
-
-    @Override
-    public void onTimer() {
-        changeTask(this);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package cc.balloonbros.balanceball.lib.task;
 
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Typeface;
 
@@ -10,9 +9,11 @@ import java.util.List;
 
 import cc.balloonbros.balanceball.lib.GameDisplay;
 import cc.balloonbros.balanceball.lib.GameMain;
+import cc.balloonbros.balanceball.lib.GameUtil;
 import cc.balloonbros.balanceball.lib.graphic.style.Style;
 import cc.balloonbros.balanceball.lib.graphic.Surface;
 import cc.balloonbros.balanceball.lib.scene.AbstractScene;
+import cc.balloonbros.balanceball.lib.scene.SceneChanger;
 import cc.balloonbros.balanceball.lib.task.message.TaskMessageListener;
 import cc.balloonbros.balanceball.lib.task.message.TaskMessage;
 import cc.balloonbros.balanceball.lib.task.system.BaseTask;
@@ -33,12 +34,14 @@ abstract public class AbstractTask extends BaseTask implements TaskFunction {
 
     /** タスクが実行された時のフレームカウント */
     private long mFrameCountInExecution = 0;
-
     /** タスクが一時停止中かどうか */
     private boolean mStop = false;
-
     /** タスク検索に利用するタグ */
     private String mTag = "";
+    /** この時間まで一時停止する */
+    private long mWaitDuration = 0;
+    /** このフレームまで一時停止する */
+    private long mWaitFrame = 0;
 
     /** タスクに登録されているプラグイン一覧 */
     private List<TaskPlugin> mPlugins = new ArrayList<TaskPlugin>();
@@ -98,19 +101,27 @@ abstract public class AbstractTask extends BaseTask implements TaskFunction {
      * @param surface キャンバス
      */
     public void execute(Surface surface) {
+        long frameCount = getFrameCount();
+
         // タスクの優先度が後ろに下がった場合、既に実行済みのタスクがもう一度実行される可能性があるため
         // タスクの実行が終わったらその時のフレームカウントを保存しておき
         // 同じフレーム内でのタスク実行はスキップする
-        if (mFrameCountInExecution == getFrameCount()) {
+        if (mFrameCountInExecution == frameCount) {
             return;
         }
 
-        if (!mStop) {
+        if (mStop) {
+            // タスクがwait関数で停止しているかどうかを調べて停止時間を過ぎていたら再開する
+            if ((mWaitDuration > 0 && System.currentTimeMillis() > mWaitDuration) ||
+                (mWaitFrame    > 0 && frameCount                 > mWaitFrame)) {
+                resume();
+            }
+        } else {
             if (mCurrentFunction != null) {
                 mCurrentFunction.update();
             }
-            for (TaskPlugin plugin: mPlugins) {
-                plugin.onExecute();
+            for (int i = 0; i < mPlugins.size(); i++) {
+                mPlugins.get(i).onExecute();
             }
         }
 
@@ -118,7 +129,7 @@ abstract public class AbstractTask extends BaseTask implements TaskFunction {
             ((Drawable) this).onDraw(surface);
         }
 
-        mFrameCountInExecution = getFrameCount();
+        mFrameCountInExecution = frameCount;
     }
 
     /**
@@ -144,6 +155,38 @@ abstract public class AbstractTask extends BaseTask implements TaskFunction {
      */
     public void resume() {
         mStop = false;
+        mWaitDuration = 0;
+        mWaitFrame = 0;
+    }
+
+    /**
+     * タスクの実行が一時的に停止しているかどうかを確認する
+     * @return タスクの実行が一時停止していればtrue
+     */
+    public boolean isStop() {
+        return mStop;
+    }
+
+    /**
+     * 指定ミリ秒の間処理を実行せずに待つ
+     * @param duration 待つ時間(ミリ秒)
+     */
+    public void wait(int duration) {
+        if (duration > 0) {
+            mWaitDuration = System.currentTimeMillis() + duration;
+            stop();
+        }
+    }
+
+    /**
+     * 指定フレーム数の間処理を実行せずに待つ
+     * @param frameCount 待つ時間(ミリ秒)
+     */
+    public void waitFrame(int frameCount) {
+        if (frameCount > 0) {
+            mWaitFrame = getFrameCount() + frameCount;
+            stop();
+        }
     }
 
     /**
@@ -237,8 +280,8 @@ abstract public class AbstractTask extends BaseTask implements TaskFunction {
      * シーンを切り替える
      * @param scene 切り替え先のシーン
      */
-    public void changeScene(AbstractScene scene) {
-        getGame().changeScene(scene);
+    public SceneChanger changeScene(AbstractScene scene) {
+        return getGame().changeScene(scene);
     }
 
     /**
@@ -247,6 +290,7 @@ abstract public class AbstractTask extends BaseTask implements TaskFunction {
      */
     public AbstractTask with(TaskPlugin plugin) {
         plugin.setTask(this);
+        plugin.onInitialize();
         mPlugins.add(plugin);
         return this;
     }
@@ -275,6 +319,16 @@ abstract public class AbstractTask extends BaseTask implements TaskFunction {
      */
     public <T extends TaskPlugin> boolean hasPlugin(Class<T> clazz) {
         return plugin(clazz) != null;
+    }
+
+    /**
+     * プラグインを削除する
+     * @param clazz 削除するプラグイン
+     */
+    public void removePlugin(Class<? extends TaskPlugin> clazz) {
+        TaskPlugin plugin = plugin(clazz);
+        plugin.onRemoved();
+        mPlugins.remove(plugin);
     }
 
     /* ==============================================

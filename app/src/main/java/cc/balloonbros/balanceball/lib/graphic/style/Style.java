@@ -4,7 +4,18 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 
+/**
+ * Define styles for drawing text.
+ * This class is a wrapper of android.graphic.Paint.
+ * You can use the method chain to set each styles and
+ * generate paint from an instance of this class.
+ */
 public class Style {
+    /**
+     * Style modified flag. Set true when styles has changed, and
+     * set false when generate or rebuilt the paint instance.
+     * @see Style#generatePaint
+     */
     private boolean mModified = false;
     private Paint mPaint = null;
     private Typeface mFont = null;
@@ -187,11 +198,27 @@ public class Style {
         mPaint = null;
     }
 
+    /**
+     * Generate a Paint instance and return it.
+     *
+     * When an instance of this class generates a Paint instance by invoking this method,
+     * it is cached to mPaint (the field variable of this class). So you can invoke
+     * this method any times without thinking about creating a new instance
+     * because the instance of this class return immediately the paint instance if there is
+     * its cache.
+     * But, if you set or change new styles to the instance and invoke generatePaint method again,
+     * the cache instance of Paint will be rebuilt and return it.
+     *
+     * @see Style#mModified
+     * @return Generated Paint class instance.
+     */
     public Paint generatePaint() {
+        // Return immediately the cache instance if there is already the cache and there is no change.
         if (!mModified && mPaint != null) {
             return mPaint;
         }
 
+        // Create a new instance if the paint instance doesn't exist.
         if (mPaint == null) {
             mPaint = new Paint();
         }

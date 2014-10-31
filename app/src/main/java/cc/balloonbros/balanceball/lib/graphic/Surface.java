@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.view.SurfaceView;
 
 import cc.balloonbros.balanceball.lib.GameDisplay;
 import cc.balloonbros.balanceball.lib.graphic.style.Style;
@@ -22,10 +21,8 @@ public class Surface {
      */
     private Bitmap mGameBitmap;
 
-    /** SurfaceViewのキャンバス */
-    private Canvas mSurfaceCanvas;
     /** 描画先のキャンバス */
-    private Canvas mTargetCanvas;
+    private Canvas mCanvas;
     /** ゲームディスプレイ */
     private GameDisplay mGameDisplay;
 
@@ -35,37 +32,29 @@ public class Surface {
     public Surface() {
         mGameDisplay = GameDisplay.getInstance();
 
-        if (!mGameDisplay.isFit()) {
-            Point size = mGameDisplay.getDisplaySize();
-            mGameBitmap = Bitmap.createBitmap(size.x, size.y, Bitmap.Config.ARGB_8888);
-            mTargetCanvas = new Canvas(mGameBitmap);
-        }
+        Point size = mGameDisplay.getDisplaySize();
+        mGameBitmap = Bitmap.createBitmap(size.x, size.y, Bitmap.Config.ARGB_8888);
+        mCanvas = new Canvas(mGameBitmap);
     }
 
     /**
      * ゲームキャンバスのビットマップを伸縮させてメインのキャンバスに転送する
      * @return メインキャンバス
      */
-    public Canvas forwardBitmap() {
-        if (!mGameDisplay.isFit()) {
-            Rect source      = mGameDisplay.getDisplayRect();
-            Rect destination = mGameDisplay.getScaledRect();
-            mSurfaceCanvas.drawBitmap(mGameBitmap, source, destination, null);
-        }
+    public Canvas forwardBitmap(Canvas canvas) {
+        Rect source      = mGameDisplay.getDisplayRect();
+        Rect destination = mGameDisplay.getScaledRect();
+        canvas.drawBitmap(mGameBitmap, source, destination, null);
 
-        return mSurfaceCanvas;
+        return canvas;
     }
 
     /**
-     * 描画先のキャンバスをセットする
-     * @param canvas 描画先のキャンバス
+     * ゲーム画面のビットマップを取得する
+     * @return ビットマップ
      */
-    public void setCanvas(Canvas canvas) {
-        mSurfaceCanvas = canvas;
-
-        if (mTargetCanvas == null) {
-            mTargetCanvas = mSurfaceCanvas;
-        }
+    public Bitmap getBitmap() {
+        return mGameBitmap;
     }
 
     /**
@@ -73,15 +62,15 @@ public class Surface {
      * @return 描画先のキャンバス
      */
     public Canvas getCanvas() {
-        return mTargetCanvas;
+        return mCanvas;
     }
 
     /**
      * 画面全体を指定した色で塗りつぶす
-     * @param color
+     * @param color 塗りつぶす色
      */
     public void fill(int color) {
-        mTargetCanvas.drawColor(color);
+        mCanvas.drawColor(color);
     }
 
     /**
@@ -100,9 +89,9 @@ public class Surface {
         }
 
         if (text.needsConcatenate()) {
-            mTargetCanvas.drawText(text.getChars(), 0, text.getLength(), position.x, position.y, paint);
+            mCanvas.drawText(text.getChars(), 0, text.getLength(), position.x, position.y, paint);
         } else {
-            mTargetCanvas.drawText(text.getFirstString(), position.x, position.y, paint);
+            mCanvas.drawText(text.getFirstString(), position.x, position.y, paint);
         }
     }
 
@@ -112,7 +101,7 @@ public class Surface {
      */
     public void draw(Shape shape) {
         Point position = shape.getPosition();
-        mTargetCanvas.drawBitmap(shape.getBitmap(), position.x, position.y, null);
+        mCanvas.drawBitmap(shape.getBitmap(), position.x, position.y, null);
     }
 
     /**
@@ -120,7 +109,7 @@ public class Surface {
      * @param sprite 描画するスプライト
      */
     public void draw(Sprite sprite) {
-        mTargetCanvas.drawBitmap(sprite.getBitmap(), sprite.getSource(), sprite.getRect(), null);
+        mCanvas.drawBitmap(sprite.getBitmap(), sprite.getSource(), sprite.getRect(), null);
     }
 
     /**
@@ -137,7 +126,7 @@ public class Surface {
      * @param destination 描画する先の矩形
      */
     public void drawStretch(Sprite sprite, Rect destination) {
-        mTargetCanvas.drawBitmap(sprite.getBitmap(), sprite.getSource(), destination, null);
+        mCanvas.drawBitmap(sprite.getBitmap(), sprite.getSource(), destination, null);
     }
 
     /**
