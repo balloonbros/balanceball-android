@@ -77,7 +77,7 @@ public class Surface {
      * 文字列を描画する
      * @param text 描画する文字列
      */
-    public void draw(DrawString text) {
+    public void draw(Text text) {
         Paint paint;
         Point position = text.getPosition();
         Style style = text.getStyle();

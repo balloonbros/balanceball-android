@@ -17,7 +17,7 @@ import cc.balloonbros.balanceball.lib.graphic.style.Style;
  *
  * またテキストのスタイルも指定できる。
  */
-public class DrawString extends DrawObject {
+public class Text extends DrawObject {
     /** 文字列初期サイズ */
     private final static int INITIAL_CHAR_SIZE = 32;
 
@@ -40,28 +40,28 @@ public class DrawString extends DrawObject {
     /**
      * 初期サイズで描画専用文字列オブジェクトを生成する
      */
-    public DrawString() {
+    public Text() {
         this(INITIAL_CHAR_SIZE);
     }
 
     /**
      * 文字列長を指定して描画専用文字列オブジェクトを生成する
      */
-    public DrawString(int size) {
+    public Text(int size) {
         this(size, null);
     }
 
     /**
      * 文字列から描画専用文字列オブジェクトを生成する
      */
-    public DrawString(String value) {
+    public Text(String value) {
         this(value, null);
     }
 
     /**
      * 文字列長とスタイルを指定して描画専用文字列オブジェクトを生成する
      */
-    public DrawString(int size, Style template) {
+    public Text(int size, Style template) {
         mChars = new char[size];
         setStyle(template);
     }
@@ -69,7 +69,7 @@ public class DrawString extends DrawObject {
     /**
      * 文字列とスタイルを指定して描画専用文字列オブジェクトを生成する
      */
-    public DrawString(String value, Style template) {
+    public Text(String value, Style template) {
         append(value);
         setStyle(template);
     }
@@ -78,7 +78,7 @@ public class DrawString extends DrawObject {
      * スタイルをセットする
      * @param style スタイル
      */
-    public DrawString setStyle(Style style) {
+    public Text setStyle(Style style) {
         mStyle = style;
         return this;
     }
@@ -87,7 +87,7 @@ public class DrawString extends DrawObject {
      * スタイルをセットする
      * @param id スタイルID
      */
-    public DrawString setStyle(String id) {
+    public Text setStyle(String id) {
         mStyle = CurrentGame.get().getCurrentScene().getStyle(id);
         return this;
     }
@@ -104,7 +104,7 @@ public class DrawString extends DrawObject {
      * 文字列を空にする
      * @return this
      */
-    public DrawString clear() {
+    public Text clear() {
         mLength = 0;
         mFirstString = null;
         return this;
@@ -116,7 +116,7 @@ public class DrawString extends DrawObject {
      * @param params パラメータの配列
      * @return this
      */
-    public DrawString format(String format, Object... params) {
+    public Text format(String format, Object... params) {
         clear();
 
         boolean placeholder = false;
@@ -191,7 +191,7 @@ public class DrawString extends DrawObject {
      * @param value 文字列
      * @return this
      */
-    public DrawString set(String value) {
+    public Text set(String value) {
         clear();
         return append(value);
     }
@@ -201,7 +201,7 @@ public class DrawString extends DrawObject {
      * @param value 数値
      * @return this
      */
-    public DrawString set(int value) {
+    public Text set(int value) {
         clear();
         return append(value);
     }
@@ -211,7 +211,7 @@ public class DrawString extends DrawObject {
      * @param value 数値
      * @return this
      */
-    public DrawString set(float value) {
+    public Text set(float value) {
         clear();
         return append(value);
     }
@@ -221,7 +221,7 @@ public class DrawString extends DrawObject {
      * @param value 文字
      * @return this
      */
-    public DrawString set(char value) {
+    public Text set(char value) {
         clear();
         return append(value);
     }
@@ -231,7 +231,7 @@ public class DrawString extends DrawObject {
      * @param value 追加対象の文字列
      * @return this
      */
-    public DrawString append(String value) {
+    public Text append(String value) {
         if (mLength == 0) {
             mFirstString = value;
             mLength = value.length();
@@ -249,7 +249,7 @@ public class DrawString extends DrawObject {
      * @param value 追加対象の数値
      * @return this
      */
-    public DrawString append(int value) {
+    public Text append(int value) {
         return append(String.valueOf(value));
     }
 
@@ -258,7 +258,7 @@ public class DrawString extends DrawObject {
      * @param value 追加対象の数値
      * @return this
      */
-    public DrawString append(float value) {
+    public Text append(float value) {
         return append(String.valueOf(value));
     }
 
@@ -267,7 +267,7 @@ public class DrawString extends DrawObject {
      * @param value 追加対象の文字
      * @return this
      */
-    public DrawString append(char value) {
+    public Text append(char value) {
         return addChar(value);
     }
 
@@ -293,7 +293,7 @@ public class DrawString extends DrawObject {
      * @param value 配列に追加する文字
      * @return this
      */
-    private DrawString addChar(char value) {
+    private Text addChar(char value) {
         if (mFirstString != null) {
             for (int i = 0; i < mFirstString.length(); i++) {
                 _addChar(mFirstString.charAt(i));
@@ -311,7 +311,7 @@ public class DrawString extends DrawObject {
      * @param value 配列に追加する文字
      * @return this
      */
-    private DrawString _addChar(char value) {
+    private Text _addChar(char value) {
         if (mChars == null) {
             mChars = new char[INITIAL_CHAR_SIZE];
         }

@@ -4,13 +4,11 @@ import android.graphics.Point;
 import android.view.MotionEvent;
 
 import cc.balloonbros.balanceball.R;
-import cc.balloonbros.balanceball.lib.graphic.DrawString;
+import cc.balloonbros.balanceball.lib.graphic.Text;
 import cc.balloonbros.balanceball.lib.graphic.Surface;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.task.Drawable;
-import cc.balloonbros.balanceball.lib.task.extender.TimerPlugin;
 import cc.balloonbros.balanceball.lib.task.extender.Touchable;
-import cc.balloonbros.balanceball.lib.task.timer.TimerEventListener;
 import cc.balloonbros.balanceball.scene.PlayScene;
 
 /**
@@ -19,7 +17,7 @@ import cc.balloonbros.balanceball.scene.PlayScene;
  */
 public class Start extends AbstractTask implements Drawable, Touchable {
     private int mAlpha = 0xff;
-    private DrawString mLabel = new DrawString(_s(R.string.game_start_label));
+    private Text mLabel = new Text(_s(R.string.game_start_label));
 
     @Override
     public void onRegister() {

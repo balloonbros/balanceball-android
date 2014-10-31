@@ -3,14 +3,14 @@ package cc.balloonbros.balanceball.task.play;
 import android.graphics.Point;
 
 import cc.balloonbros.balanceball.R;
-import cc.balloonbros.balanceball.lib.graphic.DrawString;
+import cc.balloonbros.balanceball.lib.graphic.Text;
 import cc.balloonbros.balanceball.lib.graphic.Surface;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.task.Drawable;
 
 public class CountdownTimer extends AbstractTask implements Drawable {
     private int mRestTime = 0;
-    private DrawString mDisplayRestTime = new DrawString(5);
+    private Text mDisplayRestTime = new Text(5);
 
     @Override
     public void onRegister() {

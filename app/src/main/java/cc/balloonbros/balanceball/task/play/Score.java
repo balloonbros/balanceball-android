@@ -3,7 +3,7 @@ package cc.balloonbros.balanceball.task.play;
 import android.graphics.Point;
 
 import cc.balloonbros.balanceball.R;
-import cc.balloonbros.balanceball.lib.graphic.DrawString;
+import cc.balloonbros.balanceball.lib.graphic.Text;
 import cc.balloonbros.balanceball.lib.graphic.Surface;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.task.Drawable;
@@ -15,7 +15,7 @@ public class Score extends AbstractTask implements Drawable, TaskMessageListener
     private int mFrameCountInCircle = 0;
 
     /** スコア用文字 */
-    private DrawString mScore = new DrawString(11);
+    private Text mScore = new Text(11);
 
     @Override
     public void onRegister() {

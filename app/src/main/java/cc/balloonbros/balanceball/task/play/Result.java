@@ -3,15 +3,15 @@ package cc.balloonbros.balanceball.task.play;
 import android.graphics.Color;
 
 import cc.balloonbros.balanceball.R;
-import cc.balloonbros.balanceball.lib.graphic.DrawString;
+import cc.balloonbros.balanceball.lib.graphic.Text;
 import cc.balloonbros.balanceball.lib.graphic.Shape;
 import cc.balloonbros.balanceball.lib.graphic.Surface;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.task.Drawable;
 
 public class Result extends AbstractTask implements Drawable {
-    private DrawString mResult = new DrawString("Result");
-    private DrawString mShare = new DrawString("スコアをシェアする");
+    private Text mResult = new Text("Result");
+    private Text mShare = new Text("スコアをシェアする");
     private Shape mShape = new Shape(R.drawable.shape1);
 
     @Override

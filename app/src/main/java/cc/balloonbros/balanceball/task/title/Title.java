@@ -3,7 +3,7 @@ package cc.balloonbros.balanceball.task.title;
 import android.graphics.Point;
 
 import cc.balloonbros.balanceball.R;
-import cc.balloonbros.balanceball.lib.graphic.DrawString;
+import cc.balloonbros.balanceball.lib.graphic.Text;
 import cc.balloonbros.balanceball.lib.graphic.Surface;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.task.Drawable;
@@ -12,7 +12,7 @@ import cc.balloonbros.balanceball.lib.task.Drawable;
  * タイトルを描画する
  */
 public class Title extends AbstractTask implements Drawable {
-    private DrawString mTitle = new DrawString(_s(R.string.app_name));
+    private Text mTitle = new Text(_s(R.string.app_name));
 
     @Override
     public void onRegister() {
