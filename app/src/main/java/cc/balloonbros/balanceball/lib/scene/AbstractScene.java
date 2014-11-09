@@ -15,6 +15,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 
 import cc.balloonbros.balanceball.lib.AssetManager;
+import cc.balloonbros.balanceball.lib.GameDisplay;
 import cc.balloonbros.balanceball.lib.GameMain;
 import cc.balloonbros.balanceball.lib.ResourceBase;
 import cc.balloonbros.balanceball.lib.graphic.Surface;
@@ -194,22 +195,12 @@ public class AbstractScene extends ResourceBase {
 
     /**
      * シーンに登録されている全てのタスクを実行して描画する
-     * @param holder サーフェイスホルダー
      * @param surface 描画先のサーフェイス
      */
-    public void execute(SurfaceHolder holder, Surface surface) {
-        // ダブルバッファリング開始
-        Canvas canvas = holder.lockCanvas();
-        if (canvas == null) {
-            return;
-        }
-        canvas.drawColor(Color.BLACK);
-
+    public Surface execute(Surface surface) {
         // 全てのタスクを実行する
         mTaskManager.execute(surface);
-
-        // バッファ入れ替え。表側に描画する
-        holder.unlockCanvasAndPost(surface.forwardBitmap(canvas));
+        return surface;
     }
 
     /**

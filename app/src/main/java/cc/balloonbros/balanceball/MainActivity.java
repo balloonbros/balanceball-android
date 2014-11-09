@@ -1,11 +1,11 @@
 package cc.balloonbros.balanceball;
 
-import android.app.Activity;
 import android.os.Bundle;
 
+import cc.balloonbros.balanceball.lib.GameActivity;
 import cc.balloonbros.balanceball.scene.LaunchScene;
 
-public class MainActivity extends Activity {
+public class MainActivity extends GameActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

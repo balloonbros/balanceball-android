@@ -4,24 +4,29 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Point;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
+import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.lib.scene.AbstractScene;
 import cc.balloonbros.balanceball.lib.scene.SceneChanger;
 
 abstract public class GameMain {
     private GameLoop mGameLoop = null;
     private Context mContext = null;
+    private ViewGroup mContainer = null;
     private GameSurfaceView mView = null;
+    private GameSurfaceView mBackView = null;
     private GameDisplay mGameDisplay = null;
     private AbstractScene mCurrentScene = null;
     private AbstractScene mReservedScene = null;
-    private AbstractScene mOldScene;
     private SceneChanger mSceneChanger;
 
     public Context getContext() { return mContext; }
+    public ViewGroup getContainer() { return mContainer; }
     public GameSurfaceView getView() { return mView; }
+    public GameSurfaceView getBackView() { return mBackView; }
     public float getRealFps() { return mGameLoop.getRealFps(); }
     public long getFps() { return mGameLoop.getFps(); }
     public long getFrameCount() { return mGameLoop.getFrameCount(); }
@@ -50,11 +55,8 @@ abstract public class GameMain {
      * @param height ゲーム画面の高さ
      */
     public GameMain(Context context, int width, int height) {
-        mContext     = context;
-        mGameDisplay = GameDisplay.getInstance();
-        mGameDisplay.setContext(mContext);
+        this(context);
         mGameDisplay.setGameDisplaySize(width, height);
-        _.set(context.getResources());
     }
 
     /**
@@ -63,11 +65,6 @@ abstract public class GameMain {
      */
     public void onInitialize() {
         Activity activity = (Activity)mContext;
-
-        // 画面の明るさをキープしたまま暗くならないようにする
-        activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        // アプリのタイトルとステータスバーを非表示にする
-        activity.requestWindowFeature(Window.FEATURE_NO_TITLE);
     }
 
     /**
@@ -83,8 +80,11 @@ abstract public class GameMain {
     public void start(AbstractScene startScene, long fps) {
         onInitialize();
 
-        mView     = new GameSurfaceView(mContext);
-        mGameLoop = new GameLoop(this);
+        GameActivity activity = (GameActivity) mContext;
+        mContainer = (ViewGroup) activity.findViewById(R.id.container);
+        mView      = (GameSurfaceView) activity.findViewById(R.id.main_surface);
+        mBackView  = (GameSurfaceView) activity.findViewById(R.id.back_surface);
+        mGameLoop  = new GameLoop(this);
 
         CurrentGame.set(this);
 
@@ -95,7 +95,6 @@ abstract public class GameMain {
         mCurrentScene.belongsTo(this);
 
         mGameDisplay.updateDisplaySize();
-        ((Activity)mContext).setContentView(mView);
     }
 
     /**
@@ -112,7 +111,6 @@ abstract public class GameMain {
      * @param scene 切り替える先のシーン
      */
     public SceneChanger changeScene(AbstractScene scene) {
-        mOldScene      = mCurrentScene;
         mReservedScene = scene;
         mSceneChanger  = new SceneChanger(mCurrentScene, mReservedScene);
         return mSceneChanger;

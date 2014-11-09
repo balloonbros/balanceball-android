@@ -14,13 +14,7 @@ import cc.balloonbros.balanceball.lib.graphic.style.Style;
  * android.graphics.Canvasの薄いラッパー。
  */
 public class Surface {
-    /**
-     * ゲーム用キャンバスのビットマップ。
-     * ゲーム画面サイズと端末画面サイズが違う場合、まずこっちのキャンバスに描画した後に
-     * 適切なサイズに伸縮してから描画先のキャンバスに転送する。
-     */
-    private Bitmap mGameBitmap;
-
+    private Bitmap mBitmap;
     /** 描画先のキャンバス */
     private Canvas mCanvas;
     /** ゲームディスプレイ */
@@ -32,29 +26,13 @@ public class Surface {
     public Surface() {
         mGameDisplay = GameDisplay.getInstance();
 
-        Point size = mGameDisplay.getDisplaySize();
-        mGameBitmap = Bitmap.createBitmap(size.x, size.y, Bitmap.Config.ARGB_8888);
-        mCanvas = new Canvas(mGameBitmap);
+        mBitmap = Bitmap.createBitmap(1920, 1080, Bitmap.Config.ARGB_8888);
+        mCanvas = new Canvas(mBitmap);
     }
 
-    /**
-     * ゲームキャンバスのビットマップを伸縮させてメインのキャンバスに転送する
-     * @return メインキャンバス
-     */
     public Canvas forwardBitmap(Canvas canvas) {
-        Rect source      = mGameDisplay.getDisplayRect();
-        Rect destination = mGameDisplay.getScaledRect();
-        canvas.drawBitmap(mGameBitmap, source, destination, null);
-
+        canvas.drawBitmap(mBitmap, 0, 0, null);
         return canvas;
-    }
-
-    /**
-     * ゲーム画面のビットマップを取得する
-     * @return ビットマップ
-     */
-    public Bitmap getBitmap() {
-        return mGameBitmap;
     }
 
     /**

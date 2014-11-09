@@ -1,6 +1,7 @@
 package cc.balloonbros.balanceball.lib;
 
 import android.content.Context;
+import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
@@ -14,6 +15,16 @@ import cc.balloonbros.balanceball.lib.task.extender.Touchable;
  */
 public class GameSurfaceView extends SurfaceView implements View.OnTouchListener {
     private ArrayList<Touchable> mTouchListeners = new ArrayList<Touchable>();
+
+    public GameSurfaceView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        setOnTouchListener(this);
+    }
+
+    public GameSurfaceView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        setOnTouchListener(this);
+    }
 
     /**
      * コンストラクタ

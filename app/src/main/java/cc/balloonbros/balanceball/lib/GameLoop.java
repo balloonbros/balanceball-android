@@ -1,5 +1,7 @@
 package cc.balloonbros.balanceball.lib;
 
+import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.view.SurfaceHolder;
 
 import cc.balloonbros.balanceball.lib.graphic.Surface;
@@ -69,15 +71,20 @@ public class GameLoop implements Runnable, SurfaceHolder.Callback {
     public void run() {
         Surface surface = new Surface();
 
+        GameDisplay display = GameDisplay.getInstance();
+        float scale = display.getScale();
+        Rect scaledRect = display.getScaledRect();
+
         while (mGameLoopThread != null) {
             long startTime = System.currentTimeMillis();
             mFrameCount++;
 
-            if (mGame.whileChangingScene()) {
-                mGame.getSceneChanger().execute(mHolder, surface);
-            } else {
-                mGame.getCurrentScene().execute(mHolder, surface);
+            Canvas canvas = lockCanvasAndPrepare(scale, scaledRect);
+            if (canvas == null) {
+                return;
             }
+            Surface flipSurface = draw(surface);
+            mHolder.unlockCanvasAndPost(flipSurface.forwardBitmap(canvas));
 
             if (mGame.hasReservedScene()) {
                 mGame.updateCurrentScene();
@@ -95,6 +102,42 @@ public class GameLoop implements Runnable, SurfaceHolder.Callback {
 
             mLoopTime = System.currentTimeMillis() - startTime;
         }
+    }
+
+    /**
+     * キャンバスの準備をする
+     * @param scale 拡大率
+     * @return キャンバス
+     */
+    private Canvas lockCanvasAndPrepare(float scale, Rect scaledRect) {
+        Canvas canvas = mHolder.lockCanvas();
+        if (canvas == null) {
+            return null;
+        }
+
+        if (scale != 1) {
+            canvas.translate(scaledRect.left, scaledRect.top);
+            canvas.scale(scale, scale);
+        }
+
+        return canvas;
+    }
+
+    /**
+     * タスクを全て実行して描画する
+     * @param surface 描画先のサーフェイス
+     * @return キャンバスに転送するサーフェイス
+     */
+    private Surface draw(Surface surface) {
+        Surface flipSurface;
+
+        if (mGame.whileChangingScene()) {
+            flipSurface = mGame.getSceneChanger().execute(surface);
+        } else {
+            flipSurface = mGame.getCurrentScene().execute(surface);
+        }
+
+        return flipSurface;
     }
 
     @Override

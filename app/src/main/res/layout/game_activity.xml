@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <cc.balloonbros.balanceball.lib.GameSurfaceView
+        android:id="@+id/main_surface"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <cc.balloonbros.balanceball.lib.GameSurfaceView
+        android:id="@+id/back_surface"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</RelativeLayout>

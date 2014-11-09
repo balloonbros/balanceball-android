@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="fps">60</integer>
-    <integer name="game_time">1</integer>
+    <integer name="game_time">60</integer>
     <integer name="display_time_for_logo">3000</integer>
 </resources>

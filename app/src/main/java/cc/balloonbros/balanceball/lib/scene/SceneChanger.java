@@ -1,9 +1,5 @@
 package cc.balloonbros.balanceball.lib.scene;
 
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.view.SurfaceHolder;
-
 import cc.balloonbros.balanceball.lib.graphic.Surface;
 import cc.balloonbros.balanceball.lib.scene.transition.Transitionable;
 
@@ -52,18 +48,10 @@ public class SceneChanger {
     /**
      * シーン切り替えを実行する
      */
-    public void execute(SurfaceHolder holder, Surface surface) {
-        // ダブルバッファリング開始
-        Canvas canvas = holder.lockCanvas();
-        if (canvas == null) {
-            return;
-        }
-        canvas.drawColor(Color.BLACK);
-
+    public Surface execute(Surface surface) {
         if (mTransition == null) {
             // トランジションエフェクトがない場合はすぐに次のシーンへ切り替える
             mNextScene.getTaskManager().execute(surface);
-            surface.forwardBitmap(canvas);
             done();
         } else {
             // 全てのタスクを実行する
@@ -73,16 +61,14 @@ public class SceneChanger {
             if (mTransition.isDrawingNextScene()) {
                 mNextScene.getTaskManager().execute(mNextSurface);
             }
-            Surface newSurface = mTransition.transit(surface, mNextSurface);
-            newSurface.forwardBitmap(canvas);
+            surface = mTransition.transit(surface, mNextSurface);
 
             if (mTransition.completeTransition()) {
                 done();
             }
         }
 
-        // バッファ入れ替え。表側に描画する
-        holder.unlockCanvasAndPost(canvas);
+        return surface;
     }
 
     /**

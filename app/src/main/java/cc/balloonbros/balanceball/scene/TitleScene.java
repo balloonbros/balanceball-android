@@ -4,6 +4,7 @@ import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.lib.scene.AbstractScene;
 import cc.balloonbros.balanceball.lib.task.extender.TouchPlugin;
 import cc.balloonbros.balanceball.task.Background;
+import cc.balloonbros.balanceball.task.title.DebugOutput;
 import cc.balloonbros.balanceball.task.title.Start;
 import cc.balloonbros.balanceball.task.title.Title;
 
@@ -26,7 +27,8 @@ public class TitleScene extends AbstractScene {
         getTaskManager().register(
             new Background(),
             new Title(),
-            new Start().with(new TouchPlugin())
+            new Start().with(new TouchPlugin()),
+            new DebugOutput()
         );
     }
 }
