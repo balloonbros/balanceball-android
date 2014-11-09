@@ -1,6 +1,7 @@
 package cc.balloonbros.balanceball.lib;
 
 import android.content.Context;
+import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
@@ -8,23 +9,20 @@ import android.view.View;
 
 import java.util.ArrayList;
 
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
+
 import cc.balloonbros.balanceball.lib.task.extender.Touchable;
 
 /**
  * ゲーム描画サーフェイス
  */
-public class GameSurfaceView extends SurfaceView implements View.OnTouchListener {
+public class GameSurfaceView extends GLSurfaceView implements View.OnTouchListener {
+    private static final int OPENGL_ES_VERSION = 2;
     private ArrayList<Touchable> mTouchListeners = new ArrayList<Touchable>();
 
-    public GameSurfaceView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        setOnTouchListener(this);
-    }
-
-    public GameSurfaceView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-        setOnTouchListener(this);
-    }
+    /** Renderer */
+    private Renderer mRenderer;
 
     /**
      * コンストラクタ
@@ -32,6 +30,13 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
      */
     public GameSurfaceView(Context context) {
         super(context);
+
+        // Create an OpenGL ES 2.0 context.
+        setEGLContextClientVersion(OPENGL_ES_VERSION);
+
+        Renderer renderer = new GameRenderer(context);
+        setRenderer(renderer);
+
         setOnTouchListener(this);
     }
 

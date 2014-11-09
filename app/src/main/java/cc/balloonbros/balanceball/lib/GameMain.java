@@ -15,18 +15,14 @@ import cc.balloonbros.balanceball.lib.scene.SceneChanger;
 abstract public class GameMain {
     private GameLoop mGameLoop = null;
     private Context mContext = null;
-    private ViewGroup mContainer = null;
     private GameSurfaceView mView = null;
-    private GameSurfaceView mBackView = null;
     private GameDisplay mGameDisplay = null;
     private AbstractScene mCurrentScene = null;
     private AbstractScene mReservedScene = null;
     private SceneChanger mSceneChanger;
 
     public Context getContext() { return mContext; }
-    public ViewGroup getContainer() { return mContainer; }
     public GameSurfaceView getView() { return mView; }
-    public GameSurfaceView getBackView() { return mBackView; }
     public float getRealFps() { return mGameLoop.getRealFps(); }
     public long getFps() { return mGameLoop.getFps(); }
     public long getFrameCount() { return mGameLoop.getFrameCount(); }
@@ -63,9 +59,7 @@ abstract public class GameMain {
      * ゲーム初期化処理。
      * 必要であれば継承先でオーバーライドする
      */
-    public void onInitialize() {
-        Activity activity = (Activity)mContext;
-    }
+    public void onInitialize() { }
 
     /**
      * ゲームを開始する
@@ -80,11 +74,8 @@ abstract public class GameMain {
     public void start(AbstractScene startScene, long fps) {
         onInitialize();
 
-        GameActivity activity = (GameActivity) mContext;
-        mContainer = (ViewGroup) activity.findViewById(R.id.container);
-        mView      = (GameSurfaceView) activity.findViewById(R.id.main_surface);
-        mBackView  = (GameSurfaceView) activity.findViewById(R.id.back_surface);
-        mGameLoop  = new GameLoop(this);
+        mView     = ((GameActivity) mContext).getView();
+        mGameLoop = new GameLoop(this);
 
         CurrentGame.set(this);
 
