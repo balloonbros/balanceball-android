@@ -12,7 +12,6 @@ public class MainActivity extends GameActivity {
 
         long fps = getResources().getInteger(R.integer.fps);
 
-        // ゲーム開始
         BalanceBall game = new BalanceBall(this);
         game.start(new LaunchScene(), fps);
     }

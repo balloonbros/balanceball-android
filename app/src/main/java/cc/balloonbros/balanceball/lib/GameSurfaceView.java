@@ -1,41 +1,38 @@
 package cc.balloonbros.balanceball.lib;
 
-import android.content.Context;
 import android.opengl.GLSurfaceView;
-import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.SurfaceView;
 import android.view.View;
 
 import java.util.ArrayList;
 
-import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.opengles.GL10;
-
 import cc.balloonbros.balanceball.lib.task.extender.Touchable;
 
 /**
- * ゲーム描画サーフェイス
+ * A surface view for OpenGL.
+ * The view uses OpenGL ES version 2.0.
  */
 public class GameSurfaceView extends GLSurfaceView implements View.OnTouchListener {
-    private static final int OPENGL_ES_VERSION = 2;
+    private static final int OPEN_GL_ES_VERSION = 2;
     private ArrayList<Touchable> mTouchListeners = new ArrayList<Touchable>();
 
-    /** Renderer */
-    private Renderer mRenderer;
-
     /**
-     * コンストラクタ
-     * @param context このサーフェイスが属するコンテキスト
+     * Constructor.
+     * @param game The game that renders to this surface view.
      */
-    public GameSurfaceView(Context context) {
-        super(context);
+    public GameSurfaceView(GameMain game) {
+        super(game.getContext());
 
         // Create an OpenGL ES 2.0 context.
-        setEGLContextClientVersion(OPENGL_ES_VERSION);
+        setEGLContextClientVersion(OPEN_GL_ES_VERSION);
 
-        Renderer renderer = new GameRenderer(context);
+        // Create a renderer for OpenGL ES and set it to this view.
+        Renderer renderer = new GameRenderer(game);
         setRenderer(renderer);
+
+        // Set the render mode to continuously.
+        // This mode creates the game loop.
+        setRenderMode(RENDERMODE_CONTINUOUSLY);
 
         setOnTouchListener(this);
     }

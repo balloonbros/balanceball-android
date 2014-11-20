@@ -19,10 +19,10 @@ public class Animation extends DrawObject implements TimerEventListener {
      * アニメーションクラスの内部に保持する
      */
     private class AnimationSprite {
-        final public Sprite sprite;
+        final public SpriteForSurfaceView sprite;
         final public Rect source;
 
-        public AnimationSprite(Sprite sp, Rect so) {
+        public AnimationSprite(SpriteForSurfaceView sp, Rect so) {
             sprite = sp;
             source = so;
         }
@@ -31,7 +31,7 @@ public class Animation extends DrawObject implements TimerEventListener {
     /** アニメーションリスト */
     private List<AnimationSprite> mAnimations = new ArrayList<AnimationSprite>();
     /** アニメーションに使うスプライトのリスト */
-    private List<Sprite> mSprites = new ArrayList<Sprite>();
+    private List<SpriteForSurfaceView> mSprites = new ArrayList<SpriteForSurfaceView>();
     /** 現在描画中のスプライトのインデックス */
     private int mUnitIndex = 0;
     /** アニメーションに使うスプライトのインデックスのリスト */
@@ -77,8 +77,8 @@ public class Animation extends DrawObject implements TimerEventListener {
      * アニメーションにスプライトを追加する
      * @param sprites 追加するスプライトの配列
      */
-    public void addSprites(Sprite... sprites) {
-        for (Sprite sprite: sprites) {
+    public void addSprites(SpriteForSurfaceView... sprites) {
+        for (SpriteForSurfaceView sprite: sprites) {
             mSprites.add(sprite);
             add(sprite, sprite.getSource());
         }
@@ -90,7 +90,7 @@ public class Animation extends DrawObject implements TimerEventListener {
      * アニメーションにスプライトを追加する
      * @param sprite 追加するスプライト
      */
-    public void addSprite(Sprite sprite) {
+    public void addSprite(SpriteForSurfaceView sprite) {
         mSprites.add(sprite);
         add(sprite, sprite.getSource());
 
@@ -118,13 +118,13 @@ public class Animation extends DrawObject implements TimerEventListener {
      * 現在のフレームで描画するスプライトを取得する
      * @return スプライト
      */
-    public Sprite getCurrentSprite() {
+    public SpriteForSurfaceView getCurrentSprite() {
         AnimationSprite animationSprite = getCurrentAnimation();
         if (animationSprite == null) {
             return null;
         }
 
-        Sprite sprite = animationSprite.sprite;
+        SpriteForSurfaceView sprite = animationSprite.sprite;
         sprite.setSource(animationSprite.source);
 
         return sprite;
@@ -135,7 +135,7 @@ public class Animation extends DrawObject implements TimerEventListener {
      * @param sprite スプライト
      * @param source 矩形
      */
-    private void add(Sprite sprite, Rect source) {
+    private void add(SpriteForSurfaceView sprite, Rect source) {
         mAnimations.add(new AnimationSprite(sprite, source));
     }
 

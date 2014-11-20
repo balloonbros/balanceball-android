@@ -3,7 +3,7 @@ package cc.balloonbros.balanceball.task.launch;
 import android.view.MotionEvent;
 
 import cc.balloonbros.balanceball.R;
-import cc.balloonbros.balanceball.lib.graphic.Sprite;
+import cc.balloonbros.balanceball.lib.graphic.SpriteForSurfaceView;
 import cc.balloonbros.balanceball.lib.graphic.Surface;
 import cc.balloonbros.balanceball.lib.scene.transition.FadeIn;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
@@ -20,14 +20,14 @@ import cc.balloonbros.balanceball.scene.TitleScene;
  * 画面タッチまたは3秒経過でタイトルシーンに遷移する。
  */
 public class Logo extends AbstractTask implements Drawable, Touchable, TimerEventListener {
-    private Sprite mLogo;
+    private SpriteForSurfaceView mLogo;
     private Timer mTimer;
 
     @Override
     public void onRegister() {
         super.onRegister();
 
-        mLogo = new Sprite(R.drawable.launch_logo);
+        mLogo = new SpriteForSurfaceView(R.drawable.launch_logo);
         mTimer = plugin(TimerPlugin.class).setTimer(_i(R.integer.display_time_for_logo), this);
     }
 

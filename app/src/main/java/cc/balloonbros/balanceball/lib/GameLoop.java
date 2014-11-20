@@ -50,7 +50,7 @@ public class GameLoop implements Runnable, SurfaceHolder.Callback {
     public GameLoop(GameMain game) {
         mGame   = game;
         mHolder = game.getView().getHolder();
-        mHolder.addCallback(this);
+        //mHolder.addCallback(this);
 
         changeFps(DEFAULT_FPS);
     }
@@ -148,7 +148,7 @@ public class GameLoop implements Runnable, SurfaceHolder.Callback {
 
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i2, int i3) {
-        mGame.getGameDisplay().updateDisplaySize();
+        //mGame.getGameDisplay().updateDisplaySize();
     }
 
     @Override

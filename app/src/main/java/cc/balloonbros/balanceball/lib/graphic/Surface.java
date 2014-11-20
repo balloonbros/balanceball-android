@@ -86,7 +86,7 @@ public class Surface {
      * スプライトを描画する
      * @param sprite 描画するスプライト
      */
-    public void draw(Sprite sprite) {
+    public void draw(SpriteForSurfaceView sprite) {
         mCanvas.drawBitmap(sprite.getBitmap(), sprite.getSource(), sprite.getRect(), null);
     }
 
@@ -94,7 +94,7 @@ public class Surface {
      * スプライトを画面全体に伸縮して描画する
      * @param sprite 描画するスプライト
      */
-    public void drawStretch(Sprite sprite) {
+    public void drawStretch(SpriteForSurfaceView sprite) {
         drawStretch(sprite, GameDisplay.getInstance().getDisplayRect());
     }
 
@@ -103,7 +103,7 @@ public class Surface {
      * @param sprite 描画するスプライト
      * @param destination 描画する先の矩形
      */
-    public void drawStretch(Sprite sprite, Rect destination) {
+    public void drawStretch(SpriteForSurfaceView sprite, Rect destination) {
         mCanvas.drawBitmap(sprite.getBitmap(), sprite.getSource(), destination, null);
     }
 
@@ -112,7 +112,7 @@ public class Surface {
      * @param animation 描画するアニメーション
      */
     public void draw(Animation animation) {
-        Sprite sprite = animation.getCurrentSprite();
+        SpriteForSurfaceView sprite = animation.getCurrentSprite();
         if (sprite != null) {
             draw(sprite);
         }

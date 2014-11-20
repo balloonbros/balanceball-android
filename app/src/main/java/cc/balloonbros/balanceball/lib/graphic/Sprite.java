@@ -1,88 +1,86 @@
 package cc.balloonbros.balanceball.lib.graphic;
 
 import android.graphics.Bitmap;
-import android.graphics.Rect;
+import android.graphics.BitmapFactory;
+import android.opengl.GLES20;
+import android.opengl.GLUtils;
+import android.opengl.Matrix;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
+
+import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.lib.CurrentGame;
+import cc.balloonbros.balanceball.lib.GameRenderer;
+import cc.balloonbros.balanceball.lib.riGraphicTools;
 
-/**
- * スプライトクラス
- */
-public class Sprite extends DrawObject {
-    /** スプライトのビットマップ */
-    private Bitmap mBitmap = null;
-    /** キャンバスに転送する矩形 */
-    private Rect mSource = new Rect();
+public class Sprite {
+    private FloatBuffer uvBuffer;
+    private float[] mtrxModel = new float[16];
 
-    /**
-     * ビットマップからスプライトを生成する
-     * @param bitmap ビットマップ
-     */
-    public Sprite(Bitmap bitmap) {
-        mBitmap = bitmap;
-        setSource(0, 0, bitmap.getWidth(), bitmap.getHeight());
+    private int mWidth;
+    private int mHeight;
+
+    public Sprite() {
+        // Create our UV coordinates.
+        float[] uvs = new float[] {
+                0.0f, 0.0f,
+                0.0f, 1.0f,
+                1.0f, 1.0f,
+                1.0f, 0.0f
+        };
+
+        // Create a texture buffer.
+        ByteBuffer bb = ByteBuffer.allocateDirect(uvs.length * 4);
+        bb.order(ByteOrder.nativeOrder());
+        uvBuffer = bb.asFloatBuffer();
+        uvBuffer.put(uvs);
+        uvBuffer.position(0);
+
+        // Generate a texture
+        int[] texturenames = new int[1];
+        GLES20.glGenTextures(1, texturenames, 0);
+
+        // Bind a texture to the texturename.
+        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texturenames[0]);
+
+        // Set filtering
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
+
+        // Set wrapping mode
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
+
+        // Retrieve our image from resources.
+        Bitmap bmp = BitmapFactory.decodeResource(CurrentGame.get().getResources(), R.drawable.launch_logo8);
+        mWidth  = bmp.getWidth();
+        mHeight = bmp.getHeight();
+
+        // Load the bitmap into the bound texture.
+        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bmp, 0);
+
+        bmp.recycle();
     }
 
-    /**
-     * リソースIDからスプライトを生成する
-     * @param resourceId リソースID
-     */
-    public Sprite(int resourceId) {
-        this(CurrentGame.get().getCurrentScene().getImage(resourceId));
-    }
+    public void draw() {
+        int modelHandle = GLES20.glGetUniformLocation(riGraphicTools.sp_Image, "uMMatrix");
+        Matrix.setIdentityM(mtrxModel, 0);
+        Matrix.scaleM(mtrxModel, 0, (float)mWidth, (float)mHeight, 1f);
+        //Matrix.translateM(mtrxModel, 0, (960f / 1920f) * ssu, 0f, 0f);
+        GLES20.glUniformMatrix4fv(modelHandle, 1, false, mtrxModel, 0);
 
-    /**
-     * キャンバスに転送する矩形を取得
-     * @return 転送元矩形
-     */
-    public Rect getSource() {
-        return mSource;
-    }
+        int textureCoordinatesLocation = GLES20.glGetAttribLocation(riGraphicTools.sp_Image, "a_texCoord");
+        GLES20.glEnableVertexAttribArray(textureCoordinatesLocation);
+        GLES20.glVertexAttribPointer(textureCoordinatesLocation, 2, GLES20.GL_FLOAT, false, 0, uvBuffer);
 
-    /**
-     * キャンバスに転送する矩形を設定する
-     * @param source 転送元矩形
-     */
-    public void setSource(Rect source) {
-        setSource(source.left, source.top, source.right - source.left, source.bottom - source.top);
-    }
+        int mSamplerLoc = GLES20.glGetUniformLocation(riGraphicTools.sp_Image, "s_texture");
+        GLES20.glUniform1i(mSamplerLoc, 0);
 
-    /**
-     * キャンバスに転送する矩形を設定する
-     * @param x 転送元x座標
-     * @param y 転送元y座標
-     * @param width 転送元矩形の幅
-     * @param height 転送元矩形の高さ
-     */
-    public void setSource(int x, int y, int width, int height) {
-        mSource.set(x, y, x + width, y + height);
-        updateRect();
-    }
+        GLES20.glDrawElements(GLES20.GL_TRIANGLES, GameRenderer.indices.length, GLES20.GL_UNSIGNED_SHORT, GameRenderer.drawListBuffer);
 
-    /**
-     * ビットマップを取得する
-     * @return ビットマップ
-     */
-    public Bitmap getBitmap() {
-        return mBitmap;
-    }
-
-    /**
-     * ビットマップを指定された幅、高さに分割する
-     * @param width 幅
-     * @param height 高さ
-     */
-    public SlicedSprite slice(int width, int height) {
-        return new SlicedSprite(this, width, height);
-    }
-
-    @Override
-    public int getWidth() {
-        return mSource.right - mSource.left;
-    }
-
-    @Override
-    public int getHeight() {
-        return mSource.bottom - mSource.top;
+        GLES20.glDisableVertexAttribArray(textureCoordinatesLocation);
     }
 }

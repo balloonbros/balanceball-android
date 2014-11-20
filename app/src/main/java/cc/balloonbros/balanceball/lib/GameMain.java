@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Point;
+import android.opengl.GLSurfaceView;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
 
 import cc.balloonbros.balanceball.R;
 import cc.balloonbros.balanceball.lib.scene.AbstractScene;
@@ -74,18 +76,19 @@ abstract public class GameMain {
     public void start(AbstractScene startScene, long fps) {
         onInitialize();
 
-        mView     = ((GameActivity) mContext).getView();
-        mGameLoop = new GameLoop(this);
+        GameActivity activity = (GameActivity) mContext;
 
         CurrentGame.set(this);
+        activity.buildSurface(this);
+
+        mView     = activity.getView();
+        mGameLoop = new GameLoop(this);
 
         if (fps > 0) {
             mGameLoop.changeFps(fps);
         }
         mCurrentScene = startScene;
         mCurrentScene.belongsTo(this);
-
-        mGameDisplay.updateDisplaySize();
     }
 
     /**

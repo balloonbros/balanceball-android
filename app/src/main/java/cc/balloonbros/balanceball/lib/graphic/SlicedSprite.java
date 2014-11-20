@@ -6,12 +6,12 @@ import android.graphics.Rect;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
 
 public class SlicedSprite {
-    private Sprite mSprite;
+    private SpriteForSurfaceView mSprite;
     private int mWidth;
     private int mHeight;
     private Rect[] mRects;
 
-    public SlicedSprite(Sprite sprite, int width, int height) {
+    public SlicedSprite(SpriteForSurfaceView sprite, int width, int height) {
         mSprite = sprite;
         mWidth  = width;
         mHeight = height;
@@ -36,7 +36,7 @@ public class SlicedSprite {
         return new Animation(task, interval, this);
     }
 
-    public Sprite getSprite() {
+    public SpriteForSurfaceView getSprite() {
         return mSprite;
     }
 

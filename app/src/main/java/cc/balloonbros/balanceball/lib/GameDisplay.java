@@ -147,13 +147,16 @@ public class GameDisplay {
     /**
      * ディスプレイサイズのキャッシュを更新する
      */
-    protected void updateDisplaySize() {
+    protected void updateDisplaySize(int width, int height) {
+        /*
         Display display = mWindowManager.getDefaultDisplay();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             display.getSize(mDisplaySize);
         } else {
             mDisplaySize.set(display.getWidth(), display.getHeight());
         }
+        */
+        mDisplaySize.set(width, height);
         mDisplayRect.set(0, 0, mDisplaySize.x, mDisplaySize.y);
 
         if (mGameDisplaySize != null) {

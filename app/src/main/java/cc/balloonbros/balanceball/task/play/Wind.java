@@ -3,7 +3,7 @@ package cc.balloonbros.balanceball.task.play;
 import android.graphics.Point;
 
 import cc.balloonbros.balanceball.R;
-import cc.balloonbros.balanceball.lib.graphic.Sprite;
+import cc.balloonbros.balanceball.lib.graphic.SpriteForSurfaceView;
 import cc.balloonbros.balanceball.lib.graphic.Surface;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.task.Drawable;
@@ -13,7 +13,7 @@ import cc.balloonbros.balanceball.lib.task.Drawable;
  */
 public class Wind extends AbstractTask implements Drawable {
     /** 風画像 */
-    private Sprite mWind = null;
+    private SpriteForSurfaceView mWind = null;
 
     /** 風の方向と移動距離 */
     private int mAngle = 0;
@@ -48,7 +48,7 @@ public class Wind extends AbstractTask implements Drawable {
         super.onRegister();
         setTag("wind");
         setPriority(_i(R.integer.priority_wind));
-        mWind = new Sprite(getImage(R.drawable.wind3));
+        mWind = new SpriteForSurfaceView(getImage(R.drawable.wind3));
     }
 
     @Override
