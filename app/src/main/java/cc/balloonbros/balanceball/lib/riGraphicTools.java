@@ -1,25 +1,22 @@
 package cc.balloonbros.balanceball.lib;
 
-import android.opengl.GLES20;
-
 public class riGraphicTools {
-    public static int sp_SolidColor;
-    public static int sp_Image;
-
     public static final String vs_SolidColor =
-        "uniform mat4 uMVPMatrix;" +
+        "uniform mat4 uVPMatrix;" +
+        "uniform mat4 uMMatrix;" +
         "attribute vec4 vPosition;" +
-        "attribute vec4 vColor;" +
+        "attribute vec4 aColor;" +
+        "varying vec4 vColor;" +
         "void main() {" +
-        "  gl_Position = uMVPMatrix * vPosition;" +
-        "  gl_FrontColor = vColor;" +
-        "  gl_FrontColor.a = 1.0;" +
+        "  gl_Position = uVPMatrix * uMMatrix * vPosition;" +
+        "  vColor = aColor;" +
         "}";
 
     public static final String fs_SolidColor =
         "precision mediump float;" +
+        "varying vec4 vColor;" +
         "void main() {" +
-        "  gl_FragColor = gl_Color;" +
+        "  gl_FragColor = vColor;" +
         "}";
 
     public static final String vs_Image =
@@ -40,16 +37,4 @@ public class riGraphicTools {
         "void main() {" +
         "  gl_FragColor = texture2D(s_texture, v_texCoord);" +
         "}";
-
-    public static int loadShader(int type, String shaderCode) {
-        // Create a shader type.
-        // Vertex shader (GLES20.GL_VERTEX_SHADER) or Fragment shader (GLES20.GL_FRAGMENT_SHADER).
-        int shader = GLES20.glCreateShader(type);
-
-        // Add the source code to the shader and compile it.
-        GLES20.glShaderSource(shader, shaderCode);
-        GLES20.glCompileShader(shader);
-
-        return shader;
-    }
 }

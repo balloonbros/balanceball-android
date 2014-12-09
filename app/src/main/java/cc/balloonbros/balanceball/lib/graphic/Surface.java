@@ -6,7 +6,9 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 
-import cc.balloonbros.balanceball.lib.GameDisplay;
+import cc.balloonbros.balanceball.lib.display.GameDisplay;
+import cc.balloonbros.balanceball.lib.graphic.old.*;
+import cc.balloonbros.balanceball.lib.graphic.old.Sprite;
 import cc.balloonbros.balanceball.lib.graphic.style.Style;
 
 /**
@@ -86,7 +88,7 @@ public class Surface {
      * スプライトを描画する
      * @param sprite 描画するスプライト
      */
-    public void draw(SpriteForSurfaceView sprite) {
+    public void draw(Sprite sprite) {
         mCanvas.drawBitmap(sprite.getBitmap(), sprite.getSource(), sprite.getRect(), null);
     }
 
@@ -94,7 +96,7 @@ public class Surface {
      * スプライトを画面全体に伸縮して描画する
      * @param sprite 描画するスプライト
      */
-    public void drawStretch(SpriteForSurfaceView sprite) {
+    public void drawStretch(Sprite sprite) {
         drawStretch(sprite, GameDisplay.getInstance().getDisplayRect());
     }
 
@@ -103,7 +105,7 @@ public class Surface {
      * @param sprite 描画するスプライト
      * @param destination 描画する先の矩形
      */
-    public void drawStretch(SpriteForSurfaceView sprite, Rect destination) {
+    public void drawStretch(Sprite sprite, Rect destination) {
         mCanvas.drawBitmap(sprite.getBitmap(), sprite.getSource(), destination, null);
     }
 
@@ -112,7 +114,7 @@ public class Surface {
      * @param animation 描画するアニメーション
      */
     public void draw(Animation animation) {
-        SpriteForSurfaceView sprite = animation.getCurrentSprite();
+        cc.balloonbros.balanceball.lib.graphic.old.Sprite sprite = animation.getCurrentSprite();
         if (sprite != null) {
             draw(sprite);
         }

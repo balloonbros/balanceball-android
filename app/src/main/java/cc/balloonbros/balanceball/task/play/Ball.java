@@ -1,7 +1,7 @@
 package cc.balloonbros.balanceball.task.play;
 
 import cc.balloonbros.balanceball.R;
-import cc.balloonbros.balanceball.lib.graphic.SpriteForSurfaceView;
+import cc.balloonbros.balanceball.lib.graphic.old.Sprite;
 import cc.balloonbros.balanceball.lib.graphic.Surface;
 import cc.balloonbros.balanceball.lib.task.Drawable;
 import cc.balloonbros.balanceball.lib.task.basic.PositionableTask;
@@ -11,7 +11,7 @@ import cc.balloonbros.balanceball.lib.task.basic.PositionableTask;
  */
 public class Ball extends PositionableTask implements Drawable {
     /** ボール画像 */
-    private SpriteForSurfaceView mBall = null;
+    private Sprite mBall = null;
 
     /**
      * ボールの半径を取得する
@@ -25,7 +25,7 @@ public class Ball extends PositionableTask implements Drawable {
     public void onRegister() {
         super.onRegister();
         setPriority(_i(R.integer.priority_ball));
-        mBall = new SpriteForSurfaceView(getImage(R.drawable.ball3));
+        mBall = new Sprite(getImage(R.drawable.ball3));
         relate(mBall);
 
         // 最初は真ん中に配置

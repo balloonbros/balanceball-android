@@ -3,7 +3,7 @@ package cc.balloonbros.balanceball.task.launch;
 import android.view.MotionEvent;
 
 import cc.balloonbros.balanceball.R;
-import cc.balloonbros.balanceball.lib.graphic.SpriteForSurfaceView;
+import cc.balloonbros.balanceball.lib.graphic.Sprite;
 import cc.balloonbros.balanceball.lib.graphic.Surface;
 import cc.balloonbros.balanceball.lib.scene.transition.FadeIn;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
@@ -20,35 +20,35 @@ import cc.balloonbros.balanceball.scene.TitleScene;
  * 画面タッチまたは3秒経過でタイトルシーンに遷移する。
  */
 public class Logo extends AbstractTask implements Drawable, Touchable, TimerEventListener {
-    private SpriteForSurfaceView mLogo;
+    private Sprite mLogo;
     private Timer mTimer;
 
     @Override
     public void onRegister() {
         super.onRegister();
 
-        mLogo = new SpriteForSurfaceView(R.drawable.launch_logo);
+        mLogo = getTexture(R.drawable.launch_logo8).toSprite();
         mTimer = plugin(TimerPlugin.class).setTimer(_i(R.integer.display_time_for_logo), this);
     }
 
     @Override
     public void onDraw(Surface surface) {
-        surface.drawStretch(mLogo);
+        mLogo.drawStretch();
     }
 
     @Override
     public void onTimer() {
-        changeTitleScene();
+        goToNextScene();
     }
 
     @Override
     public boolean onTouch(MotionEvent event) {
         mTimer.stop();
-        changeTitleScene();
+        goToNextScene();
         return false;
     }
 
-    private void changeTitleScene() {
+    private void goToNextScene() {
         removePlugin(TouchPlugin.class);
         changeScene(new TitleScene()).with(new FadeIn(1000));
     }

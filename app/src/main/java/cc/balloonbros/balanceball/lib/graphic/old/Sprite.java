@@ -1,14 +1,15 @@
-package cc.balloonbros.balanceball.lib.graphic;
+package cc.balloonbros.balanceball.lib.graphic.old;
 
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 
 import cc.balloonbros.balanceball.lib.CurrentGame;
+import cc.balloonbros.balanceball.lib.graphic.SlicedSprite;
 
 /**
  * スプライトクラス
  */
-public class SpriteForSurfaceView extends DrawObject {
+public class Sprite extends DrawObject {
     /** スプライトのビットマップ */
     private Bitmap mBitmap = null;
     /** キャンバスに転送する矩形 */
@@ -18,7 +19,7 @@ public class SpriteForSurfaceView extends DrawObject {
      * ビットマップからスプライトを生成する
      * @param bitmap ビットマップ
      */
-    public SpriteForSurfaceView(Bitmap bitmap) {
+    public Sprite(Bitmap bitmap) {
         mBitmap = bitmap;
         setSource(0, 0, bitmap.getWidth(), bitmap.getHeight());
     }
@@ -27,7 +28,7 @@ public class SpriteForSurfaceView extends DrawObject {
      * リソースIDからスプライトを生成する
      * @param resourceId リソースID
      */
-    public SpriteForSurfaceView(int resourceId) {
+    public Sprite(int resourceId) {
         this(CurrentGame.get().getCurrentScene().getImage(resourceId));
     }
 

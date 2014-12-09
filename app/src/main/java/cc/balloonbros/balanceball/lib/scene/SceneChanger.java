@@ -1,6 +1,8 @@
 package cc.balloonbros.balanceball.lib.scene;
 
+import cc.balloonbros.balanceball.lib.CurrentGame;
 import cc.balloonbros.balanceball.lib.graphic.Surface;
+import cc.balloonbros.balanceball.lib.graphic.opengl.FrameBuffer;
 import cc.balloonbros.balanceball.lib.scene.transition.Transitionable;
 
 /**
@@ -41,15 +43,46 @@ public class SceneChanger {
 
         // ToDo: シーン切り替えが完了したらサーフェイス内のビットマップを解放するのを忘れずに
         if (mNextSurface == null) {
-            mNextSurface = new Surface();
+            //mNextSurface = new Surface();
         }
     }
 
     /**
      * シーン切り替えを実行する
      */
+    public FrameBuffer execute() {
+        FrameBuffer frameBuffer;
+
+        if (mCurrentScene == null || mTransition == null) {
+            // トランジションエフェクトがない場合はすぐに次のシーンへ切り替える
+            frameBuffer = mNextScene.execute();
+            done();
+        } else {
+            // 全てのタスクを実行する
+            FrameBuffer currentSceneFrameBuffer = null;
+            FrameBuffer nextSceneFrameBuffer = null;
+
+            if (mTransition.isDrawingCurrentScene()) {
+                currentSceneFrameBuffer = mCurrentScene.execute();
+            }
+            if (mTransition.isDrawingNextScene()) {
+                nextSceneFrameBuffer = mNextScene.execute();
+            }
+            frameBuffer = mTransition.transit(currentSceneFrameBuffer, nextSceneFrameBuffer);
+
+            if (mTransition.completeTransition()) {
+                done();
+            }
+        }
+
+        return frameBuffer;
+    }
+
+    /**
+     * シーン切り替えを実行する
+     */
     public Surface execute(Surface surface) {
-        if (mTransition == null) {
+        if (mCurrentScene == null || mTransition == null) {
             // トランジションエフェクトがない場合はすぐに次のシーンへ切り替える
             mNextScene.getTaskManager().execute(surface);
             done();
@@ -87,6 +120,8 @@ public class SceneChanger {
         mFinishedSceneChange = true;
 
         // 現在のシーンを破棄する
-        mCurrentScene.dispose();
+        if (mCurrentScene != null) {
+            mCurrentScene.dispose();
+        }
     }
 }

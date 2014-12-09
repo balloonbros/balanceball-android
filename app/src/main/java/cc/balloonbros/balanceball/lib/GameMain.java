@@ -1,32 +1,27 @@
 package cc.balloonbros.balanceball.lib;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Point;
-import android.opengl.GLSurfaceView;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.RelativeLayout;
 
-import cc.balloonbros.balanceball.R;
+import cc.balloonbros.balanceball.lib.display.GameDisplay;
 import cc.balloonbros.balanceball.lib.scene.AbstractScene;
 import cc.balloonbros.balanceball.lib.scene.SceneChanger;
 
 abstract public class GameMain {
-    private GameLoop mGameLoop = null;
-    private Context mContext = null;
-    private GameSurfaceView mView = null;
-    private GameDisplay mGameDisplay = null;
-    private AbstractScene mCurrentScene = null;
-    private AbstractScene mReservedScene = null;
+    private GameLoop mGameLoop;
+    private Context mContext;
+    private GameSurfaceView mView;
+    private GameDisplay mGameDisplay;
+    private AbstractScene mCurrentScene;
+    private AbstractScene mReservedScene;
     private SceneChanger mSceneChanger;
+    private GameStartListener mGameStartListener;
 
     public Context getContext() { return mContext; }
     public GameSurfaceView getView() { return mView; }
     public float getRealFps() { return mGameLoop.getRealFps(); }
-    public long getFps() { return mGameLoop.getFps(); }
+    public long getFps() { return 60; }
     public long getFrameCount() { return mGameLoop.getFrameCount(); }
     public Resources getResources() { return mContext.getResources(); }
     public GameDisplay getGameDisplay() { return mGameDisplay; }
@@ -40,7 +35,6 @@ abstract public class GameMain {
     public GameMain(Context context) {
         mContext     = context;
         mGameDisplay = GameDisplay.getInstance();
-        mGameDisplay.setContext(mContext);
         _.set(context.getResources());
     }
 
@@ -79,16 +73,27 @@ abstract public class GameMain {
         GameActivity activity = (GameActivity) mContext;
 
         CurrentGame.set(this);
-        activity.buildSurface(this);
-
-        mView     = activity.getView();
+        mView = activity.buildSurface(this);
         mGameLoop = new GameLoop(this);
 
         if (fps > 0) {
             mGameLoop.changeFps(fps);
         }
-        mCurrentScene = startScene;
-        mCurrentScene.belongsTo(this);
+        changeScene(startScene);
+    }
+
+    public void start(GameStartListener listener) {
+        onInitialize();
+
+        GameActivity activity = (GameActivity) mContext;
+
+        CurrentGame.set(this);
+        mView = activity.buildSurface(this);
+        mGameStartListener = listener;
+    }
+
+    public GameStartListener getGameStartListener() {
+        return mGameStartListener;
     }
 
     /**
@@ -96,7 +101,7 @@ abstract public class GameMain {
      * @return ディスプレイサイズ
      */
     public Point getDisplaySize() {
-        return mGameDisplay.getDisplaySize();
+        return mGameDisplay.getDisplaySizePoint();
     }
 
     /**
@@ -106,7 +111,8 @@ abstract public class GameMain {
      */
     public SceneChanger changeScene(AbstractScene scene) {
         mReservedScene = scene;
-        mSceneChanger  = new SceneChanger(mCurrentScene, mReservedScene);
+        mReservedScene.belongsTo(this);
+        mSceneChanger = new SceneChanger(mCurrentScene, mReservedScene);
         return mSceneChanger;
     }
 
@@ -115,15 +121,7 @@ abstract public class GameMain {
      * @return シーン切り替え中であればtrue
      */
     public boolean whileChangingScene() {
-        if (mSceneChanger == null) {
-            return false;
-        }
-
-        boolean finished = mSceneChanger.finishedSceneChange();
-        if (finished) {
-            mSceneChanger = null;
-        }
-        return !finished;
+        return mSceneChanger != null && !mSceneChanger.finishedSceneChange();
     }
 
     public SceneChanger getSceneChanger() {
@@ -138,9 +136,14 @@ abstract public class GameMain {
         return mReservedScene != null;
     }
 
+    public boolean canChangeScene() {
+        return mReservedScene != null && mSceneChanger != null && mSceneChanger.finishedSceneChange();
+    }
+
     void updateCurrentScene() {
         mCurrentScene = mReservedScene;
-        mCurrentScene.belongsTo(this);
+        //mCurrentScene.belongsTo(this);
         mReservedScene = null;
+        mSceneChanger = null;
     }
 }

@@ -2,7 +2,8 @@ package cc.balloonbros.balanceball.lib.scene.transition;
 
 import android.graphics.Color;
 
-import cc.balloonbros.balanceball.lib.GameUtil;
+import cc.balloonbros.balanceball.lib.graphic.opengl.FrameBuffer;
+import cc.balloonbros.balanceball.lib.util.GameUtil;
 import cc.balloonbros.balanceball.lib.graphic.Surface;
 
 public class FadeOut implements Transitionable {
@@ -22,6 +23,11 @@ public class FadeOut implements Transitionable {
         }
         currentSurface.fill(Color.BLACK & mAlpha << 24);
         return currentSurface;
+    }
+
+    @Override
+    public FrameBuffer transit(FrameBuffer currentFrameBuffer, FrameBuffer nextFrameBuffer) {
+        return null;
     }
 
     @Override

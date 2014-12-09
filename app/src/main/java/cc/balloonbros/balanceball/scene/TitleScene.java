@@ -23,12 +23,16 @@ public class TitleScene extends AbstractScene {
             R.drawable.character,
             R.drawable.ball3
         );
+        loadTexture(R.drawable.circle_nodpi);
 
+        getTaskManager().register(new Title());
+        /*
         getTaskManager().register(
             new Background(),
             new Title(),
             new Start().with(new TouchPlugin()),
             new DebugOutput()
         );
+        */
     }
 }

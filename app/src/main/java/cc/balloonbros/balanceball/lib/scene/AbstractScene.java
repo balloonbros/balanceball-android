@@ -3,22 +3,25 @@ package cc.balloonbros.balanceball.lib.scene;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
-import android.view.SurfaceHolder;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import cc.balloonbros.balanceball.lib.AssetManager;
-import cc.balloonbros.balanceball.lib.GameDisplay;
 import cc.balloonbros.balanceball.lib.GameMain;
 import cc.balloonbros.balanceball.lib.ResourceBase;
+import cc.balloonbros.balanceball.lib.display.DisplaySize;
+import cc.balloonbros.balanceball.lib.display.GameDisplay;
 import cc.balloonbros.balanceball.lib.graphic.Surface;
+import cc.balloonbros.balanceball.lib.graphic.opengl.FrameBuffer;
+import cc.balloonbros.balanceball.lib.graphic.opengl.Texture;
 import cc.balloonbros.balanceball.lib.graphic.style.Style;
 import cc.balloonbros.balanceball.lib.graphic.style.StyleTemplate;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
@@ -27,7 +30,7 @@ import cc.balloonbros.balanceball.lib.task.TaskManager;
 /**
  * シーンの基底クラス。
  */
-public class AbstractScene extends ResourceBase {
+abstract public class AbstractScene extends ResourceBase {
     /** シーンが属するゲーム */
     private GameMain mGame;
     /** シーンで利用する素材 */
@@ -36,6 +39,10 @@ public class AbstractScene extends ResourceBase {
     private StyleTemplate mStyleTemplate = new StyleTemplate();
     /** シーンのタスクマネージャー */
     private TaskManager mTaskManager;
+    private Map<Integer, Texture> mTextures = new HashMap<Integer, Texture>();
+
+    /** The frame buffer that belongs to this scene. */
+    private FrameBuffer mFrameBuffer = new FrameBuffer();
 
     public TaskManager getTaskManager() { return mTaskManager; }
     public AssetManager getAssetManager() { return mAssetManager; }
@@ -46,6 +53,9 @@ public class AbstractScene extends ResourceBase {
      */
     public AbstractScene() {
         mTaskManager = new TaskManager(this);
+
+        DisplaySize displaySize = GameDisplay.getInstance().getDisplaySize();
+        mFrameBuffer.setup(displaySize.getWidth(), displaySize.getHeight());
     }
 
     /**
@@ -55,6 +65,7 @@ public class AbstractScene extends ResourceBase {
     public void belongsTo(GameMain game) {
         mAssetManager = new AssetManager(game.getContext().getResources());
         mGame = game;
+
         onInitialize();
     }
 
@@ -75,6 +86,35 @@ public class AbstractScene extends ResourceBase {
      * @param assetId 素材のID
      */
     public void loadBitmaps(int... assetId) { mAssetManager.loadBitmaps(assetId); }
+
+    /**
+     * Load a texture from the resource id.
+     * @param resourceId The resource id that loads to a texture.
+     */
+    public void loadTexture(final int resourceId) {
+        final Texture texture = new Texture(resourceId);
+        mTextures.put(resourceId, texture);
+
+        /*
+        mGame.getView().queueEvent(new Runnable() {
+            @Override
+            public void run() {
+                texture.load(resourceId);
+            }
+        });
+        */
+    }
+
+    /**
+     * Get a loaded texture.
+     * Note that, return null if there isn't the texture related by
+     * resource id.
+     * @param resourceId The resource id.
+     * @return A texture.
+     */
+    public Texture getTexture(int resourceId) {
+        return mTextures.get(resourceId);
+    }
 
     /**
      * フォントを読み込む
@@ -191,6 +231,19 @@ public class AbstractScene extends ResourceBase {
      */
     public Style getStyle(String tag) {
         return mStyleTemplate.get(tag);
+    }
+
+    /**
+     */
+    public FrameBuffer execute() {
+        mFrameBuffer.begin();
+        // 全てのタスクを実行する
+        mTaskManager.execute(null);
+        mFrameBuffer.end();
+        return mFrameBuffer;
+    }
+    public FrameBuffer getFrameBuffer() {
+        return mFrameBuffer;
     }
 
     /**

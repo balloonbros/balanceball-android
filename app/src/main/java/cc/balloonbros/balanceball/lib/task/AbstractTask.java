@@ -7,9 +7,10 @@ import android.graphics.Typeface;
 import java.util.ArrayList;
 import java.util.List;
 
-import cc.balloonbros.balanceball.lib.GameDisplay;
+import cc.balloonbros.balanceball.lib.display.GameDisplay;
 import cc.balloonbros.balanceball.lib.GameMain;
-import cc.balloonbros.balanceball.lib.GameUtil;
+import cc.balloonbros.balanceball.lib.GameRenderer;
+import cc.balloonbros.balanceball.lib.graphic.opengl.Texture;
 import cc.balloonbros.balanceball.lib.graphic.style.Style;
 import cc.balloonbros.balanceball.lib.graphic.Surface;
 import cc.balloonbros.balanceball.lib.scene.AbstractScene;
@@ -49,7 +50,10 @@ abstract public class AbstractTask extends BaseTask implements TaskFunction {
     public AbstractTask getParent() { return mParent; }
     private void setParent(AbstractTask parentTask) { mParent = parentTask; }
     public TaskManager getTaskManager() { return getScene().getTaskManager(); }
-    public long getFrameCount() { return getGame().getFrameCount(); }
+    public long getFrameCount() {
+        return GameRenderer.sFrameCount;
+        //return getGame().getFrameCount();
+    }
     public long getFps() { return getGame().getFps(); }
     public String getTag() { return mTag; }
     public GameDisplay getGameDisplay() { return getGame().getGameDisplay(); }
@@ -208,6 +212,16 @@ abstract public class AbstractTask extends BaseTask implements TaskFunction {
      * @return フォント
      */
     public Typeface getFont(String font) { return getScene().getFont(font); }
+
+    /**
+     * Delegate to getTexture method of the current scene instance.
+     * @see AbstractScene#getTexture(int)
+     * @param resourceId The resource id.
+     * @return A texture.
+     */
+    public Texture getTexture(int resourceId) {
+        return getScene().getTexture(resourceId);
+    }
 
     /**
      * フォントスタイルを取得する
@@ -372,7 +386,10 @@ abstract public class AbstractTask extends BaseTask implements TaskFunction {
      */
     protected void onKilled() {
         for (TaskPlugin plugin: mPlugins) {
+            plugin.onRemoved();
             plugin.onKilled();
         }
+
+        mPlugins.clear();
     }
 }

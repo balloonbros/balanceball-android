@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.view.SurfaceHolder;
 
+import cc.balloonbros.balanceball.lib.display.GameDisplay;
 import cc.balloonbros.balanceball.lib.graphic.Surface;
 
 /**
@@ -148,7 +149,7 @@ public class GameLoop implements Runnable, SurfaceHolder.Callback {
 
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i2, int i3) {
-        //mGame.getGameDisplay().updateDisplaySize();
+        //mGame.getGameDisplay().updateDeviceDisplaySize();
     }
 
     @Override

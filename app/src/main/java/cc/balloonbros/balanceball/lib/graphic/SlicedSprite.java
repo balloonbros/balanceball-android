@@ -3,15 +3,16 @@ package cc.balloonbros.balanceball.lib.graphic;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 
+import cc.balloonbros.balanceball.lib.graphic.old.Sprite;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
 
 public class SlicedSprite {
-    private SpriteForSurfaceView mSprite;
+    private Sprite mSprite;
     private int mWidth;
     private int mHeight;
     private Rect[] mRects;
 
-    public SlicedSprite(SpriteForSurfaceView sprite, int width, int height) {
+    public SlicedSprite(Sprite sprite, int width, int height) {
         mSprite = sprite;
         mWidth  = width;
         mHeight = height;
@@ -36,7 +37,7 @@ public class SlicedSprite {
         return new Animation(task, interval, this);
     }
 
-    public SpriteForSurfaceView getSprite() {
+    public cc.balloonbros.balanceball.lib.graphic.old.Sprite getSprite() {
         return mSprite;
     }
 

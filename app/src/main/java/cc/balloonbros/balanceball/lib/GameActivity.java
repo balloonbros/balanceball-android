@@ -8,6 +8,7 @@ import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
 import cc.balloonbros.balanceball.R;
+import cc.balloonbros.balanceball.lib.graphic.opengl.Texture;
 
 /**
  * An activity for a game you create.
@@ -61,13 +62,15 @@ public class GameActivity extends Activity {
      * If the surface view already exists, this method will do nothing.
      * @param game The game passed to the renderer.
      */
-    public void buildSurface(GameMain game) {
+    public GameSurfaceView buildSurface(GameMain game) {
         if (mSurfaceView != null) {
-            return;
+            return mSurfaceView;
         }
 
         mSurfaceView = new GameSurfaceView(game);
         RelativeLayout layout = (RelativeLayout) findViewById(R.id.game_container);
         layout.addView(mSurfaceView, RelativeLayout.LayoutParams.MATCH_PARENT);
+
+        return mSurfaceView;
     }
 }

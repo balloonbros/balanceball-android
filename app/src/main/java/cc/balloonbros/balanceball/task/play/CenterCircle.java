@@ -3,14 +3,14 @@ package cc.balloonbros.balanceball.task.play;
 import android.graphics.Point;
 
 import cc.balloonbros.balanceball.R;
-import cc.balloonbros.balanceball.lib.graphic.SpriteForSurfaceView;
+import cc.balloonbros.balanceball.lib.graphic.old.Sprite;
 import cc.balloonbros.balanceball.lib.graphic.Surface;
 import cc.balloonbros.balanceball.lib.task.Drawable;
 import cc.balloonbros.balanceball.lib.task.basic.PositionableTask;
 
 public class CenterCircle extends PositionableTask implements Drawable {
     /** 中央円の画像 */
-    private SpriteForSurfaceView mCircle = null;
+    private Sprite mCircle = null;
 
     /**
      * 中央円の半径を取得する
@@ -23,7 +23,7 @@ public class CenterCircle extends PositionableTask implements Drawable {
     @Override
     public void onRegister() {
         super.onRegister();
-        mCircle = new SpriteForSurfaceView(getImage(R.drawable.area3));
+        mCircle = new Sprite(getImage(R.drawable.area3));
         setPriority(_i(R.integer.priority_center_circle));
         relate(mCircle);
 

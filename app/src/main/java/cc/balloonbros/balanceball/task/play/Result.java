@@ -3,8 +3,8 @@ package cc.balloonbros.balanceball.task.play;
 import android.graphics.Color;
 
 import cc.balloonbros.balanceball.R;
+import cc.balloonbros.balanceball.lib.graphic.old.Shape;
 import cc.balloonbros.balanceball.lib.graphic.Text;
-import cc.balloonbros.balanceball.lib.graphic.Shape;
 import cc.balloonbros.balanceball.lib.graphic.Surface;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.task.Drawable;
