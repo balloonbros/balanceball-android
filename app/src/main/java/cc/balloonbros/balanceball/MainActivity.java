@@ -6,6 +6,7 @@ import cc.balloonbros.balanceball.lib.GameActivity;
 import cc.balloonbros.balanceball.lib.GameMain;
 import cc.balloonbros.balanceball.lib.GameStartListener;
 import cc.balloonbros.balanceball.scene.LaunchScene;
+import cc.balloonbros.balanceball.scene.PlayScene;
 
 public class MainActivity extends GameActivity implements GameStartListener {
     @Override
@@ -20,6 +21,7 @@ public class MainActivity extends GameActivity implements GameStartListener {
 
     @Override
     public void onStart(GameMain game) {
-        game.changeScene(new LaunchScene());
+        //game.changeScene(new LaunchScene());
+        game.changeScene(new PlayScene());
     }
 }

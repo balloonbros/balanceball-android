@@ -8,6 +8,7 @@ import android.hardware.SensorManager;
 
 import java.util.List;
 
+import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.task.TaskPlugin;
 
 public class OrientationPlugin extends TaskPlugin implements SensorEventListener {
@@ -19,21 +20,32 @@ public class OrientationPlugin extends TaskPlugin implements SensorEventListener
     private float[] I = new float[16];
     private float[] mOrientationValues = new float[3];
 
+    private SensorManager mSensorManager;
+
+    @Override
+    protected void onRegister() {
+        onEnterLoop();
+    }
+
     @Override
     protected void onEnterLoop() {
-        SensorManager sensorManager = (SensorManager) getTask().getGame().getContext().getSystemService(Context.SENSOR_SERVICE);
-        List<Sensor> sensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
+        if (mSensorManager != null) {
+            return;
+        }
+
+        mSensorManager = (SensorManager) getTask().getGame().getContext().getSystemService(Context.SENSOR_SERVICE);
+        List<Sensor> sensors = mSensorManager.getSensorList(Sensor.TYPE_ALL);
         for (Sensor sensor: sensors) {
             if (sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD || sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-                sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_GAME);
+                mSensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_GAME);
             }
         }
     }
 
     @Override
     protected void onLeaveLoop() {
-        SensorManager sensorManager = (SensorManager) getTask().getGame().getContext().getSystemService(Context.SENSOR_SERVICE);
-        sensorManager.unregisterListener(this);
+        mSensorManager = (SensorManager) getTask().getGame().getContext().getSystemService(Context.SENSOR_SERVICE);
+        mSensorManager.unregisterListener(this);
     }
 
     @Override
@@ -59,7 +71,11 @@ public class OrientationPlugin extends TaskPlugin implements SensorEventListener
             SensorManager.getRotationMatrix(inR, I, mAccelerometerValues, mMagneticFieldValues);
             SensorManager.remapCoordinateSystem(inR, SensorManager.AXIS_X, SensorManager.AXIS_Y, outR);
             SensorManager.getOrientation(outR, mOrientationValues);
-            ((Orientationable) getTask()).onOriented(mOrientationValues[0], mOrientationValues[1], mOrientationValues[2]);
+
+            AbstractTask task = getTask();
+            if (task instanceof Orientationable) {
+                ((Orientationable) task).onOriented(mOrientationValues[0], mOrientationValues[1], mOrientationValues[2]);
+            }
         }
     }
 

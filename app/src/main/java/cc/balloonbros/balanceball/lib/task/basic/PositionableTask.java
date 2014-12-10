@@ -3,7 +3,7 @@ package cc.balloonbros.balanceball.lib.task.basic;
 import android.graphics.Point;
 import android.graphics.Rect;
 
-import cc.balloonbros.balanceball.lib.graphic.old.DrawObject;
+import cc.balloonbros.balanceball.lib.graphic.DrawObject;
 import cc.balloonbros.balanceball.lib.graphic.Positionable;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
 

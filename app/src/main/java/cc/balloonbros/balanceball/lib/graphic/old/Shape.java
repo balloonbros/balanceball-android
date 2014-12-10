@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.drawable.GradientDrawable;
 
 import cc.balloonbros.balanceball.lib._;
+import cc.balloonbros.balanceball.lib.graphic.DrawObject;
 
 public class Shape extends DrawObject {
     private Bitmap mBitmap;

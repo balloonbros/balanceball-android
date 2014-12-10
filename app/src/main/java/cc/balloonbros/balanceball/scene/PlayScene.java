@@ -17,24 +17,24 @@ import cc.balloonbros.balanceball.task.play.WindOutBreaker;
 public class PlayScene extends AbstractScene {
     @Override
     protected void onInitialize() {
-        loadBitmaps(
-                R.drawable.ball3,
-                R.drawable.area3,
-                R.drawable.wind3
-        );
+        loadTexture(R.drawable.ball3);
+        loadTexture(R.drawable.area3);
+        loadTexture(R.drawable.wind3);
         loadFonts(_.s(R.string.open_sans_light));
         loadStyle(R.xml.play_scene_font_style);
 
         registerTasks(
-            new Background(),
             new Ball(),
-            new Orientation().with(new OrientationPlugin()),
+            new Orientation().with(new OrientationPlugin())
+                /*
+            new Background(),
             new WindOutBreaker(),
             new DebugOutput(),
             new CenterCircle(),
             new CountdownTimer(),
             new Score(),
             new Judgement()
+            */
         );
     }
 }

@@ -95,10 +95,18 @@ public class FrameBuffer {
         }
     }
 
+    /**
+     * Get the width of the frame buffer.
+     * @return width.
+     */
     public int getWidth() {
         return mWidth;
     }
 
+    /**
+     * Get the height of the frame buffer.
+     * @return height.
+     */
     public int getHeight() {
         return mHeight;
     }

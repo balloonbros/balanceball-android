@@ -1,15 +1,9 @@
 package cc.balloonbros.balanceball.lib.graphic;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Point;
-import android.opengl.GLES20;
-import android.opengl.GLUtils;
 
 import java.nio.FloatBuffer;
 
-import cc.balloonbros.balanceball.R;
-import cc.balloonbros.balanceball.lib.CurrentGame;
 import cc.balloonbros.balanceball.lib.display.DisplaySize;
 import cc.balloonbros.balanceball.lib.display.GameDisplay;
 import cc.balloonbros.balanceball.lib.graphic.opengl.Texture;
@@ -17,8 +11,6 @@ import cc.balloonbros.balanceball.lib.graphic.opengl.Texture;
 public class Sprite extends DrawObject {
     private FloatBuffer uvBuffer;
 
-    private int mWidth;
-    private int mHeight;
     private Texture mTexture;
 
     public Sprite(Texture texture) {
@@ -38,5 +30,15 @@ public class Sprite extends DrawObject {
     public void drawStretch(int width, int height) {
         Point p = getPosition();
         mTexture.draw(p.x, p.y, getWorldDepth(), width, height);
+    }
+
+    @Override
+    public int getWidth() {
+        return mTexture.getWidth();
+    }
+
+    @Override
+    public int getHeight() {
+        return mTexture.getHeight();
     }
 }

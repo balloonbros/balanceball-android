@@ -87,9 +87,11 @@ public class GameLoop implements Runnable, SurfaceHolder.Callback {
             Surface flipSurface = draw(surface);
             mHolder.unlockCanvasAndPost(flipSurface.forwardBitmap(canvas));
 
+            /*
             if (mGame.hasReservedScene()) {
                 mGame.updateCurrentScene();
             }
+            */
 
             // FPSを保つために処理が早く終わり過ぎたら1フレーム単位秒待つ
             long waitTime = System.currentTimeMillis() - startTime;

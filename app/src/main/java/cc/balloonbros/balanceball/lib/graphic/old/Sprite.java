@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Rect;
 
 import cc.balloonbros.balanceball.lib.CurrentGame;
+import cc.balloonbros.balanceball.lib.graphic.DrawObject;
 import cc.balloonbros.balanceball.lib.graphic.SlicedSprite;
 
 /**

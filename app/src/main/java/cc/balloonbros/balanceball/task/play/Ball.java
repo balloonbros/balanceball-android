@@ -1,7 +1,7 @@
 package cc.balloonbros.balanceball.task.play;
 
 import cc.balloonbros.balanceball.R;
-import cc.balloonbros.balanceball.lib.graphic.old.Sprite;
+import cc.balloonbros.balanceball.lib.graphic.Sprite;
 import cc.balloonbros.balanceball.lib.graphic.Surface;
 import cc.balloonbros.balanceball.lib.task.Drawable;
 import cc.balloonbros.balanceball.lib.task.basic.PositionableTask;
@@ -25,8 +25,11 @@ public class Ball extends PositionableTask implements Drawable {
     public void onRegister() {
         super.onRegister();
         setPriority(_i(R.integer.priority_ball));
-        mBall = new Sprite(getImage(R.drawable.ball3));
+        mBall = getTexture(R.drawable.ball3).toSprite();
         relate(mBall);
+        /*
+        mBall = new Sprite(getImage(R.drawable.ball3));
+        */
 
         // 最初は真ん中に配置
         mBall.moveToCenter();
@@ -34,6 +37,7 @@ public class Ball extends PositionableTask implements Drawable {
 
     @Override
     public void onDraw(Surface surface) {
-        surface.draw(mBall);
+        //surface.draw(mBall);
+        mBall.draw();
     }
 }

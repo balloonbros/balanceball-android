@@ -17,6 +17,8 @@ import cc.balloonbros.balanceball.lib.task.extender.Touchable;
 public class GameSurfaceView extends GLSurfaceView implements View.OnTouchListener {
     /** We use OpenGL ES Version 2 */
     private static final int OPENGL_ES_VERSION = 2;
+    /** Renderer */
+    private GameRenderer mRenderer;
 
     /** Touch listener list */
     private ArrayList<Touchable> mTouchListeners = new ArrayList<Touchable>();
@@ -27,21 +29,15 @@ public class GameSurfaceView extends GLSurfaceView implements View.OnTouchListen
      * So, to avoid it, we define a runnable interface to bubble the touch
      * event to tha task with queueEvent method.
      */
-    private class TouchEventBubbleRunner implements Runnable {
-        private MotionEvent mMotionEvent;
-
-        public void setMotionEvent(MotionEvent motionEvent) {
-            mMotionEvent = motionEvent;
-        }
-
+    private MotionEvent mMotionEvent;
+    private Runnable mTouchEventBubbleRunner = new Runnable() {
         @Override
         public void run() {
             for (int i = 0; i < mTouchListeners.size(); i++) {
                 mTouchListeners.get(i).onTouch(mMotionEvent);
             }
         }
-    }
-    private TouchEventBubbleRunner mTouchEventBubbleRunner = new TouchEventBubbleRunner();
+    };
 
     /**
      * Constructor.
@@ -54,12 +50,24 @@ public class GameSurfaceView extends GLSurfaceView implements View.OnTouchListen
         setEGLContextClientVersion(OPENGL_ES_VERSION);
 
         // Create a renderer for OpenGL ES and set it to this view.
-        Renderer renderer = new GameRenderer(game);
-        setRenderer(renderer);
+        mRenderer = new GameRenderer(game);
+        setRenderer(mRenderer);
 
         // Set the render mode to continuously.
         // This mode creates the game loop.
         setRenderMode(RENDERMODE_CONTINUOUSLY);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mRenderer.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mRenderer.onResume();
     }
 
     @Override
@@ -92,7 +100,7 @@ public class GameSurfaceView extends GLSurfaceView implements View.OnTouchListen
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
-        mTouchEventBubbleRunner.setMotionEvent(motionEvent);
+        mMotionEvent = motionEvent;
         queueEvent(mTouchEventBubbleRunner);
 
         return false;

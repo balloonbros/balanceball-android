@@ -6,7 +6,6 @@ import android.graphics.Rect;
 import java.util.ArrayList;
 import java.util.List;
 
-import cc.balloonbros.balanceball.lib.graphic.old.DrawObject;
 import cc.balloonbros.balanceball.lib.graphic.old.Sprite;
 import cc.balloonbros.balanceball.lib.task.AbstractTask;
 import cc.balloonbros.balanceball.lib.task.extender.TimerPlugin;

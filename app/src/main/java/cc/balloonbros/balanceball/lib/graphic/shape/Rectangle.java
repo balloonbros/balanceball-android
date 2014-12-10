@@ -22,6 +22,8 @@ public class Rectangle extends DrawObject {
     private Polygon mPolygon;
     private float[] mColor = new float[16];
     private FloatBuffer mColorBuffer;
+    private int mWidth;
+    private int mHeight;
 
     /**
      * Constructor.
@@ -29,7 +31,10 @@ public class Rectangle extends DrawObject {
      * @param height Height of this rectangle.
      */
     public Rectangle(int width, int height) {
-        FloatBuffer vertexBuffer = BufferUtil.convert(VertexUtils.generateRectangle(0, 0, 0, width, height));
+        mWidth  = width;
+        mHeight = height;
+
+        FloatBuffer vertexBuffer = BufferUtil.convert(VertexUtils.generateRectangle(0, 0, 0, mWidth, mHeight));
         ShortBuffer indexBuffer  = SharedBuffer.squareIndices();
         mColorBuffer = BufferUtil.convert(mColor);
         mPolygon = new Polygon(vertexBuffer, indexBuffer);
@@ -53,5 +58,15 @@ public class Rectangle extends DrawObject {
     public void draw() {
         Point p = getPosition();
         mPolygon.draw(p.x, p.y, getWorldDepth(), mColorBuffer);
+    }
+
+    @Override
+    public int getWidth() {
+        return mWidth;
+    }
+
+    @Override
+    public int getHeight() {
+        return mHeight;
     }
 }

@@ -124,16 +124,20 @@ abstract public class GameMain {
         return mSceneChanger != null && !mSceneChanger.finishedSceneChange();
     }
 
-    public SceneChanger getSceneChanger() {
-        return mSceneChanger;
+    /**
+     * Check if whether the game has the current scene.
+     * @return Return true if the game has the current scene. Otherwise, false.
+     */
+    public boolean hasCurrentScene() {
+        return mCurrentScene != null;
     }
 
     /**
-     * ゲームシーンの切り替え予定があるかどうかをチェックする
-     * @return 切り替え予定があればtrue
+     * Get the scene changer.
+     * @return The scene changer
      */
-    boolean hasReservedScene() {
-        return mReservedScene != null;
+    public SceneChanger getSceneChanger() {
+        return mSceneChanger;
     }
 
     public boolean canChangeScene() {

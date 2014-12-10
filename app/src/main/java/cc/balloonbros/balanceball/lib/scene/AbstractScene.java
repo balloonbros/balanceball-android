@@ -79,7 +79,9 @@ abstract public class AbstractScene extends ResourceBase {
      * タスクを新しく登録する
      * @param tasks 登録するタスク。複数指定可能
      */
-    public void registerTasks(AbstractTask... tasks) { getTaskManager().register(tasks); }
+    public void registerTasks(AbstractTask... tasks) {
+        getTaskManager().register(tasks);
+    }
 
     /**
      * 画像を読み込む
@@ -94,15 +96,6 @@ abstract public class AbstractScene extends ResourceBase {
     public void loadTexture(final int resourceId) {
         final Texture texture = new Texture(resourceId);
         mTextures.put(resourceId, texture);
-
-        /*
-        mGame.getView().queueEvent(new Runnable() {
-            @Override
-            public void run() {
-                texture.load(resourceId);
-            }
-        });
-        */
     }
 
     /**
@@ -234,16 +227,22 @@ abstract public class AbstractScene extends ResourceBase {
     }
 
     /**
+     * Execute all tasks and draw objects to the frame buffer.
      */
     public FrameBuffer execute() {
         mFrameBuffer.begin();
-        // 全てのタスクを実行する
         mTaskManager.execute(null);
         mFrameBuffer.end();
+
         return mFrameBuffer;
     }
-    public FrameBuffer getFrameBuffer() {
-        return mFrameBuffer;
+
+    public void enterLoop() {
+        mTaskManager.enterLoop();
+    }
+
+    public void leaveLoop() {
+        mTaskManager.leaveLoop();
     }
 
     /**
@@ -263,6 +262,7 @@ abstract public class AbstractScene extends ResourceBase {
         mTaskManager.dispose();
         mAssetManager.dispose();
         mStyleTemplate.dispose();
+        mFrameBuffer.release();
     }
 
     /* ==============================================

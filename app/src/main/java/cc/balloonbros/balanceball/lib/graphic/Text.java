@@ -1,7 +1,6 @@
 package cc.balloonbros.balanceball.lib.graphic;
 
 import cc.balloonbros.balanceball.lib.CurrentGame;
-import cc.balloonbros.balanceball.lib.graphic.old.DrawObject;
 import cc.balloonbros.balanceball.lib.graphic.style.Style;
 
 /**

@@ -14,6 +14,9 @@ import cc.balloonbros.balanceball.lib.graphic.opengl.FrameBuffer;
 import cc.balloonbros.balanceball.lib.graphic.opengl.Polygon;
 import cc.balloonbros.balanceball.lib.graphic.opengl.Texture;
 
+/**
+ * The OpenGL renderer.
+ */
 public class GameRenderer implements Renderer {
     private final float[] projectionAndViewMatrix = new float[16];
     GameMain mGame;
@@ -23,6 +26,28 @@ public class GameRenderer implements Renderer {
     public GameRenderer(GameMain game) {
         mGame = game;
         mLastTime = System.currentTimeMillis() + 100;
+    }
+
+    public void onPause() {
+        if (mGame.hasCurrentScene()) {
+            mGame.getView().queueEvent(new Runnable() {
+                @Override
+                public void run() {
+                    mGame.getCurrentScene().leaveLoop();
+                }
+            });
+        }
+    }
+
+    public void onResume() {
+        if (mGame.hasCurrentScene()) {
+            mGame.getView().queueEvent(new Runnable() {
+                @Override
+                public void run() {
+                    mGame.getCurrentScene().enterLoop();
+                }
+            });
+        }
     }
 
     @Override
